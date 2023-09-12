@@ -3,6 +3,7 @@ asyncio==3.4.3
 aiohttp==3.8.4
 apscheduler
 bs4==0.0.1
+blackpink
 bardapi
 gpytranslate
 matplotlib==3.7.1

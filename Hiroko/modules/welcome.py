@@ -59,12 +59,12 @@ async def get_welcome_img(
 
 
 bg_path = "./Hiroko/Helper/resources/thumbnail.png"
-font_path = "./Hiroko/Helper/resources/Hiroko.ttf"
+font_path = "./Hiroko/Helper/resources/hiroko.ttf"
 
 WELCOME_TEXT = """
 **ᴡᴇʟᴄᴏᴍᴇ** {name}
 
-**ᴛʜᴀɴᴋs ғᴏʀ ᴊᴏɪɴɪɴɢ ᴏᴜʀ** **{chat_title}!**
+ᴛʜᴀɴᴋs ғᴏʀ ᴊᴏɪɴɪɴɢ ᴏᴜʀ {chat_title} !
 """
 
 

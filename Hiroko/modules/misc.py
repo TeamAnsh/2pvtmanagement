@@ -14,7 +14,7 @@ from typing import Union, Optional
 
 
 button = InlineKeyboardMarkup([[
-            InlineKeyboardButton("ᴄʟᴏsᴇ", callback_data="close_data")
+            InlineKeyboardButton("⌯ ᴄʟᴏsᴇ ⌯", callback_data="close_data")
                               ]])
 
 # --------------------------------------------------------------------------------- #
@@ -367,7 +367,7 @@ def calculate_math(client, message):
     expression = message.text.split("/math ", 1)[1]
     try:        
         result = eval(expression)
-        response = f"The result is: {result}", reply_markup=button
+        response = f"The result is: {result}"
     except:
         response = "Invalid expression"
     message.reply(response)

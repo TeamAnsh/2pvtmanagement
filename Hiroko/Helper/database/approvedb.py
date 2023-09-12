@@ -1,9 +1,13 @@
-#MIT License
-#Copyright (c) 2023, ©NovaNetworks
+from typing import Dict, List, Union
+from config import MONGO_URL
+from motor.motor_asyncio import AsyncIOMotorClient as MongoCli
 
-from HuTao.database import *
 
-approvedb = dbname["approvals"] 
+mongo = MongoCli(MONGO_URL).Rankings
+
+approvedb = mongo.approvals
+
+ 
 
 async def approve_user(chat_id : int,user_id : int ):
     r = await approvedb.update_one({"chat_id" : chat_id} , {"$addToSet" : {"user_ids" : user_id}} , upsert = True)

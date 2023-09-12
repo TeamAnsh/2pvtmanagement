@@ -34,7 +34,7 @@ today = str(dt()[0])
 
 
 
-@Hiroko.on_message(filters.command("couples", COMMAND_HANDLER))
+@Hiroko.on_message(filters.command("couples"))
 async def ctest(_, message):
     cid = message.chat.id
     if message.chat.type == ChatType.PRIVATE:

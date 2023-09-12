@@ -65,11 +65,11 @@ async def ctest(_, message):
          try:
             p1 = await Hiroko.download_media(photo1.big_file_id, file_name="pfp.png")
          except Exception:
-            p1 = "Hiroko/Helper/resources/couples.png"
+            p1 = "Hiroko/Helper/resources/unknown.png"
          try:
             p2 = await Hiroko.download_media(photo2.big_file_id, file_name="pfp1.png")
          except Exception:
-            p2 = "Hiroko/Helper/resources/couples.png"
+            p2 = "Hiroko/Helper/resources/unknown.png"
             
          img1 = Image.open(f"{p1}")
          img2 = Image.open(f"{p2}")

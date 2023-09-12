@@ -1,0 +1,34 @@
+{
+    "name": "ʜɪʀᴏᴋᴏ ʀᴏʙᴏᴛ",
+    "logo": "https://te.legra.ph/file/086426b04c04a3c16f558.jpg",
+    "description": "sɪᴍᴘʟᴇ ᴍᴀɴᴀɢᴇᴍᴇɴᴛ ʙᴏᴛ ᴏʀ ᴛʜɪs ʙᴏᴛ ᴍᴀɪɴ ᴘᴜʀᴘᴏsᴇ sᴘʀᴇᴀᴅ ʜᴀᴘᴘɪɴᴇss.",
+    "keywords": ["management", "assistant", "pyrogram"],
+    "repository": "https://github.com/Sumit0045/HirokoRobot",
+    "stack": "container",
+    "env": {
+        "BOT_USERNAME": {
+            "description": "𝙵𝚒𝚕𝚕 𝚠𝚒𝚝𝚑 𝚢𝚘𝚞𝚛 𝚋𝚘𝚝 𝚞𝚜𝚎𝚛𝚗𝚊𝚖𝚎 𝚏𝚛𝚘𝚖 @BotFather 𝚋𝚞𝚝 𝚠𝚒𝚝𝚑𝚘𝚞𝚝 𝚞𝚜𝚒𝚗𝚐 '@' 𝚜𝚢𝚖𝚋𝚘𝚕",
+            "required": true 
+        },
+        "BOT_TOKEN": {
+            "description": "𝙿𝚞𝚝 𝙱𝚘𝚝 𝚃𝚘𝚔𝚎𝚗 𝙾𝚏 𝚈𝚘𝚞𝚛 𝙱𝚘𝚝",
+            "required": true
+        },       
+        "SUDO_USERS": {
+            "description": "𝚂𝚞𝚍𝚘 𝚞𝚜𝚎𝚛𝚜",
+            "required": true
+        },
+         "OWNER_ID": {
+            "description": "𝙾𝚠𝚗𝚎𝚛 𝚒𝚍",
+            "required": true
+        }
+    },
+    "buildpacks": [
+    {
+      "url": "heroku/python"
+    },
+    {
+      "url": "https://github.com/jonathanong/heroku-buildpack-ffmpeg-latest.git"
+    }
+  ]
+}

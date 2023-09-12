@@ -46,7 +46,7 @@ async def ctest(_, message):
          #GET LIST OF USERS
          list_of_users = []
 
-         async for i in app.get_chat_members(message.chat.id, limit=50):
+         async for i in Hiroko.get_chat_members(message.chat.id, limit=50):
              if not i.user.is_bot:
                list_of_users.append(i.user.id)
 

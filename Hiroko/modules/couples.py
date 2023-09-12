@@ -7,7 +7,8 @@ from pyrogram import *
 from pyrogram.types import *
 from pyrogram.enums import *
 from Hiroko import Hiroko
-from Hiroko.Helper.database import *
+from Hiroko.Helper.database.couplesdb import _get_image, get_couple, save_couple
+
 
 
 

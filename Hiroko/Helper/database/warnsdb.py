@@ -1,8 +1,14 @@
-from HuTao.database import *
-from typing import Dict,Union
+from typing import Dict, List, Union
+from config import MONGO_URL
+from motor.motor_asyncio import AsyncIOMotorClient as MongoCli
 from string import ascii_lowercase
 
-warnsdb = dbname["warns"]
+
+mongo = MongoCli(MONGO_URL).Rankings
+
+warnsdb = mongo.warns
+
+
 
 async def int_to_alpha(user_id : int) -> str:
     alphabet = list(ascii_lowercase)[:10]

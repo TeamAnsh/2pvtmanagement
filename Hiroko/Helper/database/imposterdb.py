@@ -1,10 +1,13 @@
-#MIT License
-#Copyright (c) 2023, ©NovaNetworks
+from typing import Dict, List, Union
+from config import MONGO_URL
+from motor.motor_asyncio import AsyncIOMotorClient as MongoCli
 
-from HuTao.database import *
 
-impdb = dbname["imposter"] 
+mongo = MongoCli(MONGO_URL).Rankings
 
+impdb = mongo.imposter
+
+ 
 async def usr_data(user_id: int) -> bool:
     user = await impdb.find_one({"user_id": user_id})
     return bool(user)

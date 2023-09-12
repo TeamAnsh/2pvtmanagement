@@ -1,9 +1,12 @@
-#MIT License
-#Copyright (c) 2023, ©NovaNetworks
+from typing import Dict, List, Union
+from config import MONGO_URL
+from motor.motor_asyncio import AsyncIOMotorClient as MongoCli
 
-from HuTao.database import *
 
-jreq = dbname["jrequests"] 
+mongo = MongoCli(MONGO_URL).Rankings
+
+jreq = mongo.jrequests
+
 
 
 async def add_join(chat_id : int):

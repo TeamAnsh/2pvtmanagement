@@ -9,11 +9,13 @@ from asyncio import sleep
 from Hiroko import Hiroko
 from pyrogram import filters, Client, enums
 from pyrogram.enums import ParseMode
-from pyrogram.types import Message
+from pyrogram.types import *
 from typing import Union, Optional
 
 
-
+button = InlineKeyboardMarkup([[
+            InlineKeyboardButton("ᴄʟᴏsᴇ", callback_data="close_data")
+                              ]])
 
 # --------------------------------------------------------------------------------- #
 
@@ -131,7 +133,7 @@ async def userinfo(_, message):
                 profile_path=photo,
             )
             await Hiroko.send_photo(chat_id, photo=welcome_photo, caption=INFO_TEXT.format(
-                id, name, username, mention, status, dc_id, bio), reply_to_message_id=message.id)
+                id, name, username, mention, status, dc_id, bio), reply_to_message_id=message.id, reply_markup=button)
         except Exception as e:
             await message.reply_text(str(e))
     
@@ -154,7 +156,7 @@ async def userinfo(_, message):
                 profile_path=photo,
             )
             await Hiroko.send_photo(chat_id, photo=welcome_photo, caption=INFO_TEXT.format(
-                id, name, username, mention, status, dc_id, bio), reply_to_message_id=message.id)
+                id, name, username, mention, status, dc_id, bio), reply_to_message_id=message.id, reply_markup=button)
         except Exception as e:
             await message.reply_text(str(e))
     
@@ -178,7 +180,7 @@ async def userinfo(_, message):
                 profile_path=photo,
             )
             await Hiroko.send_photo(chat_id, photo=welcome_photo, caption=INFO_TEXT.format(
-                id, name, username, mention, status, dc_id, bio), reply_to_message_id=message.id)
+                id, name, username, mention, status, dc_id, bio), reply_to_message_id=message.id, reply_markup=button)
         except Exception as e:
             await message.reply_text(str(e))
 
@@ -277,7 +279,7 @@ async def github(_, message):
             except Exception as e:
                 print(str(e))
                 pass
-    await message.reply_photo(photo=avatar_url, caption=caption)
+    await message.reply_photo(photo=avatar_url, caption=caption, reply_markup=button)
 
 # --------------------------------------------------------------------------------- #
 
@@ -348,7 +350,7 @@ async def instatus(c: Hiroko, m: Message):
                 premium_acc,
                 uncached,
                 timelog,
-            )
+            ),reply_markup=button
         )
     else:
         sent_message = await m.reply_text(
@@ -365,7 +367,7 @@ def calculate_math(client, message):
     expression = message.text.split("/math ", 1)[1]
     try:        
         result = eval(expression)
-        response = f"The result is: {result}"
+        response = f"The result is: {result}", reply_markup=button
     except:
         response = "Invalid expression"
     message.reply(response)
@@ -378,7 +380,7 @@ def calculate_math(client, message):
 async def blackpink(_, message):
     text = message.text[len("/blackpink ") :]
     bp(f"{text}").save(f"blackpink_{message.from_user.id}.png")
-    await message.reply_photo(f"blackpink_{message.from_user.id}.png")
+    await message.reply_photo(f"blackpink_{message.from_user.id}.png", reply_markup=button)
     os.remove(f"blackpink_{message.from_user.id}.png")
 
 

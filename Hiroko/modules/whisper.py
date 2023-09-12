@@ -2,6 +2,8 @@ from pyrogram import filters
 from pyrogram.types import InlineQueryResultPhoto, InlineKeyboardMarkup, InlineKeyboardButton, InlineQueryResultArticle, InputTextMessageContent
 from pyrogram import enums
 from Hiroko import Hiroko
+from config import *
+
 
 
 @Hiroko.on_message(filters.command("whisper", COMMAND_HANDLER))

@@ -34,7 +34,7 @@ def pin(_, message):
       if user_stats.privileges.can_pin_messages and not message.reply_to_message:
          
           try:
-            message_id = int(message.text.split(None,1)[1])
+            message_id = message.text.split(None,1)[1]
             bot.pin_chat_message(chat_id, message_id)
             message.reply_text(f"**sᴜᴄᴄᴇssғᴜʟʟʏ ᴘɪɴɴᴇᴅ ᴍᴇssᴀɢᴇ!**\n\n**ᴄʜᴀᴛ:** {message.chat.title}\n**ᴀᴅᴍɪɴ:** {first_name}",reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton(" 📝 ᴠɪᴇᴡs ᴍᴇssᴀɢᴇ ",url=f"t.me/{message.chat.username}/{message.id}")]]))
           except Exception as e:
@@ -67,7 +67,7 @@ def unpin(_, message):
       if user_stats.privileges.can_pin_messages and not message.reply_to_message:
          
           try:
-            message_id = int(message.text.split(None,1)[1])    
+            message_id = message.text.split(None,1)[1]    
             bot.unpin_chat_message(chat_id, message_id)
             message.reply_text(f"**sᴜᴄᴄᴇssғᴜʟʟʏ ᴜɴᴘɪɴɴᴇᴅ ᴍᴇssᴀɢᴇ!**\n\n**ᴄʜᴀᴛ:** {message.chat.title}\n**ᴀᴅᴍɪɴ:** {first_name}",reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton(" 📝 ᴠɪᴇᴡs ᴍᴇssᴀɢᴇ ",url=f"t.me/{message.chat.username}/{message.id}")]]))
           except Exception as e:

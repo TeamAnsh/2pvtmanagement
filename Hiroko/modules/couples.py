@@ -38,11 +38,11 @@ today = str(dt()[0])
 async def ctest(_, message):
     cid = message.chat.id
     if message.chat.type == ChatType.PRIVATE:
-        return await message.reply_text("This command only works in groups.")
+        return await message.reply_text("ᴛʜɪs ᴄᴏᴍᴍᴀɴᴅ ᴏɴʟʏ ᴡᴏʀᴋs ɪɴ ɢʀᴏᴜᴘ.")
     try:
        is_selected = await get_couple(cid, today)
        if not is_selected:
-         msg = await message.reply_text("Generating Couples Image...")
+         msg = await message.reply_text("ɢᴇɴᴇʀᴀᴛɪɴɢ ...")
          #GET LIST OF USERS
          list_of_users = []
 
@@ -99,11 +99,11 @@ async def ctest(_, message):
          img.save(f'test_{cid}.png')
     
          TXT = f"""
-**TODAY'S SELECTED COUPLES 🎉 :
-➖➖➖➖➖➖➖➖➖➖➖➖
+**ᴄᴏᴜᴘʟᴇs ᴏғ ᴛʜᴇ ᴅᴀʏ 🎉
+
 {N1} + {N2} = ❣️
-➖➖➖➖➖➖➖➖➖➖➖➖
-NEXT COUPLES WILL BE SELECTED ON {tomorrow} !!**
+
+ɴᴇxᴛ ᴄᴘᴜᴘʟᴇs ᴡɪʟʟ ʙᴇ sᴇʟᴇᴄᴛᴇᴅ ᴏɴ {tomorrow} !!**
 """
     
          await message.reply_photo(f"test_{cid}.png", caption=TXT)
@@ -124,11 +124,11 @@ NEXT COUPLES WILL BE SELECTED ON {tomorrow} !!**
          c2_name = (await Hiroko.get_users(c2_id)).first_name
          
          TXT = f"""
-**TODAY'S SELECTED COUPLES 🎉 :
-➖➖➖➖➖➖➖➖➖➖➖➖
-[{c1_name}](tg://openmessage?user_id={c1_id}) + [{c2_name}](tg://openmessage?user_id={c2_id}) = ❣️
-➖➖➖➖➖➖➖➖➖➖➖➖
-NEXT COUPLES WILL BE SELECTED ON {tomorrow} !!**
+**ᴄᴏᴜᴘʟᴇs ᴏғ ᴛʜᴇ ᴅᴀʏ 🎉
+
+{N1} + {N2} = ❣️
+
+ɴᴇxᴛ ᴄᴘᴜᴘʟᴇs ᴡɪʟʟ ʙᴇ sᴇʟᴇᴄᴛᴇᴅ ᴏɴ {tomorrow} !!**
 """
          await message.reply_photo(b, caption=TXT)
          await msg.delete()

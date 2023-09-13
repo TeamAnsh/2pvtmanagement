@@ -97,7 +97,7 @@ async def chk_usr(_, message: Message):
         await message.reply_photo("https://graph.org//file/a5f944533dcaccfaf2567.jpg", caption=msg)
 
 
-@Hiroko.on_message(filters.group & filters.command("imposter", COMMAND_HANDLER) & ~filters.bot & ~filters.via_bot)
+@Hiroko.on_message(filters.group & filters.command("imposter") & ~filters.bot & ~filters.via_bot)
 async def set_mataa(_, message: Message):
     if len(message.command) == 1:
         return await message.reply("Check help Section For Getting Help")

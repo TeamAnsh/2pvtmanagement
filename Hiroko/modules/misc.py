@@ -133,32 +133,9 @@ async def userinfo(_, message):
                 profile_path=photo,
             )
             await Hiroko.send_photo(chat_id, photo=welcome_photo, caption=INFO_TEXT.format(
-                id, name, username, mention, status, dc_id, bio), reply_to_message_id=message.id)
+                id, name, username, mention, status, dc_id, bio), reply_to_message_id=message.id, reply_markup=button)
         except Exception as e:
-            await message.reply_text(str(e))
-    
-    elif not message.reply_to_message:
-        try:
-            user_info = await Hiroko.get_chat(user_id)
-            user = await Hiroko.get_users(user_id)
-            status = await userstatus(user.id)
-            id = user_info.id
-            dc_id = user.dc_id
-            name = user_info.first_name
-            username = user_info.username
-            mention = user.mention
-            bio = user_info.bio
-            photo = await Hiroko.download_media(user.photo.big_file_id)
-            welcome_photo = await get_userinfo_img(
-                bg_path=bg_path,
-                font_path=font_path,
-                user_id=user_id,
-                profile_path=photo,
-            )
-            await Hiroko.send_photo(chat_id, photo=welcome_photo, caption=INFO_TEXT.format(
-                id, name, username, mention, status, dc_id, bio), reply_to_message_id=message.id)
-        except Exception as e:
-            await message.reply_text(str(e))
+            await message.reply_text(str(e))        
     
     elif message.reply_to_message:
         user_id = message.reply_to_message.from_user.id
@@ -180,7 +157,7 @@ async def userinfo(_, message):
                 profile_path=photo,
             )
             await Hiroko.send_photo(chat_id, photo=welcome_photo, caption=INFO_TEXT.format(
-                id, name, username, mention, status, dc_id, bio), reply_to_message_id=message.id)
+                id, name, username, mention, status, dc_id, bio), reply_to_message_id=message.id, reply_markup=button)
         except Exception as e:
             await message.reply_text(str(e))
 

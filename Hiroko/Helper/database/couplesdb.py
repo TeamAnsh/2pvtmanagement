@@ -4,7 +4,7 @@ from motor.motor_asyncio import AsyncIOMotorClient as MongoCli
 
 mongo = MongoCli(MONGO_URL).Rankings
 
-coupledb = mongo.couple
+coupledb = mongo.couples
 
    
 async def _get_lovers(cid: int):

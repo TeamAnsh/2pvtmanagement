@@ -7,7 +7,6 @@ from pyrogram import *
 from pyrogram.types import *
 from pyrogram.enums import *
 from Hiroko import Hiroko
-from Hiroko.Helper.database import *
 from Hiroko.Helper.database.couplesdb import _get_image, get_couple, save_couple
 
 
@@ -103,7 +102,7 @@ async def ctest(_, message):
 
 {N1} + {N2} = ❣️
 
-ɴᴇxᴛ ᴄᴘᴜᴘʟᴇs ᴡɪʟʟ ʙᴇ sᴇʟᴇᴄᴛᴇᴅ ᴏɴ {tomorrow} !!**
+ɴᴇxᴛ ᴄᴏᴜᴘʟᴇs ᴡɪʟʟ ʙᴇ sᴇʟᴇᴄᴛᴇᴅ ᴏɴ {tomorrow} !!**
 """
     
          await message.reply_photo(f"test_{cid}.png", caption=TXT)
@@ -126,9 +125,9 @@ async def ctest(_, message):
          TXT = f"""
 **ᴄᴏᴜᴘʟᴇs ᴏғ ᴛʜᴇ ᴅᴀʏ 🎉
 
-{N1} + {N2} = ❣️
+[{c1_name}](tg://openmessage?user_id={c1_id}) + [{c2_name}](tg://openmessage?user_id={c2_id}) = ❣️
 
-ɴᴇxᴛ ᴄᴘᴜᴘʟᴇs ᴡɪʟʟ ʙᴇ sᴇʟᴇᴄᴛᴇᴅ ᴏɴ {tomorrow} !!**
+ɴᴇxᴛ ᴄᴏᴜᴘʟᴇs ᴡɪʟʟ ʙᴇ sᴇʟᴇᴄᴛᴇᴅ ᴏɴ {tomorrow} !!**
 """
          await message.reply_photo(b, caption=TXT)
          await msg.delete()

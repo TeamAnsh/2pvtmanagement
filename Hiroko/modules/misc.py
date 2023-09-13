@@ -30,7 +30,7 @@ resize_text = (
 # --------------------------------------------------------------------------------- #
 
 
-async def get_welcome_img(
+async def get_userinfo_img(
     bg_path: str,
     font_path: str,
     user_id: Union[int, str],    
@@ -59,7 +59,7 @@ async def get_welcome_img(
     )
 
 
-    path = f"./Welcome_img_{user_id}.png"
+    path = f"./userinfo_img_{user_id}.png"
     bg.save(path)
     return path
    
@@ -126,7 +126,7 @@ async def userinfo(_, message):
             mention = user.mention
             bio = user_info.bio
             photo = await Hiroko.download_media(user.photo.big_file_id)
-            welcome_photo = await get_welcome_img(
+            welcome_photo = await get_userinfo_img(
                 bg_path=bg_path,
                 font_path=font_path,
                 user_id=user_id,
@@ -149,7 +149,7 @@ async def userinfo(_, message):
             mention = user.mention
             bio = user_info.bio
             photo = await Hiroko.download_media(user.photo.big_file_id)
-            welcome_photo = await get_welcome_img(
+            welcome_photo = await get_userinfo_img(
                 bg_path=bg_path,
                 font_path=font_path,
                 user_id=user_id,
@@ -173,7 +173,7 @@ async def userinfo(_, message):
             mention = user.mention
             bio = user_info.bio
             photo = await Hiroko.download_media(message.reply_to_message.from_user.photo.big_file_id)
-            welcome_photo = await get_welcome_img(
+            welcome_photo = await get_userinfo_img(
                 bg_path=bg_path,
                 font_path=font_path,
                 user_id=user_id,

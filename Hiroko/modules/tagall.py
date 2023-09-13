@@ -42,7 +42,7 @@ async def tag_all_users(_,message):
             usernum += 1
             usertxt += f"\n» [{m.user.first_name}](tg://user?id={m.user.id})\n"
             if usernum == 5:
-                await app.send_message(message.chat.id,f'{text}\n{usertxt}')
+                await Hiroko.send_message(message.chat.id,f'{text}\n{usertxt}')
                 await asyncio.sleep(2)
                 usernum = 0
                 usertxt = ""                          

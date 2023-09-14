@@ -35,7 +35,7 @@ button = InlineKeyboardMarkup(
 
 
 
-@Hiroko.on_message(filters.command("draw"))
+@Hiroko.on_message(filters.command("nx"))
 async def draw(_, msg):
     if len(msg.command) < 2:
         return await msg.reply_text("<code>ᴘʟᴇᴀsᴇ ᴘʀᴏᴠɪᴅᴇ ᴀ ᴘʀᴏᴍᴘᴛ. ᴜsᴀɢᴇ: /draw &lt;prompt&gt;</code>")
@@ -53,7 +53,7 @@ async def draw(_, msg):
         await asyncio.sleep(2)
         await process_msg.edit_text("**ɢɪᴠɪɴɢ sᴏᴍᴇ ғɪɴɪsʜɪɴɢ ᴛᴏᴜᴄʜᴇs...**")
         await asyncio.sleep(2)
-        await process_msg.edit_text("**ʏᴏᴜ ᴅʀᴀᴡɪɴɢ ɪs ʀᴇᴀᴅɢ! 🎨\nɴᴏᴡ ᴜᴘʟᴏᴀᴅɪɴɢ ʏᴏᴜʀ ᴅʀᴀᴡɪɴɢ...**")
+        await process_msg.edit_text("**ʏᴏᴜ ᴅʀᴀᴡɪɴɢ ɪs ʀᴇᴀᴅy! 🎨\nɴᴏᴡ ᴜᴘʟᴏᴀᴅɪɴɢ ʏᴏᴜʀ ᴅʀᴀᴡɪɴɢ...**")
         await asyncio.sleep(2)
         await process_msg.delete()
         await asyncio.sleep(1)

@@ -3,13 +3,8 @@ from lexica import Client as ApiClient, AsyncClient
 from pyrogram.types import InlineKeyboardButton
 from math import ceil
 import asyncio
-from pyrogram.types import *
 from Hiroko import Hiroko
 
-
-button = InlineKeyboardMarkup([[
-            InlineKeyboardButton("⌯ ᴄʟᴏsᴇ ⌯", callback_data="close_data")
-                              ]])
 
 
 api = ApiClient()
@@ -197,8 +192,8 @@ async def selectModel(_:Hiroko,query:t.CallbackQuery):
     await _.send_media_group(
         chat_id=query.message.chat.id,
         media=images,
-        reply_to_message_id=promptData['reply_to_id'],
-        reply_markup=button
+        reply_to_message_id=promptData['reply_to_id']
+        
     )
 
 

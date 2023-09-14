@@ -3,7 +3,13 @@ from lexica import Client as ApiClient, AsyncClient
 from pyrogram.types import InlineKeyboardButton
 from math import ceil
 import asyncio
+from pyrogram.types *
 from Hiroko import Hiroko
+
+
+button = InlineKeyboardMarkup([[
+            InlineKeyboardButton("⌯ ᴄʟᴏsᴇ ⌯", callback_data="close_data")
+                              ]])
 
 
 api = ApiClient()
@@ -112,7 +118,7 @@ def paginate_models(page_n: int, models: list,user_id) -> list:
                 ),
                 EqInlineKeyboardButton(
                     "⌯ ᴄᴀɴᴄᴇʟ ⌯",
-                    callback_data=f"d.-1.{user_id}"
+                    callback_data=f"close_data"
                 ),
                 EqInlineKeyboardButton(
                     "▷",
@@ -182,7 +188,7 @@ async def selectModel(_:Hiroko,query:t.CallbackQuery):
     modelName = [i['name'] for i in Models if i['id'] == modelId]
     for i in img_url:
         images.append(t.InputMediaPhoto(i))
-    images[-1] = t.InputMediaPhoto(img_url[-1],caption=f"уσυʀ ᴘʀσмᴘт: `{promptData['prompt']}`\nмσᴅᴇʟ: `{modelName}`")
+    images[-1] = t.InputMediaPhoto(img_url[-1],caption=f"your prompt: `{promptData['prompt']}`\nmodel: `{modelName}`")
     await query.message.delete()
     try:
         del Database[auth_user]
@@ -191,7 +197,8 @@ async def selectModel(_:Hiroko,query:t.CallbackQuery):
     await _.send_media_group(
         chat_id=query.message.chat.id,
         media=images,
-        reply_to_message_id=promptData['reply_to_id']
+        reply_to_message_id=promptData['reply_to_id'],
+        reply_markup=button
     )
 
 

@@ -6,7 +6,7 @@ from Hiroko.Helper.database import *
 
 
 
-@Hiroko.on_command(filters(["afk", "brb"]))
+@Hiroko.on_message(filters.command(["afk", "brb"], prefixes=["/", "!"]))
 async def active_afk(_, message: Message):
     if message.sender_chat:
         return

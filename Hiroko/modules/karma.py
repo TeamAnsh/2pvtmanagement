@@ -87,6 +87,7 @@ async def downvote(_, message):
 
 
 
+@Hiroko.on_message(filters.command("karmastats") & admin_filter)
 async def command_karma(_, message):
     chat_id = message.chat.id
     if not message.reply_to_message:
@@ -138,7 +139,7 @@ async def command_karma(_, message):
             await message.reply_text(f"**ᴛᴏᴛᴀʟ ᴘᴏɪɴᴛs**: __{karma}__")
 
 
-
+@Hiroko.on_message(filters.command("karma") & admin_filter)
 async def captcha_state(_, message):
     usage = "**ᴜsᴀɢᴇ:**\n/karma [ON|OFF]"
     if len(message.command) != 2:

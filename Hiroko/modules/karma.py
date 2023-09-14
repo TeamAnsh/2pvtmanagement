@@ -3,7 +3,7 @@ from Hiroko import Hiroko
 from pyrogram import filters
 from config import OWNER_ID
 from Hiroko.Helper.cust_p_filters import admin_filter
-from Hiroko.Helper.databse import *
+from Hiroko.Helper.database import *
 
 
 

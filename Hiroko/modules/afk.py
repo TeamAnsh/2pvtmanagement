@@ -2,6 +2,8 @@ import time
 from Hiroko.modules.ping import get_readable_time
 from pyrogram.types import Message
 from Hiroko import Hiroko
+from Hiroko.Helper.database import *
+
 
 
 @Hiroko.on_command(filters(["afk", "brb"]))

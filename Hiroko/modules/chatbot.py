@@ -9,7 +9,7 @@ mongo = MongoCli(MONGO_URL).Rankings
 db = mongo.chatbot
 
 
-def is_db(chat_id: int):
+def chatbot_db(chat_id: int):
     x = db.find_one({"chat_id": chat_id})
     if x:
        return True
@@ -20,7 +20,7 @@ def chatbot_on(chat_id: int):
     db.insert_one(format)
 
 def chatbot_off(chat_id: int):
-    if is_db:
+    if chatbot_db:
        db.update_one({"chat_id": chat_id},{"$set":{"chatbot": "off"}})
 
 
@@ -51,8 +51,9 @@ async def chatbot(Hiroko, message):
     user_id = message.from_user.id
     chat_id = message.chat.id
     if message.chat.type == enums.ChatType.PRIVATE:
-        if message.text.split(" ",1)[1] not in ["on","off"]:
+        if len(message.text) == 1:
             return await message.reply_text("Format: /chatbot on|off")
+        if message.text.split(" ",1)[1] not in ["on","off"]:
             
         elif message.text.split(" ", 1)[1] == "on":
             chatbot_on(chat_id)
@@ -63,8 +64,10 @@ async def chatbot(Hiroko, message):
     else:
         info = await message.chat.get_member(user_id)
         if info.privileges.can_change_info:
-            if message.text.split(" ",1)[1] not in ["on","off"]:
+            if len(message.text) == 1:
                 return await message.reply_text("Format: /chatbot on|off")
+            if message.text.split(" ",1)[1] not in ["on","off"]:
+                
             elif message.text.split(" ", 1)[1] == "on":       
                chatbot_on(chat_id)
                return await message.reply_text("AI Enabled!")
@@ -78,13 +81,15 @@ async def chatbot(Hiroko, message):
 
 @Hiroko.on_message(filters.text, group=200)
 async def chatbot_reply(hiroko :Hiroko, message):
-    if is_db:
+    chat_id = message.chat.id
+    if chat_id in chatbot_db:
         BOT_ID = (await Hiroko.get_me()).id
         reply = message.reply_to_message
         if reply and reply.from_user.id == BOT_ID:
             query = message.text
             response = get_response(message.from_user.id, query)
             await message.reply_text(response["result"]["text"])
+    else: return await message.reply("sorry sir chatbot is disable")
     
 
 

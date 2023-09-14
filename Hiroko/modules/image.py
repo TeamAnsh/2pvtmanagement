@@ -107,21 +107,21 @@ def paginate_models(page_n: int, models: list,user_id) -> list:
         ] + [
             (
                 EqInlineKeyboardButton(
-                    "⬅️",
+                    "◁",
                     callback_data=f"d.left.{modulo_page}.{user_id}"
                 ),
                 EqInlineKeyboardButton(
-                    "ᴄᴀɴᴄᴇʟ",
+                    "⌯ ᴄᴀɴᴄᴇʟ ⌯",
                     callback_data=f"d.-1.{user_id}"
                 ),
                 EqInlineKeyboardButton(
-                    "➡️",
+                    "▷",
                     callback_data=f"d.right.{modulo_page}.{user_id}"
                 ),
             )
         ]
     else:
-        pairs += [[EqInlineKeyboardButton("ʙᴀᴄᴋ", callback_data=f"d.-1.{user_id}")]]
+        pairs += [[EqInlineKeyboardButton("⌯ ʙᴀᴄᴋ ⌯", callback_data=f"d.-1.{user_id}")]]
 
     return pairs
 

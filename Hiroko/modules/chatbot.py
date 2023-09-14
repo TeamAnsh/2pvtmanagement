@@ -22,7 +22,7 @@ def get_response(user_id, query):
 def chat(client, message):
     query = message.text.split("/chat", maxsplit=1)[1].strip()
     response = get_response(message.from_user.id, query)
-    message.reply_text(response)
+    message.reply_text(result["result"]["text"])
 
 
 

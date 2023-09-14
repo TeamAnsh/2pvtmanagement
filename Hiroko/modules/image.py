@@ -4,7 +4,15 @@ from pyrogram.types import InlineKeyboardButton
 from math import ceil
 import asyncio
 from Hiroko import Hiroko
- 
+
+
+api = ApiClient()
+Models = api.getModels()['models']['image']
+
+Database = {}
+
+
+
 
 async def ImageGeneration(model,prompt):
     try:
@@ -31,23 +39,10 @@ async def ImageGeneration(model,prompt):
             continue
         return image_url
     except Exception as e:
-        raise Exception(f"Failed to generate the image: {e}")
+        raise Exception(f"ғᴀɪʟᴇᴅ ᴛᴏ ɢᴇɴᴇʀᴀᴛᴇ ᴛʜᴇ ɪᴍᴀɢᴇ: {e}")
     finally:
         await client.close()
       
-
-# Copyright 2023 Qewertyy, MIT License
-
-async def getFile(message):
-    if not message.reply_to_message:
-        return None
-    if message.reply_to_message.document is False or message.reply_to_message.photo is False:
-        return None
-    if message.reply_to_message.document and message.reply_to_message.document.mime_type in ['image/png','image/jpg','image/jpeg'] or message.reply_to_message.photo:
-        image = await message.reply_to_message.download()
-        return image
-    else:
-        return None
 
 def getText(message):
     """Extract Text From Commands"""
@@ -63,14 +58,6 @@ def getText(message):
         return None
 
         
-
-api = ApiClient()
-Models = api.getModels()['models']['image']
-
-Database = {}
-
-
-
 
 class EqInlineKeyboardButton(InlineKeyboardButton):
     def __eq__(self, other):
@@ -124,7 +111,7 @@ def paginate_models(page_n: int, models: list,user_id) -> list:
                     callback_data=f"d.left.{modulo_page}.{user_id}"
                 ),
                 EqInlineKeyboardButton(
-                    "Cancel",
+                    "ᴄᴀɴᴄᴇʟ",
                     callback_data=f"d.-1.{user_id}"
                 ),
                 EqInlineKeyboardButton(
@@ -134,7 +121,7 @@ def paginate_models(page_n: int, models: list,user_id) -> list:
             )
         ]
     else:
-        pairs += [[EqInlineKeyboardButton("Back", callback_data=f"d.-1.{user_id}")]]
+        pairs += [[EqInlineKeyboardButton("ʙᴀᴄᴋ", callback_data=f"d.-1.{user_id}")]]
 
     return pairs
 
@@ -148,14 +135,14 @@ async def draw(_: Hiroko, m: t.Message):
     global Database
     prompt = getText(m)
     if prompt is None:
-        return await m.reply_text("give something to create")
+        return await m.reply_text("ɢɪᴠᴇ sᴏᴍᴇᴛʜɪɴɢ ᴛᴏ ᴄʀᴇᴀᴛᴇ.")
     user = m.from_user
     data = {'prompt':prompt,'reply_to_id':m.id}
     Database[user.id] = data
     btns = paginate_models(0,Models,user.id)
     await m.reply_text(
-            text=f"Your prompt: `{prompt}`\n\nSelect a model",
-            reply_markup=t.InlineKeyboardMarkup(btns)
+            text=f"**ʜᴇʟʟᴏ {message.from_user.mention}**\n\nsᴇʟᴇᴄᴛ ʏᴏᴜʀ ɪᴍᴀɢᴇ ɢᴇɴᴇʀᴀᴛᴏʀ ᴍᴏᴅᴇʟ",
+            reply_markup=t.InlineKeyboardMarkup(btns
             )
 
 @Hiroko.on_callback_query(filters.regex(pattern=r"^d.(.*)"))
@@ -182,20 +169,20 @@ async def selectModel(_:Hiroko,query:t.CallbackQuery):
             )
         return
     modelId = int(data[1])
-    await query.edit_message_text("Please wait, generating your image")
+    await query.edit_message_text("ᴘʟᴇᴀsᴇ ᴡᴀɪᴛ, ɢᴇɴᴇʀᴀᴛɪɴɢ ʏᴏᴜʀ ɪᴍᴀɢᴇ.")
     promptData = Database.get(auth_user,None)
     if promptData is None:
-        return await query.edit_message_text("Something went wrong.")
+        return await query.edit_message_text("sᴏᴍᴇᴛʜɪɴɢ ᴡᴇɴᴛ ᴡʀᴏɴɢ @DevsOops !!.")
     img_url = await ImageGeneration(modelId,promptData['prompt'])
     if img_url is None or img_url == 2 or img_url ==1:
-        return await query.edit_message_text("something went wrong!")
+        return await query.edit_message_text("sᴏᴍᴇᴛʜɪɴɢ ᴡᴇɴᴛ ᴡʀᴏɴɢ @DevsOops !!")
     elif img_url == 69:
-        return await query.edit_message_text("NSFW not allowed!")
+        return await query.edit_message_text("ɴsғᴡ ɴᴏᴛ ᴀʟʟᴏᴡᴇᴅ !")
     images = []
     modelName = [i['name'] for i in Models if i['id'] == modelId]
     for i in img_url:
         images.append(t.InputMediaDocument(i))
-    images[-1] = t.InputMediaDocument(img_url[-1],caption=f"Your prompt: `{promptData['prompt']}`\nModel: `{modelName}`") # for caption
+    images[-1] = t.InputMediaDocument(img_url[-1],caption=f"уσυʀ ᴘʀσмᴘт: `{promptData['prompt']}`\nмσᴅᴇʟ: `{modelName}`")
     await query.message.delete()
     try:
         del Database[auth_user]

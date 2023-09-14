@@ -19,16 +19,14 @@ def get_response(user_id, query):
 
 
 
-@Hiroko.on_message(filters.command("chat", prefixes="/"))
+@Hiroko.on_message(filters.command("chatbot", prefixes="/"))
 async def chatbot(client, message):
     reply = message.reply_to_message
     query = message.text.split("/chat", maxsplit=1)[1].strip()
     response = get_response(message.from_user.id, query)
-    if response:
-        text = response["result"]["text"]
-        if not reply:
-            await message.reply_text(text)
-        else:
-            await reply.reply_text(text)
+    if not reply:
+        await message.reply_text(response["result"]["text"])
+    else:
+        await reply.reply_text(response["result"]["text"])
 
 

@@ -30,7 +30,8 @@ def chat(client, message):
     result = response.json()
     if not reply:
       await message.reply_text(result["result"]["text"])
-    await reply.reply(result["result"]["text"])
+    else:
+        await reply.reply(result["result"]["text"])
     
 
 

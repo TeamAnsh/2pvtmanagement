@@ -1,6 +1,12 @@
 import requests
 from Hiroko import Hiroko
 from pyrogram import filters
+from config import MONGO_URL
+from motor.motor_asyncio import AsyncIOMotorClient as MongoCli
+
+mongo = MongoCli(MONGO_URL).Rankings
+
+db = mongo.chatbot
 
 
 def is_db(chat_id: int):
@@ -64,13 +70,17 @@ async def chatbot(Hiroko, message):
 
 
 
+@Natasha.on_message(filters.text, group=200)
+async def chatbot_reply(natasha :Natasha, message):
+    if is_db:
+        bot_id = (await natasha.get_me()).id
+        reply = message.reply_to_message
+        if reply and reply.from_user.id == bot_id:
+            query = message.text
+            response = get_response(message.from_user.id, query)
+            await message.reply_text(response["result"]["text"])
+        await message.reply_text("fumck you, you are not admin")
 
-
-@Hiroko.on_message(filters.command("chatbot", prefixes="/"))
-async def chat(_, message):
-    query = message.text.split("/chatbot", maxsplit=1)[1].strip()
-    response = get_response(message.from_user.id, query)
-    await message.reply_text(response["result"]["text"])
 
 
 

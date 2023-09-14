@@ -51,7 +51,7 @@ async def chatbot(Hiroko, message):
     user_id = message.from_user.id
     chat_id = message.chat.id
     if message.chat.type == enums.ChatType.PRIVATE:
-        if not ["on","off"] in message.text.split(" ",1)[1]:
+        if message.text.split(" ",1)[1] not in ["on","off"]:
             return await message.reply_text("Format: /chatbot on|off")
             
         elif message.text.split(" ", 1)[1] == "on":
@@ -63,7 +63,7 @@ async def chatbot(Hiroko, message):
     else:
         info = await message.chat.get_member(user_id)
         if info.privileges.can_change_info:
-            if not ["on","off"] in message.text.split(" ",1)[1]:
+            if message.text.split(" ",1)[1] not in ["on","off"]:
                 return await message.reply_text("Format: /chatbot on|off")
             elif message.text.split(" ", 1)[1] == "on":       
                chatbot_on(chat_id)

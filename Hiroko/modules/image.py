@@ -142,7 +142,7 @@ async def draw(_: Hiroko, m: t.Message):
     btns = paginate_models(0,Models,user.id)
     await m.reply_text(
             text=f"**ʜᴇʟʟᴏ {message.from_user.mention}**\n\nsᴇʟᴇᴄᴛ ʏᴏᴜʀ ɪᴍᴀɢᴇ ɢᴇɴᴇʀᴀᴛᴏʀ ᴍᴏᴅᴇʟ",
-            reply_markup=t.InlineKeyboardMarkup(btns
+            reply_markup=t.InlineKeyboardMarkup(btns)
             )
 
 @Hiroko.on_callback_query(filters.regex(pattern=r"^d.(.*)"))

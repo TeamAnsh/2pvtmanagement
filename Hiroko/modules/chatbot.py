@@ -44,28 +44,30 @@ def get_response(user_id, query):
 
 @Hiroko.on_message(filters.command("chatbot"))
 async def chatbot(Hiroko, message):
-      user_id = message.from_user.id
-      if message.chat.type == enums.ChatType.PRIVATE:
-          if not ("on","off") in message.text.split(" ",1)[1]:
-             return await message.reply_text("Format: /chatbot on|off")
-          elif message.text.split(" ", 1)[1] == "on":
-               chatbot_on(message.chat.id)
+    user_id = message.from_user.id
+    chat_id = message.chat.id
+    if message.chat.type == enums.ChatType.PRIVATE:
+        if not ("on","off") in message.text.split(" ",1)[1]:
+            return await message.reply_text("Format: /chatbot on|off")
+            
+        elif message.text.split(" ", 1)[1] == "on":
+            chatbot_on(chat_id)
+            return await message.reply_text("AI Enabled!")
+        elif message.text.split(" ",1)[1] == "off":
+            chatbot_off(chat_id)
+            return await message.reply_text("AI disabled!")      
+        else:
+            info = await message.chat.get_member(chat_id, user_id)
+            if admin_check.privileges.can_change_info:
+                if not ("on","off") in message.text.split(" ",1)[1]:
+                    return await message.reply_text("Format: /chatbot on|off")
+            elif message.text.split(" ", 1)[1] == "on":       
+               chatbot_on(chat_id)
                return await message.reply_text("AI Enabled!")
-          elif message.text.split(" ",1)[1] == "off":
-               chatbot_off(message.chat.id)
-               return await message.reply_text("AI disabled!")      
-      else:
-        info = await message.chat.get_member(user_id)
-        if info.privileges in ("creator", "administrator"):
-           if not ("on","off") in message.text.split(" ",1)[1]:
-               return await message.reply_text("Format: /chatbot on|off")
-           elif message.text.split(" ", 1)[1] == "on":
-               chatbot_on(message.chat.id)
-               return await message.reply_text("AI Enabled!")
-           elif message.text.split(" ",1)[1] == "off":
-               chatbot_off(message.chat.id)
+            elif message.text.split(" ",1)[1] == "off":
+               chatbot_off(chat_id)
                return await message.reply_text("AI disabled!")           
-        else: return await message.reply("fumk you, you are not admin")
+            else: return await message.reply("fumk you, you are not admin")
 
 
 
@@ -79,7 +81,7 @@ async def chatbot_reply(natasha :Natasha, message):
             query = message.text
             response = get_response(message.from_user.id, query)
             await message.reply_text(response["result"]["text"])
-        await message.reply_text("fumck you, you are not admin")
+    await message.reply_text("fumck you, you are not admin")
 
 
 

@@ -14,11 +14,11 @@ openai.api_key = "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"
 
 
 @Hiroko.on_message(filters.command(["chatgpt","ai","ask"],  prefixes=["+", ".", "/", "-", "?", "$","#","&"]))
-async def chat(bot, message):
+async def chat(hiroko :Hiroko, message):
     
     try:
         start_time = time.time()
-        await bot.send_chat_action(message.chat.id, ChatAction.TYPING)
+        await hiroko.send_chat_action(message.chat.id, ChatAction.TYPING)
         if len(message.command) < 2:
             await message.reply_text(
             "**ʜᴇʟʟᴏ sɪʀ**\n**ᴇxᴀᴍᴘʟᴇ:-**`.ask How to set girlfriend ?`")

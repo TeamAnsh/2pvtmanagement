@@ -29,13 +29,13 @@ async def edit_or_reply(msg: Message, **kwargs):
 
 
 @Hiroko.on_edited_message(
-    filters.command("eval")
+    filters.command(["eval", "hiroko"])
     & filters.user(OWNER_ID)
     & ~filters.forwarded
     & ~filters.via_bot
 )
 @Hiroko.on_message(
-    filters.command("eval")
+    filters.command(["eval", "hiroko"])
     & filters.user(OWNER_ID)
     & ~filters.forwarded
     & ~filters.via_bot

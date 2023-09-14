@@ -1,9 +1,10 @@
 from pyrogram import Client, filters, types as t
-from lexica import Client as ApiClient
+from lexica import Client as ApiClient, AsyncClient
 from pyrogram.types import InlineKeyboardButton
 from math import ceil
 import asyncio
-from lexica import AsyncClient
+from Hiroko import Hiroko
+ 
 
 async def ImageGeneration(model,prompt):
     try:

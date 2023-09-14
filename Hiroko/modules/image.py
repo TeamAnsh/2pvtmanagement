@@ -181,8 +181,8 @@ async def selectModel(_:Hiroko,query:t.CallbackQuery):
     images = []
     modelName = [i['name'] for i in Models if i['id'] == modelId]
     for i in img_url:
-        images.append(t.InputMediaDocument(i))
-    images[-1] = t.InputMediaDocument(img_url[-1],caption=f"уσυʀ ᴘʀσмᴘт: `{promptData['prompt']}`\nмσᴅᴇʟ: `{modelName}`")
+        images.append(t.InputMediaPhoto(i))
+    images[-1] = t.InputMediaPhoto(img_url[-1],caption=f"уσυʀ ᴘʀσмᴘт: `{promptData['prompt']}`\nмσᴅᴇʟ: `{modelName}`")
     await query.message.delete()
     try:
         del Database[auth_user]

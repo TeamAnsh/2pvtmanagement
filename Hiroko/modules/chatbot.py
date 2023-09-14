@@ -81,9 +81,6 @@ async def chatbot_reply(hiroko :Hiroko, message):
             query = message.text
             response = get_response(message.from_user.id, query)
             await message.reply_text(response["result"]["text"])
-    await message.reply_text("fumck you, you are not admin")
-
-
-
+    
 
 

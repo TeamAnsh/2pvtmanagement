@@ -25,8 +25,8 @@ async def chatbot(client, message):
     query = message.text.split("/chat", maxsplit=1)[1].strip()
     response = get_response(message.from_user.id, query)
     if not reply:
-        await message.reply_text(response["result"]["text"])
+        await message.reply_text(["result"]["text"])
     else:
-        await reply.reply_text(response["result"]["text"])
+        await reply.reply_text(["result"]["text"])
 
 

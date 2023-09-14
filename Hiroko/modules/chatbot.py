@@ -62,7 +62,7 @@ async def chatbot(Hiroko, message):
             return await message.reply_text("AI disabled!")      
     else:
         info = await message.chat.get_member(user_id)
-        if admin_check.privileges.can_change_info:
+        if info.privileges.can_change_info:
             if not ("on","off") in message.text.split(" ",1)[1]:
                 return await message.reply_text("Format: /chatbot on|off")
             elif message.text.split(" ", 1)[1] == "on":       

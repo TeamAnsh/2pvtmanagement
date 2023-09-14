@@ -135,13 +135,13 @@ async def draw(_: Hiroko, m: t.Message):
     global Database
     prompt = getText(m)
     if prompt is None:
-        return await m.reply_text("ɢɪᴠᴇ sᴏᴍᴇᴛʜɪɴɢ ᴛᴏ ᴄʀᴇᴀᴛᴇ.")
+        return await m.reply_text("**ᴀᴛʟᴇᴀsᴛ ɢɪᴠᴇ sᴏᴍᴇᴛʜɪɴɢ ᴛᴏ ᴄʀᴇᴀᴛᴇ.**")
     user = m.from_user
     data = {'prompt':prompt,'reply_to_id':m.id}
     Database[user.id] = data
     btns = paginate_models(0,Models,user.id)
     await m.reply_text(
-            text=f"**ʜᴇʟʟᴏ {message.from_user.mention}**\n\nsᴇʟᴇᴄᴛ ʏᴏᴜʀ ɪᴍᴀɢᴇ ɢᴇɴᴇʀᴀᴛᴏʀ ᴍᴏᴅᴇʟ",
+            text=f"**ʜᴇʟʟᴏ {m.from_user.mention}**\n\n**sᴇʟᴇᴄᴛ ʏᴏᴜʀ ɪᴍᴀɢᴇ ɢᴇɴᴇʀᴀᴛᴏʀ ᴍᴏᴅᴇʟ**",
             reply_markup=t.InlineKeyboardMarkup(btns)
             )
 
@@ -169,7 +169,7 @@ async def selectModel(_:Hiroko,query:t.CallbackQuery):
             )
         return
     modelId = int(data[1])
-    await query.edit_message_text("ᴘʟᴇᴀsᴇ ᴡᴀɪᴛ, ɢᴇɴᴇʀᴀᴛɪɴɢ ʏᴏᴜʀ ɪᴍᴀɢᴇ.")
+    await query.edit_message_text("**ᴘʟᴇᴀsᴇ ᴡᴀɪᴛ, ɢᴇɴᴇʀᴀᴛɪɴɢ ʏᴏᴜʀ ɪᴍᴀɢᴇ.**")
     promptData = Database.get(auth_user,None)
     if promptData is None:
         return await query.edit_message_text("sᴏᴍᴇᴛʜɪɴɢ ᴡᴇɴᴛ ᴡʀᴏɴɢ @DevsOops !!.")

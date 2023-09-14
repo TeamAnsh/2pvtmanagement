@@ -29,7 +29,7 @@ def chat(client, message):
     response = get_response(message.from_user.id, query)
     result = response.json()
     if not reply:
-      await message.reply_text(result["result"]["text"])
+        await message.reply_text(result["result"]["text"])
     else:
         await reply.reply(result["result"]["text"])
     

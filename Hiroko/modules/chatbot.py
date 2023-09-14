@@ -1,5 +1,5 @@
 from Hiroko import Hiroko
-import requests, json
+import requests
 from pyrogram import filters
 
 
@@ -19,10 +19,11 @@ def get_response(user_id, query):
 
 
 
-@Hiroko.on_message(filters.command("chatbot", prefixes="/"))
+@Hiroko.on_message(filters.command("chat", prefixes="/"))
 async def chatbot(client, message):
     reply = message.reply_to_message
     query = message.text.split("/chat", maxsplit=1)[1].strip()
     response = get_response(message.from_user.id, query)
-    await message.reply_text(response["result"]["text"])
-    
+    await message.reply(response["result"]["text"])
+
+

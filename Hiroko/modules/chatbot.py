@@ -31,7 +31,7 @@ def get_response(user_id, query):
     params = {
         "user_id": user_id,
         "query": query,
-        "BOT_ID": BOT_ID
+        "BOT_ID": 6632922889
     }
 
     headers = {

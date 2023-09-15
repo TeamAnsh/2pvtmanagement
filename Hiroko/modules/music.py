@@ -47,7 +47,7 @@ async def play(_, msg:Message):
     chat_id = msg.chat.id
     requested_by = msg.from_user.first_name
     audio = (
-        msg.reply_to_message.audio or msg.reply_to_message.voice
+        msg.reply_to_message.video or msg.reply_to_message.voice
     ) if msg.reply_to_message else None
 
     if audio:

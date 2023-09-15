@@ -10,3 +10,19 @@ async def join_userbot(_,msg:Message):
   await userbot.join_chat(invitelink)
   await msg.reply("assistant successfully join.")
 
+
+
+downloads = os.path.realpath("downloads")
+
+@Hiroko.on_message(filters.command(["rmd", "clear"], prefixes=["/", "!"]))
+async def clear_downloads(_, message: Message):
+    ls_dir = os.listdir(downloads)
+    if ls_dir:
+        for file in os.listdir(downloads):
+            os.remove(os.path.join(downloads, file))
+        await message.reply_text("✅ **ᴅᴇʟᴇᴛᴇᴅ ᴀʟʟ ᴅᴏᴡɴʟᴏᴀᴅ ғɪʟᴇs**")
+    else:
+        await message.reply_text("❌ **ɴᴏ ғɪʟᴇs ᴅᴏᴡɴʟᴏᴀᴅᴇᴅ**")
+
+
+

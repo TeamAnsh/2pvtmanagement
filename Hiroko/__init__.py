@@ -7,7 +7,7 @@ from importlib import import_module
 from os import environ, getenv, listdir, path
 from dotenv import load_dotenv
 from pyrogram import Client
-from config import API_ID, API_HASH, BOT_TOKEN
+from config import API_ID, API_HASH, BOT_TOKEN, SESSION_STRING
 import config
 
 loop = asyncio.get_event_loop()
@@ -29,6 +29,12 @@ Hiroko = Client(
     bot_token=config.BOT_TOKEN,
 )
 
+userbot = Client(
+    ":userbot:",
+    api_id=API_ID,
+    api_hash=API_HASH,
+    session_string=SESSION_STRING,
+)
 
 async_mongo_client = async_mongo(config.MONGO_URL)
 db = async_mongo_client.hiroko

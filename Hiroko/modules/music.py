@@ -37,7 +37,7 @@ async def fuckoff(hiroko :Hiroko, message:Message):
 async def join_userbot(_,msg:Message):
   chat_id = msg.chat.id
   invitelink = await Hiroko.export_chat_invite_link(chat_id)
-  await userbot.join_chat(invitelink)
+  await pytgcalls.join_chat(invitelink)
   await msg.reply("assistant successfully join.")
 
 
@@ -66,14 +66,14 @@ async def play(_, msg:Message):
 
 @Hiroko.on_message(filters.command(["pause"], prefixes=["/", "!"]))    
 async def pause(_, msg: Message):
-    await pytgcalls.pause_stream(message.chat.id)
+    await pytgcalls.pause_stream(msg.chat.id)
     await msg.reply_text("**» ᴍᴜsɪᴄ ᴘʟᴀʏᴇʀ ɴᴏᴛʜɪɴɢ ɪs ᴘʟᴀʏɪɴɢ.**")
     
 
 
 @Hiroko.on_message(filters.command(["resume"], prefixes=["/", "!"]))
 async def resume(_, msg: Message):
-    await pytgcalls.resume_stream(message.chat.id)
+    await pytgcalls.resume_stream(msg.chat.id)
     await msg.reply_text("**» ᴍᴜsɪᴄ ᴘʟᴀʏᴇʀ sᴜᴄᴄᴇsғᴜʟʟʏ ʀᴇsᴜᴍᴇᴅ.**")
     
     
@@ -81,7 +81,7 @@ async def resume(_, msg: Message):
 
 @Hiroko.on_message(filters.command(["end", "stop"], prefixes=["/", "!"]))
 async def stop(_, msg: Message):    
-    await pytgcalls.leave_group_call(message.chat.id)
+    await pytgcalls.leave_group_call(msg.chat.id)
     await msg.reply_text("**» ᴍᴜsɪᴄ ᴘʟᴀʏᴇʀ ɴᴏᴛʜɪɴɢ ɪs sᴛʀᴇᴀᴍɪɴɢ.**")
     
 

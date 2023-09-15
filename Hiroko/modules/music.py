@@ -1,3 +1,4 @@
+import os
 from pyrogram import filters
 from Hiroko import Hiroko, userbot
 from pyrogram.types import Message
@@ -32,7 +33,7 @@ async def fuckoff(hiroko :Hiroko, message):
              pass
 
 
-@Hiroko.on_message(command.filters("join"))
+@Hiroko.on_message(filters.command("join"))
 async def join_userbot(_,msg:Message):
   chat_id = message.chat.id
   invitelink = await Hiroko.export_chat_invite_link(chat_id)
@@ -55,10 +56,32 @@ async def play(_, msg):
                   chat_id,
                   InputAudioStream(
                    file_path,),
-                  stream_type=StreamType().local_stream,)       
+                  stream_type=StreamType().local_stream,) 
+           os.remove(file_path)
     else:
         await msg.reply("Please reply to an audio or voice message to play.")
 
 
+    
 
+@Hiroko.on_message(filters.command(["pause"], prefixes=["/", "!"]))    
+async def pause(_, message: Message):
+    await userbot.pytgcalls.pause_stream(message.chat.id)
+    await message.reply_text("**» ᴍᴜsɪᴄ ᴘʟᴀʏᴇʀ ɴᴏᴛʜɪɴɢ ɪs ᴘʟᴀʏɪɴɢ.**")
+    
+
+
+@Hiroko.on_message(filters.command(["resume"], prefixes=["/", "!"]))
+async def resume(_, message: Message):
+    await userbot.pytgcalls.resume_stream(message.chat.id)
+    await message.reply_text("**» ᴍᴜsɪᴄ ᴘʟᴀʏᴇʀ sᴜᴄᴄᴇsғᴜʟʟʏ ʀᴇsᴜᴍᴇᴅ.**")
+    
+    
+
+
+@Hiroko.on_message(filters.command(["end", "stop"], prefixes=["/", "!"]))
+async def stop(_, message: Message):    
+    await userbot.pytgcalls.leave_group_call(message.chat.id)
+    await message.reply_text("**» ᴍᴜsɪᴄ ᴘʟᴀʏᴇʀ ɴᴏᴛʜɪɴɢ ɪs sᴛʀᴇᴀᴍɪɴɢ.**")
+    
 

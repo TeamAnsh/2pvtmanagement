@@ -1,6 +1,11 @@
 from pyrogram import filters
 from Hiroko import Hiroko, userbot
 from pyrogram.types import Message
+from pytgcalls import StreamType
+from pytgcalls.types.input_stream import InputStream
+from pytgcalls.types.input_stream import InputAudioStream
+
+
 
 
 @Hiroko.on_message(filters.video_chat_started)
@@ -36,17 +41,24 @@ async def join_userbot(_,msg:Message):
 
 
 
-downloads = os.path.realpath("downloads")
+@Hiroko.on_message(filters.command(["play"], prefixes=["/", "!"]))
+async def play(_, msg):
+    chat_id = msg.chat.id
+    requested_by = msg.from_user.first_name
+    audio = (
+        msg.reply_to_message.audio or msg.reply_to_message.voice
+    ) if msg.reply_to_message else None
 
-@Hiroko.on_message(filters.command(["rmd", "clear"], prefixes=["/", "!"]))
-async def clear_downloads(_, message: Message):
-    ls_dir = os.listdir(downloads)
-    if ls_dir:
-        for file in os.listdir(downloads):
-            os.remove(os.path.join(downloads, file))
-        await message.reply_text("✅ **ᴅᴇʟᴇᴛᴇᴅ ᴀʟʟ ᴅᴏᴡɴʟᴏᴀᴅ ғɪʟᴇs**")
+    if audio:
+           file_path = await msg.reply_to_message.download()
+           await userbot.pytgcalls.join_group_call(
+                  chat_id,
+                  InputAudioStream(
+                   file_path,),
+                  stream_type=StreamType().local_stream,)       
     else:
-        await message.reply_text("❌ **ɴᴏ ғɪʟᴇs ᴅᴏᴡɴʟᴏᴀᴅᴇᴅ**")
+        await msg.reply("Please reply to an audio or voice message to play.")
+
 
 
 

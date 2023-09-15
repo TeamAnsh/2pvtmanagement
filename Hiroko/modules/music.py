@@ -47,7 +47,7 @@ async def play(_, msg:Message):
     chat_id = msg.chat.id
     requested_by = msg.from_user.first_name
     audio = (
-        msg.reply_to_message.video or msg.reply_to_message.voice
+        msg.reply_to_message.audio or msg.reply_to_message.voice
     ) if msg.reply_to_message else None
 
     if audio:
@@ -58,6 +58,7 @@ async def play(_, msg:Message):
                    file_path,),
                   stream_type=StreamType().local_stream,) 
            os.remove(file_path)
+           await msg.reply(f"now play song \nrequested by {requested_by}")
     else:
         await msg.reply("Please reply to an audio or voice message to play.")
 

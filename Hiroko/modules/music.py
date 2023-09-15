@@ -1,6 +1,6 @@
 import os
 from pyrogram import filters
-from Hiroko import Hiroko, pytgcalls
+from Hiroko import Hiroko, pytgcalls, userbot
 from pyrogram.types import Message
 from pytgcalls import StreamType
 from pytgcalls.types.input_stream import InputStream
@@ -37,7 +37,7 @@ async def fuckoff(hiroko :Hiroko, message:Message):
 async def join_userbot(_,msg:Message):
   chat_id = msg.chat.id
   invitelink = await Hiroko.export_chat_invite_link(chat_id)
-  await pytgcalls.join_chat(invitelink)
+  await userbot.join_chat(invitelink)
   await msg.reply("assistant successfully join.")
 
 

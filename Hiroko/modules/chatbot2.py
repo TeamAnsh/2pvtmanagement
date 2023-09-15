@@ -1,37 +1,38 @@
-
-import time
-from pyrogram import Client
-from pyrogram.errors import FloodWait
-from pyrogram.types import Message
-from pyrogram.raw.functions.phone import CreateGroupCall
+from Hiroko import Hiroko
+from pyrogram import filters
 
 
 
-url = "https://pi.ai/talk"
+# Define the URL
+pi_url = "https://pi.ai/talk"
 
-@Hiroko.on_message()
-async def chat_pi(client: Client, message: Message):
-    if message.text:
+async def chat_with_pi(message_text):
+    async with hiroko:
         # Open a headless browser and go to the URL
-        browser = await client.create_browser(url)
-        page = await browser.new_page()
-        await page.goto(url)
+        async with hiroko.headless_browser(pi_url) as browser:
+            page = await browser.new_page()
+            await page.goto(pi_url)
 
-        # Interact with the chat
-        await page.type("div[aria-label='Type a message']", message.text)
-        await page.keyboard.press("Enter")
+            # Interact with the chat
+            await page.type("div[aria-label='Type a message']", message_text)
+            await page.keyboard.press("Enter")
+
+            try:
+                # Wait for a reply
+                await page.wait_for_selector("div[class='message'][class^='message-']")
+                reply = await page.query_selector("div[class='message'][class^='message-']")
+                text = await reply.query_selector("div[class='text']").inner_text()
+                return text
+            except:
+                return "No response received."
+
+@hiroko.on_message(filters.private)
+async def handle_message(client, message):
+    if message.text:
+        response = await chat_with_pi(message.text)
         
-        try:
-            # Wait for a reply
-            await page.wait_for_selector("div[class='message'][class^='message-']")
-            reply = await page.query_selector("div[class='message'][class^='message-']")
-            text = await reply.query_selector("div[class='text']").inner_text()
-            await client.send_message(message.chat.id, text)
-        except:
-            await client.send_message(message.chat.id, "No response received.")
-
-        # Close the browser
-        await browser.close()
+        # Send the response in a private chat with the user
+        await hiroko.send_message(message.chat.id, response)
 
 
 

@@ -2,6 +2,7 @@ import asyncio
 import logging
 import time
 from pyrogram import *
+from pytgcalls import PyTgCalls
 from motor.motor_asyncio import AsyncIOMotorClient as async_mongo
 from importlib import import_module
 from os import environ, getenv, listdir, path
@@ -36,14 +37,19 @@ userbot = Client(
     session_string=SESSION_STRING,
 )
 
+pytgcalls = PyTgCalls(userbot)
+
 async_mongo_client = async_mongo(config.MONGO_URL)
 db = async_mongo_client.hiroko
+
 
 
 
 async def Hiroko_bot():
     global BOT_ID, BOT_NAME, BOT_USERNAME
     await Hiroko.start()
+    await userbot.start()
+    await pytgcalls.start()
     getme = await Hiroko.get_me()
     BOT_ID = getme.id
     BOT_USERNAME = getme.username

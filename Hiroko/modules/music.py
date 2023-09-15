@@ -1,6 +1,6 @@
 import os
 from pyrogram import filters
-from Hiroko import Hiroko, userbot
+from Hiroko import Hiroko, pytgcalls
 from pyrogram.types import Message
 from pytgcalls import StreamType
 from pytgcalls.types.input_stream import InputStream
@@ -11,11 +11,11 @@ from pytgcalls.types.input_stream import InputAudioStream
 
 @Hiroko.on_message(filters.video_chat_started)
 async def brah(client, message):
-       await message.reply("**Voice Chat Started**")
+       await message.reply("voice chat started")
 
 @Hiroko.on_message(filters.video_chat_ended)
 async def brah2(client, message):
-       await message.reply("**Voice Chat Ended**")
+       await message.reply("voice chat ended")
 
 @Hiroko.on_message(filters.video_chat_members_invited)
 async def fuckoff(hiroko :Hiroko, message):
@@ -52,7 +52,7 @@ async def play(_, msg):
 
     if audio:
            file_path = await msg.reply_to_message.download()
-           await userbot.pytgcalls.join_group_call(
+           await pytgcalls.join_group_call(
                   chat_id,
                   InputAudioStream(
                    file_path,),
@@ -66,14 +66,14 @@ async def play(_, msg):
 
 @Hiroko.on_message(filters.command(["pause"], prefixes=["/", "!"]))    
 async def pause(_, message: Message):
-    await userbot.pytgcalls.pause_stream(message.chat.id)
+    await pytgcalls.pause_stream(message.chat.id)
     await message.reply_text("**» ᴍᴜsɪᴄ ᴘʟᴀʏᴇʀ ɴᴏᴛʜɪɴɢ ɪs ᴘʟᴀʏɪɴɢ.**")
     
 
 
 @Hiroko.on_message(filters.command(["resume"], prefixes=["/", "!"]))
 async def resume(_, message: Message):
-    await userbot.pytgcalls.resume_stream(message.chat.id)
+    await pytgcalls.resume_stream(message.chat.id)
     await message.reply_text("**» ᴍᴜsɪᴄ ᴘʟᴀʏᴇʀ sᴜᴄᴄᴇsғᴜʟʟʏ ʀᴇsᴜᴍᴇᴅ.**")
     
     
@@ -81,7 +81,7 @@ async def resume(_, message: Message):
 
 @Hiroko.on_message(filters.command(["end", "stop"], prefixes=["/", "!"]))
 async def stop(_, message: Message):    
-    await userbot.pytgcalls.leave_group_call(message.chat.id)
+    await pytgcalls.leave_group_call(message.chat.id)
     await message.reply_text("**» ᴍᴜsɪᴄ ᴘʟᴀʏᴇʀ ɴᴏᴛʜɪɴɢ ɪs sᴛʀᴇᴀᴍɪɴɢ.**")
     
 

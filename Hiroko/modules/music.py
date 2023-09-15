@@ -10,15 +10,15 @@ from pytgcalls.types.input_stream import InputAudioStream
 
 
 @Hiroko.on_message(filters.video_chat_started)
-async def brah(client, message):
-       await message.reply("voice chat started")
+async def brah(_, msg):
+       await msg.reply("voice chat started")
 
 @Hiroko.on_message(filters.video_chat_ended)
-async def brah2(client, message):
-       await message.reply("voice chat ended")
+async def brah2(_, msg):
+       await msg.reply("voice chat ended")
 
 @Hiroko.on_message(filters.video_chat_members_invited)
-async def fuckoff(hiroko :Hiroko, message):
+async def fuckoff(hiroko :Hiroko, message:Message):
            text = f"{message.from_user.mention} Invited "
            x = 0
            for user in message.video_chat_members_invited.users:
@@ -35,7 +35,7 @@ async def fuckoff(hiroko :Hiroko, message):
 
 @Hiroko.on_message(filters.command("join"))
 async def join_userbot(_,msg:Message):
-  chat_id = message.chat.id
+  chat_id = msg.chat.id
   invitelink = await Hiroko.export_chat_invite_link(chat_id)
   await userbot.join_chat(invitelink)
   await msg.reply("assistant successfully join.")
@@ -43,7 +43,7 @@ async def join_userbot(_,msg:Message):
 
 
 @Hiroko.on_message(filters.command(["play"], prefixes=["/", "!"]))
-async def play(_, msg):
+async def play(_, msg:Message):
     chat_id = msg.chat.id
     requested_by = msg.from_user.first_name
     audio = (
@@ -65,23 +65,23 @@ async def play(_, msg):
     
 
 @Hiroko.on_message(filters.command(["pause"], prefixes=["/", "!"]))    
-async def pause(_, message: Message):
+async def pause(_, msg: Message):
     await pytgcalls.pause_stream(message.chat.id)
-    await message.reply_text("**» ᴍᴜsɪᴄ ᴘʟᴀʏᴇʀ ɴᴏᴛʜɪɴɢ ɪs ᴘʟᴀʏɪɴɢ.**")
+    await msg.reply_text("**» ᴍᴜsɪᴄ ᴘʟᴀʏᴇʀ ɴᴏᴛʜɪɴɢ ɪs ᴘʟᴀʏɪɴɢ.**")
     
 
 
 @Hiroko.on_message(filters.command(["resume"], prefixes=["/", "!"]))
-async def resume(_, message: Message):
+async def resume(_, msg: Message):
     await pytgcalls.resume_stream(message.chat.id)
-    await message.reply_text("**» ᴍᴜsɪᴄ ᴘʟᴀʏᴇʀ sᴜᴄᴄᴇsғᴜʟʟʏ ʀᴇsᴜᴍᴇᴅ.**")
+    await msg.reply_text("**» ᴍᴜsɪᴄ ᴘʟᴀʏᴇʀ sᴜᴄᴄᴇsғᴜʟʟʏ ʀᴇsᴜᴍᴇᴅ.**")
     
     
 
 
 @Hiroko.on_message(filters.command(["end", "stop"], prefixes=["/", "!"]))
-async def stop(_, message: Message):    
+async def stop(_, msg: Message):    
     await pytgcalls.leave_group_call(message.chat.id)
-    await message.reply_text("**» ᴍᴜsɪᴄ ᴘʟᴀʏᴇʀ ɴᴏᴛʜɪɴɢ ɪs sᴛʀᴇᴀᴍɪɴɢ.**")
+    await msg.reply_text("**» ᴍᴜsɪᴄ ᴘʟᴀʏᴇʀ ɴᴏᴛʜɪɴɢ ɪs sᴛʀᴇᴀᴍɪɴɢ.**")
     
 

@@ -1,4 +1,4 @@
-from Hiroko import Hiroko
+from Hiroko import Hiroko as hiroko
 from pyrogram import filters
 
 

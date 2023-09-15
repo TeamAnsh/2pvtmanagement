@@ -4,7 +4,7 @@ from Hiroko import Hiroko
 
 session = aiohttp.ClientSession()
 
-pi_url = "https://pi.ai/talk"
+pi_url = "https://pi.ai/"
 
 
 

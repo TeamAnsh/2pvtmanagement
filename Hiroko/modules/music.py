@@ -68,7 +68,7 @@ async def play(_, msg: Message):
 @Hiroko.on_message(filters.command(["pause"], prefixes=["/", "!"]))    
 async def pause(_, msg: Message):
     chat_id = msg.chat.id
-    if chat_id in pytgcalls.active_calls:
+    if str(chat_id) in str(pytgcalls.active_calls):
         await pytgcalls.pause_stream(chat_id)
         await msg.reply(f"Music player successfully paused\nPaused by {msg.from_user.mention}")
     else:

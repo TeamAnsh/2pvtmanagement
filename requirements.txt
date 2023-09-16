@@ -9,7 +9,6 @@ gpytranslate
 matplotlib==3.7.1
 motor
 openai
-ffmpeg-python
 pymongo==4.3.3
 pillow==9.5.0
 pickledb<1

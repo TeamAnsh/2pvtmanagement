@@ -41,28 +41,28 @@ async def join_userbot(_,msg:Message):
   await msg.reply("assistant successfully join.")
 
 
+
 @Hiroko.on_message(filters.command(["play"], prefixes=["/", "!"]))
 async def play(_, msg: Message):
     chat_id = msg.chat.id
     requested_by = msg.from_user.first_name
-    audio = (
-        msg.reply_to_message.audio or msg.reply_to_message.voice
-    ) if msg.reply_to_message else None
+    audio = (msg.reply_to_message.audio or msg.reply_to_message.voice) if msg.reply_to_message else None
 
     if audio:
         file_path = await msg.reply_to_message.download()
-        x = await pytgcalls.join_group_call(
-            chat_id,
-            AudioPiped(file_path),
-            stream_type=StreamType().local_stream
-        )
-        os.remove(file_path)
-        if x:
+        if str(chat_id) in str(pytgcalls.active_calls):
+            await pytgcalls.join_group_call(
+                chat_id,
+                AudioPiped(file_path),
+                stream_type=StreamType().local_stream
+            )
+            os.remove(file_path)
             await msg.reply(f"Now playing song\nRequested by {requested_by}")
         else:
             await msg.reply(f"Sorry {msg.from_user.mention}, please wait until the current song ends.")
     else:
         await msg.reply("Please reply to an audio or voice message to play.")
+
 
 
 @Hiroko.on_message(filters.command(["pause"], prefixes=["/", "!"]))    

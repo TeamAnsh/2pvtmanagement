@@ -49,6 +49,7 @@ async def on_stream_end(_,msg:Message):
     await pytgcalls.leave_group_call(msg.chat.id)
     
 
+
 @Hiroko.on_message(filters.command(["play"], prefixes=["/", "!"]))
 async def play(_, msg: Message):
     chat_id = msg.chat.id
@@ -57,21 +58,20 @@ async def play(_, msg: Message):
 
     if audio:
         file_path = await msg.reply_to_message.download()
-         x = await pytgcalls.join_group_call(chat_id, AudioPiped(file_path), stream_type=StreamType().local_stream)
+        x = await pytgcalls.join_group_call(chat_id, AudioPiped(file_path), stream_type=StreamType().local_stream)
         os.remove(file_path)
-        sum = await msg.reply_text(f"**ᴅᴏᴡɴʟᴏᴀᴅɪɴɢ**\n\n0% ▓▓▓▓▓▓▓▓▓▓▓▓ 100%")  
+        sum = await msg.reply_text(f"ᴅᴏᴡɴʟᴏᴀᴅɪɴɢ\n\n0% ▓▓▓▓▓▓▓▓▓▓▓▓ 100%")  
         await asyncio.sleep(0.5)   
         try:
-           if x:
+            if x:
                 await sum.edit_text(f"Now playing song\nRequested by {requested_by}")
         except UserAlreadyParticipant:
-                pass
+            pass
         except Exception as e:
-               print(e)             
+            print(e)             
         await msg.reply(f"Sorry {msg.from_user.mention}, please wait until the current song ends.")
     else:
         await msg.reply("Please reply to an audio or voice message to play.")
-
 
 
 

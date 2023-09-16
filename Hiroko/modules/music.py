@@ -41,7 +41,6 @@ async def join_userbot(_,msg:Message):
   await msg.reply("assistant successfully join.")
 
 
-
 @Hiroko.on_message(filters.command(["play"], prefixes=["/", "!"]))
 async def play(_, msg: Message):
     chat_id = msg.chat.id
@@ -64,7 +63,7 @@ async def play(_, msg: Message):
             await msg.reply(f"Sorry {msg.from_user.mention}, please wait until the current song ends.")
     else:
         await msg.reply("Please reply to an audio or voice message to play.")
-    
+
 
 @Hiroko.on_message(filters.command(["pause"], prefixes=["/", "!"]))    
 async def pause(_, msg: Message):
@@ -81,7 +80,7 @@ async def resume(_, msg: Message):
     chat_id = msg.chat.id
     if chat_id in pytgcalls.active_calls:
         await pytgcalls.resume_stream(chat_id)
-        await msg.reply(f"music player successfully resumed\nResumed by {msg.from_user.mention}")
+        await msg.reply(f"Music player successfully resumed\nResumed by {msg.from_user.mention}")
     else:
         await msg.reply(f"Sorry {msg.from_user.mention}, I can't resume because there is no music playing on the voice chat.")
 
@@ -91,9 +90,11 @@ async def stop(_, msg: Message):
     chat_id = msg.chat.id
     if chat_id in pytgcalls.active_calls:
         await pytgcalls.leave_group_call(chat_id)
-        await msg.reply(f"music player successfully ended\nEnded by {msg.from_user.mention}")
+        await msg.reply(f"Music player successfully ended\nEnded by {msg.from_user.mention}")
     else:
         await msg.reply(f"Sorry {msg.from_user.mention}, I can't end music because there is no music playing on the voice chat.")
+
+
 
 
 

@@ -74,6 +74,8 @@ async def play(_, msg: Message):
             await asyncio.sleep(0.1)   
             await msg.reply(f"Now playing song\nRequested by {requested_by}")                        
         else:
+            await sum.delete()   
+            await asyncio.sleep(0.1)   
             await msg.reply("Please reply to an audio or voice message to play.")
     except AlreadyJoinedError:
         await msg.reply(f"Sorry {msg.from_user.mention}, I'm already playing audio in this chat.")

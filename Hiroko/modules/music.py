@@ -4,7 +4,7 @@ from Hiroko import Hiroko, pytgcalls, userbot
 from pyrogram.types import Message
 from pytgcalls import StreamType
 from pytgcalls.types.input_stream import InputStream
-from pytgcalls.types.input_stream import InputAudioStream
+from pytgcalls.types.input_stream import AudioPiped
 
 
 
@@ -54,7 +54,7 @@ async def play(_, msg:Message):
            file_path = await msg.reply_to_message.download()
            await pytgcalls.join_group_call(
                   chat_id,
-                  InputAudioStream(
+                  AudioPiped(
                    file_path,),
                   stream_type=StreamType().local_stream,) 
            os.remove(file_path)

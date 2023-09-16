@@ -70,8 +70,9 @@ async def play(_, msg: Message):
             file_path = await msg.reply_to_message.download()
             await pytgcalls.join_group_call(chat_id, AudioPiped(file_path), stream_type=StreamType().local_stream)
             os.remove(file_path)
-            await asyncio.sleep(0.5)   
-            await sum.edit_text(f"Now playing song\nRequested by {requested_by}")                        
+            await sum.delete()   
+            await asyncio.sleep(0.1)   
+            await msg.reply(f"Now playing song\nRequested by {requested_by}")                        
         else:
             await msg.reply("Please reply to an audio or voice message to play.")
     except AlreadyJoinedError:

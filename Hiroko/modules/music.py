@@ -1,4 +1,4 @@
-import os, ffmpeg
+import os
 from pyrogram import filters
 from Hiroko import Hiroko, pytgcalls, userbot
 from pyrogram.types import Message

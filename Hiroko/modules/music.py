@@ -109,7 +109,7 @@ async def stop(_, msg: Message):
     await msg.reply(f"music player successfully leave voice chat\nleaved by {msg.from_user.mention}")
 
 
-@Hiroko.on_message(filters.command(["leaveall","]))
+@Hiroko.on_message(filters.command(["leaveall"]))
 async def leave_all(hiroko :Hiroko, message):
     if message.from_user.id not in OWNER_ID:
         return

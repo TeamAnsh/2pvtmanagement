@@ -43,7 +43,7 @@ async def join_userbot(_,msg:Message):
 
 
 @Hiroko.on_message(filters.command(["play"], prefixes=["/", "!"]))
-async def play(_, msg:Message):
+async def play(_, msg: Message):
     chat_id = msg.chat.id
     requested_by = msg.from_user.first_name
     audio = (
@@ -51,47 +51,49 @@ async def play(_, msg:Message):
     ) if msg.reply_to_message else None
 
     if audio:
-           file_path = await msg.reply_to_message.download()
-           x = await pytgcalls.join_group_call(
-                  chat_id,
-                  AudioPiped(
-                   file_path,),
-                  stream_type=StreamType().local_stream,) 
-           os.remove(file_path)
-           if x:             
-                  await msg.reply(f"now play song \nrequested by {requested_by}")
-           await msg.reply("sorry {msg.from_user.mention} wait sir after ending song you can play song.")       
+        file_path = await msg.reply_to_message.download()
+        x = await pytgcalls.join_group_call(
+            chat_id,
+            AudioPiped(file_path),
+            stream_type=StreamType().local_stream
+        )
+        os.remove(file_path)
+        if x:
+            await msg.reply(f"Now playing song\nRequested by {requested_by}")
+        else:
+            await msg.reply(f"Sorry {msg.from_user.mention}, please wait until the current song ends.")
     else:
         await msg.reply("Please reply to an audio or voice message to play.")
-
-
     
 
 @Hiroko.on_message(filters.command(["pause"], prefixes=["/", "!"]))    
 async def pause(_, msg: Message):
-       x = await pytgcalls.pause_stream(msg.chat.id)
-       if x:
-              await msg.reply("music player successfully paused\n paused by {msg.from_user.mention}")
-       await msg.reply("sorry {msg.from_user.mention} i can't paused beacuse does not play any music on voice chat.")
-    
+    chat_id = msg.chat.id
+    if chat_id in pytgcalls.active_calls:
+        await pytgcalls.pause_stream(chat_id)
+        await msg.reply(f"Music player successfully paused\nPaused by {msg.from_user.mention}")
+    else:
+        await msg.reply(f"Sorry {msg.from_user.mention}, I can't pause because there is no music playing on the voice chat.")
 
 
 @Hiroko.on_message(filters.command(["resume"], prefixes=["/", "!"]))    
 async def resume(_, msg: Message):
-       x = await pytgcalls.resume_stream(msg.chat.id)
-       if x:
-              await msg.reply("music player successfully paused\n resumed by {msg.from_user.mention}")
-       await msg.reply("sorry {msg.from_user.mention} i can't resume beacuse does not play any music on voice chat.")
-    
+    chat_id = msg.chat.id
+    if chat_id in pytgcalls.active_calls:
+        await pytgcalls.resume_stream(chat_id)
+        await msg.reply(f"music player successfully resumed\nResumed by {msg.from_user.mention}")
+    else:
+        await msg.reply(f"Sorry {msg.from_user.mention}, I can't resume because there is no music playing on the voice chat.")
 
-    
+
 @Hiroko.on_message(filters.command(["end"], prefixes=["/", "!"]))    
 async def stop(_, msg: Message):
-       x = await pytgcalls.leave_group_call(msg.chat.id)
-       if x:
-              await msg.reply("music player successfully end\n ended by {msg.from_user.mention}")
-       await msg.reply("sorry {msg.from_user.mention} i can't end music beacuse does not play any music on voice chat.")
-        
+    chat_id = msg.chat.id
+    if chat_id in pytgcalls.active_calls:
+        await pytgcalls.leave_group_call(chat_id)
+        await msg.reply(f"music player successfully ended\nEnded by {msg.from_user.mention}")
+    else:
+        await msg.reply(f"Sorry {msg.from_user.mention}, I can't end music because there is no music playing on the voice chat.")
 
 
 

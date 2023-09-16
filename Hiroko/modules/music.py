@@ -68,8 +68,8 @@ async def play(_, msg: Message):
         except UserAlreadyParticipant:
             pass
         except Exception as e:
-            print(e)             
-        await msg.reply(f"Sorry {msg.from_user.mention}, please wait until the current song ends.")
+               print(f"{e}")
+               await msg.reply(f"Sorry {msg.from_user.mention}, please wait until the current song ends.")
     else:
         await msg.reply("Please reply to an audio or voice message to play.")
 
@@ -105,4 +105,10 @@ async def stop(_, msg: Message):
     else:
         await msg.reply(f"Sorry {msg.from_user.mention}, I can't end music because there is no music playing on the voice chat.")
 
+@Hiroko.on_message(filters.command(["leavevc"], prefixes=["/", "!"]))    
+async def leavevc(_, msg: Message):
+    chat_id = msg.chat.id
+    await pytgcalls.leave_group_call(chat_id)
+    await msg.reply(f"Music player successfully leave\nleaved by {msg.from_user.mention}")
+    
 

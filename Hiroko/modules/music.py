@@ -5,7 +5,7 @@ from Hiroko import Hiroko, pytgcalls, userbot
 from pyrogram.types import Message
 from pytgcalls import StreamType
 from pyrogram.errors import UserAlreadyParticipant
-from pytgcalls.types.StreamAudioEnded
+from pytgcalls.types import StreamAudioEnded
 from pytgcalls.types.input_stream import InputStream
 from pytgcalls.types.input_stream import AudioPiped
 from pytgcalls.exceptions import AlreadyJoinedError

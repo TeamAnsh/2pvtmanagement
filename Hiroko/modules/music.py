@@ -66,15 +66,12 @@ async def play(_, msg: Message):
     try:
         audio = msg.reply_to_message.audio or msg.reply_to_message.voice if msg.reply_to_message else None
         if audio:
+            sum = await msg.reply_text(f"ᴅᴏᴡɴʟᴏᴀᴅɪɴɢ\n\n0% ▓▓▓▓▓▓▓▓▓▓▓▓ 100%")   
             file_path = await msg.reply_to_message.download()
-            x = await pytgcalls.join_group_call(chat_id, AudioPiped(file_path), stream_type=StreamType().local_stream)
+            await pytgcalls.join_group_call(chat_id, AudioPiped(file_path), stream_type=StreamType().local_stream)
             os.remove(file_path)
-            sum = await msg.reply_text(f"ᴅᴏᴡɴʟᴏᴀᴅɪɴɢ\n\n0% ▓▓▓▓▓▓▓▓▓▓▓▓ 100%")  
-            await asyncio.sleep(0.9)
-            try:
-                await sum.edit_text(f"Now playing song\nRequested by {requested_by}")
-            except AlreadyJoinedError:
-                await msg.reply(f"Sorry {msg.from_user.mention}, please wait until the current song ends.")
+            await asyncio.sleep(0.5)   
+            await sum.edit_text(f"Now playing song\nRequested by {requested_by}")                        
         else:
             await msg.reply("Please reply to an audio or voice message to play.")
     except AlreadyJoinedError:

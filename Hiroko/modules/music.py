@@ -64,8 +64,11 @@ async def play(_, msg: Message):
         try:
            if x:
                 await sum.edit_text(f"Now playing song\nRequested by {requested_by}")
-         except       
-        await sum.edit_text(f"Sorry {msg.from_user.mention}, please wait until the current song ends.")
+        except UserAlreadyParticipant:
+                pass
+        except Exception as e:
+               print(e)             
+        await msg.reply(f"Sorry {msg.from_user.mention}, please wait until the current song ends.")
     else:
         await msg.reply("Please reply to an audio or voice message to play.")
 

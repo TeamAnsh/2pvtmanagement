@@ -4,6 +4,7 @@ from pyrogram import filters
 from Hiroko import Hiroko, pytgcalls, userbot
 from pyrogram.types import Message
 from pytgcalls import StreamType
+from pyrogram.errors import UserAlreadyParticipant
 from pytgcalls.types.input_stream import InputStream
 from pytgcalls.types.input_stream import AudioPiped
 from pytgcalls.exceptions import AlreadyJoinedError

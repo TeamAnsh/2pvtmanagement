@@ -50,28 +50,39 @@ async def on_stream_end(_,msg:Message):
     
 
 
+
 @Hiroko.on_message(filters.command(["play"], prefixes=["/", "!"]))
 async def play(_, msg: Message):
-    chat_id = msg.chat.id
-    requested_by = msg.from_user.first_name
-    audio = msg.reply_to_message.audio or msg.reply_to_message.voice if msg.reply_to_message else None
+    try:
+        chat_id = msg.chat.id
+        requested_by = msg.from_user.first_name
+        invitelink = await Hiroko.export_chat_invite_link(chat_id)
+        await userbot.join_chat(invitelink)
+    except UserAlreadyParticipant:
+        pass
 
-    if audio:
-        file_path = await msg.reply_to_message.download()
-        x = await pytgcalls.join_group_call(chat_id, AudioPiped(file_path), stream_type=StreamType().local_stream)
-        os.remove(file_path)
-        sum = await msg.reply_text(f"ᴅᴏᴡɴʟᴏᴀᴅɪɴɢ\n\n0% ▓▓▓▓▓▓▓▓▓▓▓▓ 100%")  
-        await asyncio.sleep(0.5)   
-        try:
-            if x:
-                await sum.edit_text(f"Now playing song\nRequested by {requested_by}")
-        except UserAlreadyParticipant:
-            pass
-        except Exception as e:
-               print(f"{e}")
-               await msg.reply(f"Sorry {msg.from_user.mention}, please wait until the current song ends.")
-    else:
-        await msg.reply("Please reply to an audio or voice message to play.")
+    try:
+        audio = msg.reply_to_message.audio or msg.reply_to_message.voice if msg.reply_to_message else None
+        if audio:
+            file_path = await msg.reply_to_message.download()
+            x = await pytgcalls.join_group_call(chat_id, AudioPiped(file_path), stream_type=StreamType().local_stream)
+            os.remove(file_path)
+            sum = await msg.reply_text(f"ᴅᴏᴡɴʟᴏᴀᴅɪɴɢ\n\n0% ▓▓▓▓▓▓▓▓▓▓▓▓ 100%")  
+            await asyncio.sleep(0.9)
+            try:
+                if x:
+                    await sum.edit_text(f"Now playing song\nRequested by {requested_by}")
+            except AlreadyJoinedError:
+                await msg.reply(f"Sorry {msg.from_user.mention}, please wait until the current song ends.")
+        else:
+            await msg.reply("Please reply to an audio or voice message to play.")
+    except AlreadyJoinedError:
+        await msg.reply(f"Sorry {msg.from_user.mention}, I'm already playing audio in this chat.")
+    except Exception as e:
+        print(f"An error occurred while trying to play audio: {e}")
+        await msg.reply("Oops! Something went wrong while trying to play the audio file. Please try again later.")
+
+
 
 
 

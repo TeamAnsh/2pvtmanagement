@@ -132,7 +132,7 @@ async def leave_all(hiroko :Hiroko, message):
         await asyncio.sleep(0.7)
     await hiroko.send_message(
         message.chat.id, f"✅ ʟᴇғᴛ ғʀᴏᴍ: {left} ᴄʜᴀᴛs.\n❌ ғᴀɪʟᴇᴅ ɪɴ: {failed} ᴄʜᴀᴛs."
-
+           )
 
 
            

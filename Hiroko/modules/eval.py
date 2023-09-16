@@ -10,7 +10,7 @@ from time import time
 from pyrogram import filters
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
 
-from config import OWNER_ID
+from config import SUDO_USERS as OWNER_ID
 from Hiroko import Hiroko
 
 

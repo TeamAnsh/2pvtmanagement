@@ -44,9 +44,9 @@ async def join_userbot(_,msg:Message):
 
 
 @pytgcalls.on_stream_end()
-async def on_stream_end(chat_id):
-    await pytgcalls.leave_group_call(chat_id)
-
+async def on_stream_end(_,msg:Message):
+    await pytgcalls.leave_group_call(msg.chat.id)
+    
 
 @Hiroko.on_message(filters.command(["play"], prefixes=["/", "!"]))
 async def play(_, msg: Message):

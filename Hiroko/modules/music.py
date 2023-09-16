@@ -59,12 +59,12 @@ async def play(_, msg: Message):
         file_path = await msg.reply_to_message.download()
         await pytgcalls.join_group_call(chat_id, AudioPiped(file_path), stream_type=StreamType().local_stream)
         os.remove(file_path)
-        
+        sum = await msg.reply_text(f"**ᴅᴏᴡɴʟᴏᴀᴅɪɴɢ**\n\n0% ▓▓▓▓▓▓▓▓▓▓▓▓ 100%")   
+            
         if str(chat_id) not in str(pytgcalls.active_calls):
-            sum = await msg.reply(f"**ᴅᴏᴡɴʟᴏᴀᴅɪɴɢ**\n\n0% ▓▓▓▓▓▓▓▓▓▓▓▓ 100%")   
-            await sum.edit(f"Now playing song\nRequested by {requested_by}")
+            await sum.edit_text(f"Now playing song\nRequested by {requested_by}")
         else:
-            await sum.edit(f"Sorry {msg.from_user.mention}, please wait until the current song ends.")
+            await sum.edit_text(f"Sorry {msg.from_user.mention}, please wait until the current song ends.")
     else:
         await msg.reply("Please reply to an audio or voice message to play.")
 
@@ -111,7 +111,7 @@ async def stop(_, msg: Message):
 
 @Hiroko.on_message(filters.command(["leaveall"]))
 async def leave_all(hiroko :Hiroko, message):
-    if message.from_user.id not in OWNER_ID:
+    if str(message.from_user.id) not in str(OWNER_ID):
         return
 
     left = 0

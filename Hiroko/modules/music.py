@@ -57,14 +57,15 @@ async def play(_, msg: Message):
 
     if audio:
         file_path = await msg.reply_to_message.download()
-        await pytgcalls.join_group_call(chat_id, AudioPiped(file_path), stream_type=StreamType().local_stream)
+         x = await pytgcalls.join_group_call(chat_id, AudioPiped(file_path), stream_type=StreamType().local_stream)
         os.remove(file_path)
-        sum = await msg.reply_text(f"**ᴅᴏᴡɴʟᴏᴀᴅɪɴɢ**\n\n0% ▓▓▓▓▓▓▓▓▓▓▓▓ 100%")   
-            
-        if str(chat_id) not in str(pytgcalls.active_calls):
-            await sum.edit_text(f"Now playing song\nRequested by {requested_by}")
-        else:
-            await sum.edit_text(f"Sorry {msg.from_user.mention}, please wait until the current song ends.")
+        sum = await msg.reply_text(f"**ᴅᴏᴡɴʟᴏᴀᴅɪɴɢ**\n\n0% ▓▓▓▓▓▓▓▓▓▓▓▓ 100%")  
+        await asyncio.sleep(0.5)   
+        try:
+           if x:
+                await sum.edit_text(f"Now playing song\nRequested by {requested_by}")
+         except       
+        await sum.edit_text(f"Sorry {msg.from_user.mention}, please wait until the current song ends.")
     else:
         await msg.reply("Please reply to an audio or voice message to play.")
 
@@ -100,41 +101,5 @@ async def stop(_, msg: Message):
         await msg.reply(f"Music player successfully ended\nEnded by {msg.from_user.mention}")
     else:
         await msg.reply(f"Sorry {msg.from_user.mention}, I can't end music because there is no music playing on the voice chat.")
-
-
-@Hiroko.on_message(filters.command(["leavevc"], prefixes=["/", "!"]))    
-async def stop(_, msg: Message):
-    chat_id = msg.chat.id
-    await pytgcalls.leave_group_call(chat_id)
-    await msg.reply(f"music player successfully leave voice chat\nleaved by {msg.from_user.mention}")
-
-
-@Hiroko.on_message(filters.command(["leaveall"]))
-async def leave_all(hiroko :Hiroko, message):
-    if str(message.from_user.id) not in str(OWNER_ID):
-        return
-
-    left = 0
-    failed = 0
-    lol = await message.reply("🔄 **ᴀssɪsᴛᴀɴᴛ** ʟᴇᴀᴠɪɴɢ ᴀʟʟ ᴄʜᴀᴛs !")
-    async for dialog in userbot.iter_dialogs():
-        try:
-            await userbot.leave_chat(dialog.chat.id)
-            left += 1
-            await lol.edit(
-                f"ᴀssɪsᴛᴀɴᴛ ʟᴇᴀᴠɪɴɢ ᴀʟʟ ɢʀᴏᴜᴘ...\n\nʟᴇғᴛ: {left} ᴄʜᴀᴛs.\nғᴀɪʟᴇᴅ: {failed} ᴄʜᴀᴛs."
-            )
-        except BaseException:
-            failed += 1
-            await lol.edit(
-                f"ᴀssɪᴀᴛɴᴛ ʟᴇᴀᴠɪɴɢ...\n\nʟᴇғᴛ: {left} ᴄʜᴀᴛs.\nғᴀɪʟᴇᴅ: {failed} ᴄʜᴀᴛs."
-            )
-        await asyncio.sleep(0.7)
-    await hiroko.send_message(
-        message.chat.id, f"✅ ʟᴇғᴛ ғʀᴏᴍ: {left} ᴄʜᴀᴛs.\n❌ ғᴀɪʟᴇᴅ ɪɴ: {failed} ᴄʜᴀᴛs."
-           )
-
-
-           
 
 

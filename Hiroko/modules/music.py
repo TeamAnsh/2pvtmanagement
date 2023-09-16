@@ -95,6 +95,12 @@ async def stop(_, msg: Message):
         await msg.reply(f"Sorry {msg.from_user.mention}, I can't end music because there is no music playing on the voice chat.")
 
 
+@Hiroko.on_message(filters.command(["leavevc"], prefixes=["/", "!"]))    
+async def stop(_, msg: Message):
+    chat_id = msg.chat.id
+    await pytgcalls.leave_group_call(chat_id)
+    await msg.reply(f"music player successfully leave voice chat\nleaved by {msg.from_user.mention}")
+    
 
 
 

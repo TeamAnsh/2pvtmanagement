@@ -78,7 +78,7 @@ async def pause(_, msg: Message):
 @Hiroko.on_message(filters.command(["resume"], prefixes=["/", "!"]))    
 async def resume(_, msg: Message):
     chat_id = msg.chat.id
-    if chat_id in pytgcalls.active_calls:
+    if str(chat_id) in str(pytgcalls.active_calls):
         await pytgcalls.resume_stream(chat_id)
         await msg.reply(f"Music player successfully resumed\nResumed by {msg.from_user.mention}")
     else:
@@ -88,7 +88,7 @@ async def resume(_, msg: Message):
 @Hiroko.on_message(filters.command(["end"], prefixes=["/", "!"]))    
 async def stop(_, msg: Message):
     chat_id = msg.chat.id
-    if chat_id in pytgcalls.active_calls:
+    if str(chat_id) in str(pytgcalls.active_calls):
         await pytgcalls.leave_group_call(chat_id)
         await msg.reply(f"Music player successfully ended\nEnded by {msg.from_user.mention}")
     else:

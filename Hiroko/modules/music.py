@@ -5,6 +5,7 @@ from Hiroko import Hiroko, pytgcalls, userbot
 from pyrogram.types import Message
 from pytgcalls import StreamType
 from pyrogram.errors import UserAlreadyParticipant
+from pytgcalls.types.StreamAudioEnded
 from pytgcalls.types.input_stream import InputStream
 from pytgcalls.types.input_stream import AudioPiped
 from pytgcalls.exceptions import AlreadyJoinedError
@@ -46,8 +47,8 @@ async def join_userbot(_,msg:Message):
 
 
 @pytgcalls.on_stream_end()
-async def on_stream_end(_,msg:Message):
-    await pytgcalls.leave_group_call(msg.chat.id)
+async def on_stream_end(chat_id):
+    await pytgcalls.leave_group_call(chat_id)
     
 
 
@@ -71,17 +72,15 @@ async def play(_, msg: Message):
             sum = await msg.reply_text(f"ᴅᴏᴡɴʟᴏᴀᴅɪɴɢ\n\n0% ▓▓▓▓▓▓▓▓▓▓▓▓ 100%")  
             await asyncio.sleep(0.9)
             try:
-                if x:
-                    await sum.edit_text(f"Now playing song\nRequested by {requested_by}")
+                await sum.edit_text(f"Now playing song\nRequested by {requested_by}")
             except AlreadyJoinedError:
                 await msg.reply(f"Sorry {msg.from_user.mention}, please wait until the current song ends.")
         else:
             await msg.reply("Please reply to an audio or voice message to play.")
     except AlreadyJoinedError:
         await msg.reply(f"Sorry {msg.from_user.mention}, I'm already playing audio in this chat.")
-    except Exception as e:
-        print(f"An error occurred while trying to play audio: {e}")
-        await msg.reply("Oops! Something went wrong while trying to play the audio file. Please try again later.")
+    except Exception as e:         
+        await msg.reply(f"Oops! Something went wrong {e}.")
 
 
 

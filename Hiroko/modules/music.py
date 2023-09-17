@@ -171,70 +171,62 @@ async def generate_cover(requested_by, title, views, duration, thumbnail):
 
 @Hiroko.on_message(filters.command(["yt", "play"], prefixes=["/", "!"]))    
 async def play(_: Hiroko, message: Message):
-    global que
-    global useer
-    
-    lel = await message.reply("**🔎 sᴇᴀʀᴄʜɪɴɢ...**")   
-    bsdk = message.from_user.mention
-    chat_id = message.chat.id
-    invitelink = await Hiroko.export_chat_invite_link(chat_id)
-    await userbot.join_chat(invitelink)
-    except UserAlreadyParticipant:
-        pass
-    
-        audio = ((message.reply_to_message.audio or message.reply_to_message.voice)if message.reply_to_message else None)
-        url = get_url(message)
-
-    if audio:
-        if round(audio.duration / 60) > DURATION_LIMIT:
-            raise DurationLimitError(
-                f"**» sᴏɴɢ ʟᴏɴɢᴇʀ ᴛʜᴀɴ {DURATION_LIMIT} ᴍɪɴᴜᴛᴇ's ᴀʀᴇ ɴᴏᴛ ᴀʟʟᴏᴡᴇᴅ ᴛᴏ ᴘʟᴀʏ.**"
-            )
-
-        file_name = get_file_name(audio)
-        title = file_name
-        thumb_name = "https://telegra.ph/file/00411492c1fb4c0a91f18.jpg"
-        thumbnail = thumb_name
-        duration = round(audio.duration / 60)
-        views = "Locally added"
-
-        
-
-        requested_by = message.from_user.first_name
-        await generate_cover(requested_by, title, views, duration, thumbnail)
-        file_path = await converter(
-            (await message.reply_to_message.download(file_name))
-            if not path.isfile(path.join("downloads", file_name))
-            else file_name
-        )
-
-    elif url:
         try:
-            results = YoutubeSearch(url, max_results=1).to_dict()
-            # print results
-            title = results[0]["title"]
-            thumbnail = results[0]["thumbnails"][0]
-            thumb_name = f"thumb{title}.jpg"
-            thumb = requests.get(thumbnail, allow_redirects=True)
-            open(thumb_name, "wb").write(thumb.content)
-            duration = results[0]["duration"]
-            url_suffix = results[0]["url_suffix"]
-            views = results[0]["views"]
-            durl = url
-            durl = durl.replace("youtube", "youtubepp")
+                global que
+                global useer
+                lel = await message.reply("**🔎 sᴇᴀʀᴄʜɪɴɢ...**")   
+                bsdk = message.from_user.mention
+                chat_id = message.chat.id
+                invitelink = await Hiroko.export_chat_invite_link(chat_id)
+                await userbot.join_chat(invitelink)
+        except UserAlreadyParticipant:
+                pass
+                audio = ((message.reply_to_message.audio or message.reply_to_message.voice)if message.reply_to_message else None)
+                url = get_url(message)
+                if audio:
+                        if round(audio.duration / 60) > DURATION_LIMIT:
+                                raise DurationLimitError(
+                                f"**» sᴏɴɢ ʟᴏɴɢᴇʀ ᴛʜᴀɴ {DURATION_LIMIT} ᴍɪɴᴜᴛᴇ's ᴀʀᴇ ɴᴏᴛ ᴀʟʟᴏᴡᴇᴅ ᴛᴏ ᴘʟᴀʏ.**"
+                                 )
+                                file_name = get_file_name(audio)
+                                title = file_name
+                                thumb_name = "https://telegra.ph/file/00411492c1fb4c0a91f18.jpg"
+                                thumbnail = thumb_name
+                                duration = round(audio.duration / 60)
+                                views = "Locally added"
+                                requested_by = message.from_user.first_name
+                                await generate_cover(requested_by, title, views, duration, thumbnail)
+                                file_path = await converter(
+                                   (await message.reply_to_message.download(file_name))
+                                   if not path.isfile(path.join("downloads", file_name))
+                                   else file_name)
 
-            secmul, dur, dur_arr = 1, 0, duration.split(":")
-            for i in range(len(dur_arr) - 1, -1, -1):
-                dur += int(dur_arr[i]) * secmul
-                secmul *= 60
+
+                elif url:
+                        try:
+                                results = YoutubeSearch(url, max_results=1).to_dict()
+                                title = results[0]["title"]
+                                thumbnail = results[0]["thumbnails"][0]
+                                thumb_name = f"thumb{title}.jpg"
+                                thumb = requests.get(thumbnail, allow_redirects=True)
+                                open(thumb_name, "wb").write(thumb.content)
+                                duration = results[0]["duration"]
+                                url_suffix = results[0]["url_suffix"]
+                                views = results[0]["views"]
+                                durl = url
+                                durl = durl.replace("youtube", "youtubepp")
+                                secmul, dur, dur_arr = 1, 0, duration.split(":")
+                                for i in range(len(dur_arr) - 1, -1, -1):
+                                        dur += int(dur_arr[i]) * secmul
+                                        secmul *= 60
 
             
     
-        except Exception as e:
-            title = "NaN"
-            thumb_name = "https://telegra.ph/file/00411492c1fb4c0a91f18.jpg"
-            duration = "NaN"
-            views = "NaN"
+                        except Exception as e:
+                                title = "NaN"
+                                thumb_name = "https://telegra.ph/file/00411492c1fb4c0a91f18.jpg"
+                                duration = "NaN"
+                                views = "NaN"
             
     
 

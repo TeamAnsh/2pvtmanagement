@@ -10,6 +10,7 @@ from pyrogram.errors import UserAlreadyParticipant
 from PIL import Image, ImageFont, ImageDraw, ImageFilter
 from PIL import ImageGrab
 from Hiroko.Helper.requirements import *
+from Hiroko.Helper.requirements import admins as a
 from pytgcalls import StreamType
 from pytgcalls.types.input_stream import InputStream
 from pytgcalls.types.input_stream import InputAudioStream

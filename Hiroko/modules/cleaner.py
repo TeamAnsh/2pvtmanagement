@@ -1,5 +1,6 @@
 import os
-from pyrogram import Client, filters
+from Hiroko import Hiroko
+from pyrogram import filters
 from pyrogram.types import Message
 
 downloads = os.path.realpath("downloads")

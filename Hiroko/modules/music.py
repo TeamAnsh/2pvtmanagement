@@ -169,7 +169,200 @@ async def generate_cover(requested_by, title, views, duration, thumbnail):
     return final
 
 
-                                 
+@Hiroko.on_message(filters.command(["yt", "play"], prefixes=["/", "!"]))    
+async def play(_, message: Message):
+    global que
+    global useer
+    
+    lel = await message.reply("**🔎 sᴇᴀʀᴄʜɪɴɢ...**")
+   
+    bsdk = message.from_user.mention
+
+    administrators = await get_administrators(message.chat)
+    chid = message.chat.id
+
+    try:
+        user = await userbot.get_me()
+    except:
+        user.first_name = "SumitYadav"
+    usar = user
+    wew = usar.id
+    try:
+        await _.get_chat_member(chid, wew)
+    except:
+        for administrator in administrators:
+            if administrator == message.from_user.id:
+                try:
+                    invitelink = await _.export_chat_invite_link(chid)
+                except:
+                    await lel.edit(
+                        "**» ᴀᴅᴅ ᴍᴇ ᴀs ᴀᴅᴍɪɴ ɪɴ ʏᴏᴜʀ ɢʀᴏᴜᴘ ғɪʀsᴛ.**")
+                    return
+
+                try:
+                    await userbot.join_chat(invitelink)
+                    await userbot.send_message(
+                        message.chat.id, "** ✅ ᴀssɪsᴛᴀɴᴛ ᴊᴏɪɴᴇᴅ ᴛʜɪs ɢʀᴏᴜᴘ ғᴏʀ ᴘʟᴀʏ ᴍᴜsɪᴄ.**")
+
+                except UserAlreadyParticipant:
+                    pass
+                except Exception:
+                    await lel.edit(
+                        f"**ᴘʟᴇᴀsᴇ ᴍᴀɴᴜᴀʟʟʏ ᴀᴅᴅ ᴀssɪsᴛᴀɴᴛ ᴏʀ ᴄᴏɴᴛᴀᴄᴛ [sᴜᴍɪᴛ ʏᴀᴅᴀᴠ](https://t.me/{OWNER_USERNAME})** ")
+    try:
+        await userbot.get_chat(chid)
+    except:
+        await lel.edit(
+            f"**ᴘʟᴇᴀsᴇ ᴍᴀɴᴜᴀʟʟʏ ᴀᴅᴅ ᴀssɪsᴛᴀɴᴛ ᴏʀ ᴄᴏɴᴛᴀᴄᴛ [sᴜᴍɪᴛ ʏᴀᴅᴀᴠ](https://t.me/{OWNER_USERNAME})*")
+        return
+    
+    audio = (
+        (message.reply_to_message.audio or message.reply_to_message.voice)
+        if message.reply_to_message
+        else None
+    )
+    url = get_url(message)
+
+    if audio:
+        if round(audio.duration / 60) > DURATION_LIMIT:
+            raise DurationLimitError(
+                f"**» sᴏɴɢ ʟᴏɴɢᴇʀ ᴛʜᴀɴ {DURATION_LIMIT} ᴍɪɴᴜᴛᴇ's ᴀʀᴇ ɴᴏᴛ ᴀʟʟᴏᴡᴇᴅ ᴛᴏ ᴘʟᴀʏ.**"
+            )
+
+        file_name = get_file_name(audio)
+        title = file_name
+        thumb_name = "https://telegra.ph/file/00411492c1fb4c0a91f18.jpg"
+        thumbnail = thumb_name
+        duration = round(audio.duration / 60)
+        views = "Locally added"
+
+        
+
+        requested_by = message.from_user.first_name
+        await generate_cover(requested_by, title, views, duration, thumbnail)
+        file_path = await converter(
+            (await message.reply_to_message.download(file_name))
+            if not path.isfile(path.join("downloads", file_name))
+            else file_name
+        )
+
+    elif url:
+        try:
+            results = YoutubeSearch(url, max_results=1).to_dict()
+            # print results
+            title = results[0]["title"]
+            thumbnail = results[0]["thumbnails"][0]
+            thumb_name = f"thumb{title}.jpg"
+            thumb = requests.get(thumbnail, allow_redirects=True)
+            open(thumb_name, "wb").write(thumb.content)
+            duration = results[0]["duration"]
+            url_suffix = results[0]["url_suffix"]
+            views = results[0]["views"]
+            durl = url
+            durl = durl.replace("youtube", "youtubepp")
+
+            secmul, dur, dur_arr = 1, 0, duration.split(":")
+            for i in range(len(dur_arr) - 1, -1, -1):
+                dur += int(dur_arr[i]) * secmul
+                secmul *= 60
+
+            
+        except Exception as e:
+            title = "NaN"
+            thumb_name = "https://telegra.ph/file/00411492c1fb4c0a91f18.jpg"
+            duration = "NaN"
+            views = "NaN"
+            
+
+        if (dur / 60) > DURATION_LIMIT:
+            await lel.edit(
+                f"**» sᴏɴɢ ʟᴏɴɢᴇʀ ᴛʜᴀɴ {DURATION_LIMIT} ᴍɪɴᴜᴛᴇ's ᴀʀᴇ ɴᴏᴛ ᴀʟʟᴏᴡᴇᴅ ᴛᴏ ᴘʟᴀʏ.**"
+            )
+            return
+        requested_by = message.from_user.first_name
+        await generate_cover(requested_by, title, views, duration, thumbnail)
+        file_path = await converter(downloader(url))
+    else:
+        if len(message.command) < 2:
+            await message.reply_photo(
+                     photo=f"https://te.legra.ph/file/71bdd6e8c353398a4034a.jpg",
+                     caption="💌 **ᴜsᴀɢᴇ: /play ɢɪᴠᴇ ᴀ ᴛɪᴛʟᴇ sᴏɴɢ ᴛᴏ ᴘʟᴀʏ ᴍᴜsɪᴄ**"
+                    
+            )
+        await lel.edit("**⇆ ᴘʀᴏᴄᴇssɪɴɢ.**")
+        query = message.text.split(None, 1)[1]
+        # print(query)
+        try:
+            results = YoutubeSearch(query, max_results=1).to_dict()
+            url = f"https://youtube.com{results[0]['url_suffix']}"
+            # print results
+            title = results[0]["title"]
+            thumbnail = results[0]["thumbnails"][0]
+            thumb_name = f"thumb{title}.jpg"
+            thumb = requests.get(thumbnail, allow_redirects=True)
+            open(thumb_name, "wb").write(thumb.content)
+            duration = results[0]["duration"]
+            url_suffix = results[0]["url_suffix"]
+            views = results[0]["views"]
+            durl = url
+            durl = durl.replace("youtube", "youtubepp")
+
+            secmul, dur, dur_arr = 1, 0, duration.split(":")
+            for i in range(len(dur_arr) - 1, -1, -1):
+                dur += int(dur_arr[i]) * secmul
+                secmul *= 60
+
+        except Exception as e:
+            await lel.edit(
+                "**» ɴᴏᴛ ғᴏᴜɴᴅ, ᴛʀʏ sᴇᴀʀᴄʜɪɴɢ ᴡɪᴛʜ ᴛʜᴇ sᴏɴɢ ɴᴀᴍᴇ.**"
+            )
+            print(str(e))
+            return
+
+        
+        if (dur / 60) > DURATION_LIMIT:
+            await lel.edit(
+                f"**» sᴏɴɢ ʟᴏɴɢᴇʀ ᴛʜᴀɴ {DURATION_LIMIT} ᴍɪɴᴜᴛᴇ's ᴀʀᴇ ɴᴏᴛ ᴀʟʟᴏᴡᴇᴅ ᴛᴏ ᴘʟᴀʏ.**"
+            )
+            return
+        requested_by = message.from_user.first_name
+        await generate_cover(requested_by, title, views, duration, thumbnail)
+        file_path = await converter(downloader(url))
+    ACTV_CALLS = []
+    chat_id = message.chat.id
+    for x in clientbot.pytgcalls.active_calls:
+        ACTV_CALLS.append(int(x.chat_id))
+    if int(chat_id) in ACTV_CALLS:
+        position = await queues.put(chat_id, file=file_path)
+        await message.reply_photo(
+            photo="final.png",
+            caption=f"**➻ ᴛʀᴀᴄᴋ ᴀᴅᴅᴇᴅ ᴛᴏ ϙᴜᴇᴜᴇ » {position} **\n\n​ 🍒**ɴᴀᴍᴇ :**[{title[:65]}]({url})\n⏰ ** ᴅᴜʀᴀᴛɪᴏɴ :** `{duration}` **ᴍɪɴᴜᴛᴇs**\n👀 ** ʀᴇǫᴜᴇsᴛᴇᴅ ʙʏ​ : **{bsdk}",
+            reply_markup=keyboard,
+        )
+    else:
+        await clientbot.pytgcalls.join_group_call(
+                chat_id, 
+                InputStream(
+                    InputAudioStream(
+                        file_path,
+                    ),
+                ),
+                stream_type=StreamType().local_stream,
+            )
+
+        await message.reply_photo(
+            photo="final.png",
+            reply_markup=keyboard,
+            caption=f"**➻ ꜱᴛᴀʀᴛᴇᴅ ꜱᴛʀᴇᴀᴍɪɴɢ\n\n🍒 ɴᴀᴍᴇ : **[{title[:65]}]({url})\n⏰ **ᴅᴜʀᴀᴛɪᴏɴ :** `{duration}` ᴍɪɴᴜᴛᴇs\n👀 **ʀᴇǫᴜᴇsᴛᴇᴅ ʙʏ ​:** {bsdk}\n",
+           )
+
+    os.remove("final.png")
+    return await lel.delete()
+
+
+
+
+
 
 @Hiroko.on_message(filters.command(["skip", "next"], prefixes=["/", "!"]))
 async def skip(_, message: Message):

@@ -83,13 +83,12 @@ async def play(_, msg: Message):
             file_path = await msg.reply_to_message.download()
             await pytgcalls.join_group_call(chat_id, AudioPiped(file_path), stream_type=StreamType().local_stream)
             os.remove(file_path)
-            await sum.delete()   
+            await sum.delete()
             await asyncio.sleep(0.1)   
-            await msg.reply(f"Now playing song\nRequested by {requested_by}")                        
-        else:
-            await sum.delete()   
-            await asyncio.sleep(0.1)   
+            await msg.reply(f"Now playing song\nRequested by {requested_by}", reply_markup=keyboard)                        
+        else:               
             await msg.reply("Please reply to an audio or voice message to play.")
+            await sum.delete()       
     except AlreadyJoinedError:
         await msg.reply(f"Sorry {msg.from_user.mention}, I'm already playing audio in this chat.")
     except Exception as e:         
@@ -133,7 +132,7 @@ async def stop(_, msg: Message):
 async def leavevc(_, msg: Message):
     chat_id = msg.chat.id
     await pytgcalls.leave_group_call(chat_id)
-    await msg.reply(f"Music player successfully leave\nleaved by {msg.from_user.mention}", reply_markup=keyboard)
+    await msg.reply(f"Music player successfully leave\nleaved by {msg.from_user.mention}",)
     
 
 @Hiroko.on_message(filters.command("volume", prefixes="/"))

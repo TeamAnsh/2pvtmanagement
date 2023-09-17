@@ -2,7 +2,8 @@ import os, aiofiles, aiohttp, ffmpeg, random, textwrap, re
 import numpy as np
 import requests
 from os import path
-from Hiroko import Hiroko, pytgcalls, userbot
+from Hiroko import Hiroko
+from Hiroko import pytgcalls, userbot
 from typing import Callable
 from pyrogram import filters
 from pyrogram.types import *
@@ -12,7 +13,7 @@ from PIL import ImageGrab
 from PIL import Image, ImageFont, ImageDraw, ImageFilter
 from pyrogram.errors import UserAlreadyParticipant
 from Hiroko.Helper.requirements import *
-#from Hiroko.Helper.admins import admins as a
+from Hiroko.Helper.admins import admins as a
 from pytgcalls import StreamType
 from pytgcalls.types.input_stream import InputStream
 from pytgcalls.types.input_stream import InputAudioStream

@@ -1,6 +1,13 @@
 from typing import List, Dict, Union
 
 
+class DurationLimitError(Exception):
+    pass
+
+class FFmpegReturnCodeError(Exception):
+    pass
+
+
 admins: Dict[int, List[int]] = {}
 
 

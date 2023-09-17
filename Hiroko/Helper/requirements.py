@@ -10,7 +10,7 @@ DURATION_LIMIT = "300"
 
 
 
-#========
+# ===================================================================================== #
 
 def get_url(message_1: Message) -> Union[str, None]:
     messages = [message_1]
@@ -43,8 +43,8 @@ def get_file_name(audio: Union[Audio, Voice]):
     return f'{audio.file_unique_id}.{audio.file_name.split(".")[-1] if not isinstance(audio, Voice) else "ogg"}'
 
 
+# ===================================================================================== #
 
-#=======
 
 class DurationLimitError(Exception):
     pass
@@ -52,6 +52,8 @@ class DurationLimitError(Exception):
 class FFmpegReturnCodeError(Exception):
     pass
 
+
+# ===================================================================================== #
 
 ydl_opts = {
     "format": "bestaudio/best",
@@ -78,8 +80,8 @@ def download(url: str) -> str:
     return path.join("downloads", f"{info['id']}.{info['ext']}")
 
 
+# ===================================================================================== #
 
-#=====
 
 async def convert(file_path: str) -> str:
     out = path.basename(file_path)
@@ -106,10 +108,11 @@ async def convert(file_path: str) -> str:
     return out
 
 
-#============
+# ===================================================================================== #
+
 
 async def get_administrators(chat: Chat) -> List[User]:
-    get = Nistha.Modules.cache.admins.get(chat.id)
+    get = admins.get(chat.id)
 
     if get:
         return get
@@ -121,15 +124,14 @@ async def get_administrators(chat: Chat) -> List[User]:
             if administrator.can_manage_voice_chats:
                 to_set.append(administrator.user.id)
 
-        Nistha.Modules.cache.admins.set(chat.id, to_set)
+        admins.set(chat.id, to_set)
         return await get_administrators(chat)
 
 
+# ===================================================================================== #
 
-#==========
 
 queues: Dict[int, Queue] = {}
-
 
 async def put(chat_id: int, **kwargs) -> int:
     if chat_id not in queues:
@@ -169,7 +171,7 @@ def clear(chat_id: int):
     raise Empty
 
 
-# ============
+# ===================================================================================== #
 
 admins: Dict[int, List[int]] = {}
 
@@ -180,5 +182,10 @@ def get(chat_id: int) -> Union[List[int], bool]:
     if chat_id in admins:
         return admins[chat_id]
     return False
+
+# ===================================================================================== #
+
+
+
 
 

@@ -122,14 +122,8 @@ async def leavevc(_, msg: Message):
     await pytgcalls.leave_group_call(chat_id)
     await msg.reply(f"Music player successfully leave\nleaved by {msg.from_user.mention}")
     
-@Hiroko.on_message(filters.command("volume"))
-async def volume(_,msg):
-       chat_id = msg.chat.id
-       await pytgcalls.change_volume_call(chat_id, 60)
-       await msg.reply("volume 60 percent set")
 
-
-@Hiroko.on_message(filters.command("ume", prefixes="/"))
+@Hiroko.on_message(filters.command("volume", prefixes="/"))
 async def change_volume(client, message):
     chat_id = message.chat.id
     args = message.text.split()

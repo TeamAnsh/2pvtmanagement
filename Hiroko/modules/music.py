@@ -18,7 +18,7 @@ from pytgcalls.types.input_stream import InputStream
 from pytgcalls.types.input_stream import InputAudioStream
 
 
-
+DURATION_LIMIT = "300"
 
 keyboard = InlineKeyboardMarkup([
         [

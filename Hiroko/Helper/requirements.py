@@ -1,6 +1,5 @@
 import asyncio
 from yt_dlp import YoutubeDL
-from Hiroko.Helper.admins import FFmpegReturnCodeError, DurationLimitError
 from typing import List, Dict, Union
 from asyncio import Queue, QueueEmpty as Empty
 from pyrogram.types import *

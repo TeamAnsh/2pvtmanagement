@@ -11,7 +11,7 @@ from asyncio.queues import QueueEmpty
 from PIL import ImageGrab
 from PIL import Image, ImageFont, ImageDraw, ImageFilter
 from pyrogram.errors import UserAlreadyParticipant
-from Hiroko.Helper.requirements import queues, get_administrators, converter, youtube, DurationLimitError, get_url, get_file_name            
+from Hiroko.Helper.requirements import queues, get_administrators, convert as convter, download as downloader, DurationLimitError, get_url, get_file_name            
 from Hiroko.Helper.admins import admins as a, set
 from pytgcalls import StreamType
 from pytgcalls.types.input_stream import InputStream
@@ -238,7 +238,7 @@ async def play(_: Hiroko, message: Message):
 
         requested_by = message.from_user.first_name
         await generate_cover(requested_by, title, views, duration, thumbnail)
-        file_path = await converter.convert(
+        file_path = await converter(
             (await message.reply_to_message.download(file_name))
             if not path.isfile(path.join("downloads", file_name))
             else file_name
@@ -281,7 +281,7 @@ async def play(_: Hiroko, message: Message):
             return
         requested_by = message.from_user.first_name
         await generate_cover(requested_by, title, views, duration, thumbnail)
-        file_path = await converter.convert(youtube.download(url))
+        file_path = await converter(youtube.downloader(url))
     else:
         if len(message.command) < 2:
             await message.reply_photo(
@@ -327,7 +327,7 @@ async def play(_: Hiroko, message: Message):
             return
         requested_by = message.from_user.first_name
         await generate_cover(requested_by, title, views, duration, thumbnail)
-        file_path = await converter.convert(youtube.download(url))
+        file_path = await converter(downloader(url))
     ACTV_CALLS = []
     chat_id = message.chat.id
     for x in pytgcalls.active_calls:

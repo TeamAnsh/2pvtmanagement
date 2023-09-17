@@ -14,6 +14,7 @@ pillow==9.5.0
 pickledb<1
 pySmartDL
 arq
+ffmpeg-python
 py-tgcalls==0.9.7
 pyrogram==2.0.103
 prettytable==3.6.0

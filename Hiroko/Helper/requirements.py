@@ -1,5 +1,6 @@
 import asyncio
 from yt_dlp import YoutubeDL
+from Hiroko.Helper.admins import FFmpegReturnCodeError, DurationLimitError
 from typing import List, Dict, Union
 from asyncio import Queue, QueueEmpty as Empty
 from pyrogram.types import *
@@ -42,16 +43,6 @@ def get_url(message_1: Message) -> Union[str, None]:
 
 def get_file_name(audio: Union[Audio, Voice]):
     return f'{audio.file_unique_id}.{audio.file_name.split(".")[-1] if not isinstance(audio, Voice) else "ogg"}'
-
-
-# ===================================================================================== #
-
-
-class DurationLimitError(Exception):
-    pass
-
-class FFmpegReturnCodeError(Exception):
-    pass
 
 
 # ===================================================================================== #

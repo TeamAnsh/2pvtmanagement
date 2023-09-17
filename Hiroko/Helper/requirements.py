@@ -127,7 +127,7 @@ async def get_administrators(chat: Chat) -> List[User]:
                 to_set.append(administrator.user.id)
 
         Hiroko.Helper.admins.set(chat.id, to_set)
-        return await get_administrators(chat)
+        return to_set
 
 
 # ===================================================================================== #

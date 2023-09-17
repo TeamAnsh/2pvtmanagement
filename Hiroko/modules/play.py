@@ -170,7 +170,7 @@ async def generate_cover(requested_by, title, views, duration, thumbnail):
     return final
 
 
-@Hiroko.on_message(filters.command(["yt", "play"], prefixes=["/", "!"]))    
+#@Hiroko.on_message(filters.command(["yt", "play"], prefixes=["/", "!"]))    
 async def play(_: Hiroko, message: Message):
     global que
     global useer

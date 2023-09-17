@@ -11,7 +11,7 @@ from asyncio.queues import QueueEmpty
 from PIL import ImageGrab
 from PIL import Image, ImageFont, ImageDraw, ImageFilter
 from pyrogram.errors import UserAlreadyParticipant
-from Hiroko.Helper.requirements import queues, get_administrators, convert as convter, download as downloader, DurationLimitError, get_url, get_file_name            
+from Hiroko.Helper.requirements import queues, convert as convter, download as downloader, DurationLimitError, get_url, get_file_name            
 from Hiroko.Helper.admins import admins as a, set
 from pytgcalls import StreamType
 from pytgcalls.types.input_stream import InputStream

@@ -228,92 +228,76 @@ async def play(_: Hiroko, message: Message):
                                 duration = "NaN"
                                 views = "NaN"
             
-    
-
-        if (dur / 60) > DURATION_LIMIT:
-            await lel.edit(
-                f"**» sᴏɴɢ ʟᴏɴɢᴇʀ ᴛʜᴀɴ {DURATION_LIMIT} ᴍɪɴᴜᴛᴇ's ᴀʀᴇ ɴᴏᴛ ᴀʟʟᴏᴡᴇᴅ ᴛᴏ ᴘʟᴀʏ.**"
-            )
-            return
-        requested_by = message.from_user.first_name
-        await generate_cover(requested_by, title, views, duration, thumbnail)
-        file_path = await converter(youtube.downloader(url))
-    else:
-        if len(message.command) < 2:
-            await message.reply_photo(
-                     photo=f"https://te.legra.ph/file/71bdd6e8c353398a4034a.jpg",
-                     caption="💌 **ᴜsᴀɢᴇ: /play ɢɪᴠᴇ ᴀ ᴛɪᴛʟᴇ sᴏɴɢ ᴛᴏ ᴘʟᴀʏ ᴍᴜsɪᴄ**"
-                    
-            )
-        await lel.edit("**⇆ ᴘʀᴏᴄᴇssɪɴɢ.**")
-        query = message.text.split(None, 1)[1]
-        
-        try:
-            results = YoutubeSearch(query, max_results=1).to_dict()
-            url = f"https://youtube.com{results[0]['url_suffix']}"
+                        if (dur / 60) > DURATION_LIMIT:
+                                await lel.edit(
+                                    f"**» sᴏɴɢ ʟᴏɴɢᴇʀ ᴛʜᴀɴ {DURATION_LIMIT} ᴍɪɴᴜᴛᴇ's ᴀʀᴇ ɴᴏᴛ ᴀʟʟᴏᴡᴇᴅ ᴛᴏ ᴘʟᴀʏ.**")
+                                return
+                                
+                                requested_by = message.from_user.first_name
+                                await generate_cover(requested_by, title, views, duration, thumbnail)
+                                file_path = await converter(youtube.downloader(url))
+                        else:
+                                if len(message.command) < 2:
+                                        await message.reply_photo(
+                                        photo=f"https://te.legra.ph/file/71bdd6e8c353398a4034a.jpg",
+                                        caption="💌 **ᴜsᴀɢᴇ: /play ɢɪᴠᴇ ᴀ ᴛɪᴛʟᴇ sᴏɴɢ ᴛᴏ ᴘʟᴀʏ ᴍᴜsɪᴄ**"
+                                         )
+                                        await lel.edit("**⇆ ᴘʀᴏᴄᴇssɪɴɢ.**")
+                                        query = message.text.split(None, 1)[1]
+                                try:
+                                        results = YoutubeSearch(query, max_results=1).to_dict()
+                                        url = f"https://youtube.com{results[0]['url_suffix']}"
             
-            title = results[0]["title"]
-            thumbnail = results[0]["thumbnails"][0]
-            thumb_name = f"thumb{title}.jpg"
-            thumb = requests.get(thumbnail, allow_redirects=True)
-            open(thumb_name, "wb").write(thumb.content)
-            duration = results[0]["duration"]
-            url_suffix = results[0]["url_suffix"]
-            views = results[0]["views"]
-            durl = url
-            durl = durl.replace("youtube", "youtubepp")
+                                        title = results[0]["title"]
+                                        thumbnail = results[0]["thumbnails"][0]
+                                        thumb_name = f"thumb{title}.jpg"
+                                        thumb = requests.get(thumbnail, allow_redirects=True)
+                                        open(thumb_name, "wb").write(thumb.content)
+                                        duration = results[0]["duration"]
+                                        url_suffix = results[0]["url_suffix"]
+                                        views = results[0]["views"]
+                                        durl = url
+                                        durl = durl.replace("youtube", "youtubepp")
 
-            secmul, dur, dur_arr = 1, 0, duration.split(":")
-            for i in range(len(dur_arr) - 1, -1, -1):
-                dur += int(dur_arr[i]) * secmul
-                secmul *= 60
+                                        secmul, dur, dur_arr = 1, 0, duration.split(":")
+                                        for i in range(len(dur_arr) - 1, -1, -1):
+                                                dur += int(dur_arr[i]) * secmul
+                                                secmul *= 60
 
-        except Exception as e:
-            await lel.edit(
-                "**» ɴᴏᴛ ғᴏᴜɴᴅ, ᴛʀʏ sᴇᴀʀᴄʜɪɴɢ ᴡɪᴛʜ ᴛʜᴇ sᴏɴɢ ɴᴀᴍᴇ.**"
-            )
-            print(str(e))
-            return
+                                except Exception as e:
+                                        await lel.edit("**» ɴᴏᴛ ғᴏᴜɴᴅ, ᴛʀʏ sᴇᴀʀᴄʜɪɴɢ ᴡɪᴛʜ ᴛʜᴇ sᴏɴɢ ɴᴀᴍᴇ.**")
+                                        print(str(e))
+                                         return
 
         
-        if (dur / 60) > DURATION_LIMIT:
-            await lel.edit(
-                f"**» sᴏɴɢ ʟᴏɴɢᴇʀ ᴛʜᴀɴ {DURATION_LIMIT} ᴍɪɴᴜᴛᴇ's ᴀʀᴇ ɴᴏᴛ ᴀʟʟᴏᴡᴇᴅ ᴛᴏ ᴘʟᴀʏ.**"
-            )
-            return
-        requested_by = message.from_user.first_name
-        await generate_cover(requested_by, title, views, duration, thumbnail)
-        file_path = await converter(downloader(url))
-    ACTV_CALLS = []
-    chat_id = message.chat.id
-    for x in pytgcalls.active_calls:
-        ACTV_CALLS.append(int(x.chat_id))
-    if int(chat_id) in ACTV_CALLS:
-        position = await queues.put(chat_id, file=file_path)
-        await message.reply_photo(
-            photo="final.png",
-            caption=f"**➻ ᴛʀᴀᴄᴋ ᴀᴅᴅᴇᴅ ᴛᴏ ϙᴜᴇᴜᴇ » {position} **\n\n​ 🍒**ɴᴀᴍᴇ :**[{title[:65]}]({url})\n⏰ ** ᴅᴜʀᴀᴛɪᴏɴ :** `{duration}` **ᴍɪɴᴜᴛᴇs**\n👀 ** ʀᴇǫᴜᴇsᴛᴇᴅ ʙʏ​ : **{bsdk}",
-            reply_markup=keyboard,
-        )
-    else:
-        await pytgcalls.join_group_call(
-                chat_id, 
-                InputStream(
-                    InputAudioStream(
-                        file_path,
-                    ),
-                ),
-                stream_type=StreamType().local_stream,
-            )
-
-        await message.reply_photo(
-            photo="final.png",
-            reply_markup=keyboard,
-            caption=f"**➻ ꜱᴛᴀʀᴛᴇᴅ ꜱᴛʀᴇᴀᴍɪɴɢ\n\n🍒 ɴᴀᴍᴇ : **[{title[:65]}]({url})\n⏰ **ᴅᴜʀᴀᴛɪᴏɴ :** `{duration}` ᴍɪɴᴜᴛᴇs\n👀 **ʀᴇǫᴜᴇsᴛᴇᴅ ʙʏ ​:** {bsdk}\n",
-           )
-
-    os.remove("final.png")
-    return await lel.delete()
+                                if (dur / 60) > DURATION_LIMIT:
+                                        await lel.edit(f"**» sᴏɴɢ ʟᴏɴɢᴇʀ ᴛʜᴀɴ {DURATION_LIMIT} ᴍɪɴᴜᴛᴇ's ᴀʀᴇ ɴᴏᴛ ᴀʟʟᴏᴡᴇᴅ ᴛᴏ ᴘʟᴀʏ.**")
+                                          return
+                                        requested_by = message.from_user.first_name
+                                        await generate_cover(requested_by, title, views, duration, thumbnail)
+                                        file_path = await converter(downloader(url))
+                                        ACTV_CALLS = []
+                                        chat_id = message.chat.id
+                                        for x in pytgcalls.active_calls:
+                                                ACTV_CALLS.append(int(x.chat_id))
+                     .       .                  if int(chat_id) in ACTV_CALLS:
+                             
+                                                      position = await queues.put(chat_id, file=file_path)
+                                                      await message.reply_photo(
+                                                      photo="final.png",
+                                                      caption=f"**➻ ᴛʀᴀᴄᴋ ᴀᴅᴅᴇᴅ ᴛᴏ ϙᴜᴇᴜᴇ » {position} **\n\n​ 🍒**ɴᴀᴍᴇ :**[{title[:65]}]({url})\n⏰ ** ᴅᴜʀᴀᴛɪᴏɴ :** `{duration}` **ᴍɪɴᴜᴛᴇs**\n👀 ** ʀᴇǫᴜᴇsᴛᴇᴅ ʙʏ​ : **{bsdk}",
+                                                      reply_markup=keyboard)
+                                                else:
+                                                        await pytgcalls.join_group_call(
+                                                        chat_id, 
+                                                        InputStream(InputAudioStream(file_path,),),
+                                                        stream_type=StreamType().local_stream)
+                                                        await message.reply_photo(
+                                                        photo="final.png",
+                                                        reply_markup=keyboard,
+                                                        caption=f"**➻ ꜱᴛᴀʀᴛᴇᴅ ꜱᴛʀᴇᴀᴍɪɴɢ\n\n🍒 ɴᴀᴍᴇ : **[{title[:65]}]({url})\n⏰ **ᴅᴜʀᴀᴛɪᴏɴ :** `{duration}` ᴍɪɴᴜᴛᴇs\n👀 **ʀᴇǫᴜᴇsᴛᴇᴅ ʙʏ ​:** {bsdk}\n")
+                                                        os.remove("final.png")
+                                                        return await lel.delete()
     
    
     

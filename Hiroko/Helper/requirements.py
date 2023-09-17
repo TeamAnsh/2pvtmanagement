@@ -1,5 +1,5 @@
 import asyncio
-from Hiroko.Helper.admins import *
+import Hiroko.Helper.admins
 from yt_dlp import YoutubeDL
 from typing import List, Dict, Union
 from asyncio import Queue, QueueEmpty as Empty
@@ -114,7 +114,7 @@ async def convert(file_path: str) -> str:
 
 
 async def get_administrators(chat: Chat) -> List[User]:
-    get = get(chat.id)
+    get = Hiroko.Helper.admins.get(chat.id)
 
     if get:
         return get
@@ -126,7 +126,7 @@ async def get_administrators(chat: Chat) -> List[User]:
             if administrator.can_manage_voice_chats:
                 to_set.append(administrator.user.id)
 
-        set(chat.id, to_set)
+        Hiroko.Helper.admins.set(chat.id, to_set)
         return await get_administrators(chat)
 
 

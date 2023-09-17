@@ -65,7 +65,7 @@ ydl_opts = {
 ydl = YoutubeDL(ydl_opts)
 
 
-def download(url: str) -> str:
+def downloader(url: str) -> str:
     info = ydl.extract_info(url, False)
     duration = round(info["duration"] / 60)
     if duration > DURATION_LIMIT:
@@ -84,7 +84,7 @@ def download(url: str) -> str:
 # ===================================================================================== #
 
 
-async def convert(file_path: str) -> str:
+async def converter(file_path: str) -> str:
     out = path.basename(file_path)
     out = out.split(".")
     out[-1] = "raw"

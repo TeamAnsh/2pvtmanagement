@@ -170,7 +170,7 @@ async def generate_cover(requested_by, title, views, duration, thumbnail):
     return final
 
 
-@Client.on_message(filters.command(["yt", "play"], prefixes=["/", "!"]))    
+@Hiroko.on_message(filters.command(["yt", "play"], prefixes=["/", "!"]))    
 async def play(_: Hiroko, message: Message):
     global que
     global useer
@@ -364,7 +364,7 @@ async def play(_: Hiroko, message: Message):
     
     
 
-@Client.on_message(filters.command(["skip", "next"], prefixes=["/", "!"]))
+@Hiroko.on_message(filters.command(["skip", "next"], prefixes=["/", "!"]))
 async def skip(_, message: Message):
     global que
     ACTV_CALLS = []
@@ -390,7 +390,7 @@ async def skip(_, message: Message):
             )
     await message.reply_text("**» ᴍᴜsɪᴄ ᴘʟᴀʏᴇʀ sᴋɪᴘᴘᴇᴅ ᴛʜᴇ sᴏɴɢ.**")
     
-
+"""
 @pytgcalls.on_stream_end()
 async def on_stream_end(_, update: Update) -> None:
     chat_id = update.chat_id
@@ -409,10 +409,9 @@ async def on_stream_end(_, update: Update) -> None:
         )
 
 
-
-
-
 """
+
+
 
 @Hiroko.on_message(filters.video_chat_started)
 async def brah(_, msg):
@@ -510,6 +509,6 @@ async def handle_volume_callback(client, query):
 
 
 
-"""
+
 
 

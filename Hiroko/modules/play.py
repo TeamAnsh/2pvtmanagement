@@ -11,7 +11,7 @@ from asyncio.queues import QueueEmpty
 from PIL import ImageGrab
 from PIL import Image, ImageFont, ImageDraw, ImageFilter
 from pyrogram.errors import UserAlreadyParticipant
-from Hiroko.Helper.requirements import *
+#from Hiroko.Helper.requirements import *
 from Hiroko.Helper.admins import admins as a
 from pytgcalls import StreamType
 from pytgcalls.types.input_stream import InputStream
@@ -168,7 +168,6 @@ async def generate_cover(requested_by, title, views, duration, thumbnail):
     final = f"temp.png"
     return final
 
-"""
 
 @Hiroko.on_message(filters.command(["yt", "play"], prefixes=["/", "!"]))    
 async def play(_: Hiroko, message: Message):
@@ -388,7 +387,7 @@ async def skip(_, message: Message):
                 ),
             )
     await message.reply_text("**» ᴍᴜsɪᴄ ᴘʟᴀʏᴇʀ sᴋɪᴘᴘᴇᴅ ᴛʜᴇ sᴏɴɢ.**")
- """
+ 
 
 
 @pytgcalls.on_stream_end()

@@ -169,6 +169,7 @@ async def generate_cover(requested_by, title, views, duration, thumbnail):
     final = f"temp.png"
     return final
 
+"""
 
 @Hiroko.on_message(filters.command(["yt", "play"], prefixes=["/", "!"]))    
 async def play(_: Hiroko, message: Message):
@@ -361,7 +362,7 @@ async def play(_: Hiroko, message: Message):
     return await lel.delete()
     
 
-    
+"""    
     
 
 @Hiroko.on_message(filters.command(["skip", "next"], prefixes=["/", "!"]))
@@ -390,7 +391,7 @@ async def skip(_, message: Message):
             )
     await message.reply_text("**» ᴍᴜsɪᴄ ᴘʟᴀʏᴇʀ sᴋɪᴘᴘᴇᴅ ᴛʜᴇ sᴏɴɢ.**")
     
-"""
+
 @pytgcalls.on_stream_end()
 async def on_stream_end(_, update: Update) -> None:
     chat_id = update.chat_id
@@ -409,7 +410,7 @@ async def on_stream_end(_, update: Update) -> None:
         )
 
 
-"""
+
 
 
 

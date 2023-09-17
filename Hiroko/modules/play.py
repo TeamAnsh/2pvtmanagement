@@ -249,14 +249,14 @@ async def play(_: Hiroko, message: Message):
                 secmul *= 60
 
             
-    )
+    
         except Exception as e:
             title = "NaN"
             thumb_name = "https://telegra.ph/file/00411492c1fb4c0a91f18.jpg"
             duration = "NaN"
             views = "NaN"
             
-    )
+    
 
         if (dur / 60) > DURATION_LIMIT:
             await lel.edit(

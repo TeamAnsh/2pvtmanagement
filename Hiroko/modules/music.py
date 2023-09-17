@@ -178,7 +178,7 @@ async def play(_: Hiroko, message: Message):
     bsdk = message.from_user.mention
     chid = message.chat.id
     invitelink = await Hiroko.export_chat_invite_link(chat_id)
-        await userbot.join_chat(invitelink)
+    await userbot.join_chat(invitelink)
     except UserAlreadyParticipant:
         pass
     

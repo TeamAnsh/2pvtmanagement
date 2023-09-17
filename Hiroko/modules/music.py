@@ -1,14 +1,27 @@
-import os, asyncio
+import os, asyncio, re
 from config import OWNER_ID
 from pyrogram import filters
 from Hiroko import Hiroko, pytgcalls, userbot
-from pyrogram.types import Message
+from pyrogram.types import *
 from pytgcalls import StreamType
 from pyrogram.errors import UserAlreadyParticipant
 from pytgcalls.types import StreamAudioEnded
 from pytgcalls.types.input_stream import InputStream
 from pytgcalls.types.input_stream import AudioPiped
 from pytgcalls.exceptions import AlreadyJoinedError
+
+
+
+keyboard = InlineKeyboardMarkup([
+        [
+            InlineKeyboardButton("50%", callback_data="volume_50"),
+            InlineKeyboardButton("100%", callback_data="volume_100"),
+        ],
+        [      
+            InlineKeyboardButton("150%", callback_data="volume_150"),
+            InlineKeyboardButton("200%", callback_data="volume_200")   
+        ]
+    ])
 
 
 
@@ -120,7 +133,7 @@ async def stop(_, msg: Message):
 async def leavevc(_, msg: Message):
     chat_id = msg.chat.id
     await pytgcalls.leave_group_call(chat_id)
-    await msg.reply(f"Music player successfully leave\nleaved by {msg.from_user.mention}")
+    await msg.reply(f"Music player successfully leave\nleaved by {msg.from_user.mention}", reply_markup=keyboard)
     
 
 @Hiroko.on_message(filters.command("volume", prefixes="/"))
@@ -133,6 +146,17 @@ async def change_volume(client, message):
         await message.reply(f"Volume set to {volume}%")
     else:
         await message.reply("Usage: /volume [0-100]")
+
+
+
+volume_regex = re.compile(r'^volume_(50|100|150|200)$')
+
+@Hiroko.on_callback_query(volume_regex)
+async def handle_volume_callback(client, query):
+    chat_id = query.message.chat.id
+    volume = int(query.data.split("_")[1])
+    await set_volume(chat_id, volume)
+    await query.answer(f"Volume set to {volume}%")
 
 
 

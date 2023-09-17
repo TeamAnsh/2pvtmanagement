@@ -1,5 +1,4 @@
 import asyncio
-import Hiroko.Helper.admins
 from yt_dlp import YoutubeDL
 from typing import List, Dict, Union
 from asyncio import Queue, QueueEmpty as Empty
@@ -108,26 +107,6 @@ async def convert(file_path: str) -> str:
         raise FFmpegReturnCodeError("FFmpeg did not return 0")
 
     return out
-
-
-# ===================================================================================== #
-
-
-async def get_administrators(chat: Chat) -> List[User]:
-    get = Hiroko.Helper.admins.get(chat.id)
-
-    if get:
-        return get
-    else:
-        administrators = await chat.get_members(filter="administrators")
-        to_set = []
-
-        for administrator in administrators:
-            if administrator.can_manage_voice_chats:
-                to_set.append(administrator.user.id)
-
-        Hiroko.Helper.admins.set(chat.id, to_set)
-        return to_set
 
 
 # ===================================================================================== #

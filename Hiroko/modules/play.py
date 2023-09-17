@@ -2,10 +2,10 @@ import os, aiofiles, aiohttp, ffmpeg, random, textwrap, re
 import numpy as np
 import requests
 from os import path
-from Hiroko import Hiroko
+#from Hiroko import Hiroko
 from Hiroko import pytgcalls, userbot
 from typing import Callable
-from pyrogram import filters, Client
+from pyrogram import filters, Client as Hiroko
 from pyrogram.types import *
 from youtube_search import YoutubeSearch
 from asyncio.queues import QueueEmpty
@@ -170,7 +170,7 @@ async def generate_cover(requested_by, title, views, duration, thumbnail):
     return final
 
 
-@Client.on_message(filters.command(["yt", "play"], prefixes=["/", "!"]))    
+@Hiroko.on_message(filters.command(["yt", "play"], prefixes=["/", "!"]))    
 async def play(_: Hiroko, message: Message):
     global que
     global useer

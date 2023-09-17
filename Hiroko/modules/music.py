@@ -176,18 +176,14 @@ async def play(_: Hiroko, message: Message):
     
     lel = await message.reply("**🔎 sᴇᴀʀᴄʜɪɴɢ...**")   
     bsdk = message.from_user.mention
-    chid = message.chat.id
+    chat_id = message.chat.id
     invitelink = await Hiroko.export_chat_invite_link(chat_id)
     await userbot.join_chat(invitelink)
     except UserAlreadyParticipant:
         pass
     
-    audio = (
-        (message.reply_to_message.audio or message.reply_to_message.voice)
-        if message.reply_to_message
-        else None
-    )
-    url = get_url(message)
+        audio = ((message.reply_to_message.audio or message.reply_to_message.voice)if message.reply_to_message else None)
+        url = get_url(message)
 
     if audio:
         if round(audio.duration / 60) > DURATION_LIMIT:

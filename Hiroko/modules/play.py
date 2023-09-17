@@ -2,8 +2,7 @@ import os, aiofiles, aiohttp, ffmpeg, random, textwrap, re
 import numpy as np
 import requests
 from os import path
-from Hiroko import Hiroko
-from Hiroko import pytgcalls, userbot
+from Hiroko import Hiroko, pytgcalls, userbot
 from typing import Callable
 from pyrogram import filters, Client
 from pyrogram.types import *
@@ -361,8 +360,7 @@ async def play(_: Hiroko, message: Message):
     os.remove("final.png")
     return await lel.delete()
     
-
-"""    
+   
     
 
 @Hiroko.on_message(filters.command(["skip", "next"], prefixes=["/", "!"]))
@@ -390,7 +388,8 @@ async def skip(_, message: Message):
                 ),
             )
     await message.reply_text("**» ᴍᴜsɪᴄ ᴘʟᴀʏᴇʀ sᴋɪᴘᴘᴇᴅ ᴛʜᴇ sᴏɴɢ.**")
-    
+ """
+
 
 @pytgcalls.on_stream_end()
 async def on_stream_end(_, update: Update) -> None:

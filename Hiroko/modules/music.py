@@ -176,43 +176,11 @@ async def play(_: Hiroko, message: Message):
     
     lel = await message.reply("**🔎 sᴇᴀʀᴄʜɪɴɢ...**")   
     bsdk = message.from_user.mention
-    administrators = await get_administrators(message.chat)
     chid = message.chat.id
-
-    try:
-        user = await userbot.get_me()
-    except:
-        user.first_name = "SumitYadav"
-    usar = user
-    wew = usar.id
-    try:
-        await _.get_chat_member(chid, wew)
-    except:
-        for administrator in administrators:
-            if administrator == message.from_user.id:
-                try:
-                    invitelink = await _.export_chat_invite_link(chid)
-                except:
-                    await lel.edit(
-                        "**» ᴀᴅᴅ ᴍᴇ ᴀs ᴀᴅᴍɪɴ ɪɴ ʏᴏᴜʀ ɢʀᴏᴜᴘ ғɪʀsᴛ.**")
-                    return
-
-                try:
-                    await userbot.join_chat(invitelink)
-                    await _.send_message(
-                        message.chat.id, "** ✅ ᴀssɪsᴛᴀɴᴛ ᴊᴏɪɴᴇᴅ ᴛʜɪs ɢʀᴏᴜᴘ ғᴏʀ ᴘʟᴀʏ ᴍᴜsɪᴄ.**")
-
-                except UserAlreadyParticipant:
-                    pass
-                except Exception:
-                    await lel.edit(
-                        f"**ᴘʟᴇᴀsᴇ ᴍᴀɴᴜᴀʟʟʏ ᴀᴅᴅ ᴀssɪsᴛᴀɴᴛ ᴏʀ ᴄᴏɴᴛᴀᴄᴛ [sᴜᴍɪᴛ ʏᴀᴅᴀᴠ](https://t.me/AnonDeveloper)** ")
-    try:
-        await userbot.get_chat(chid)
-    except:
-        await lel.edit(
-            f"**ᴘʟᴇᴀsᴇ ᴍᴀɴᴜᴀʟʟʏ ᴀᴅᴅ ᴀssɪsᴛᴀɴᴛ ᴏʀ ᴄᴏɴᴛᴀᴄᴛ [sᴜᴍɪᴛ ʏᴀᴅᴀᴠ](https://t.me/AnonDeveloper)*")
-        return
+    invitelink = await Hiroko.export_chat_invite_link(chat_id)
+        await userbot.join_chat(invitelink)
+    except UserAlreadyParticipant:
+        pass
     
     audio = (
         (message.reply_to_message.audio or message.reply_to_message.voice)

@@ -128,3 +128,18 @@ async def volume(_,msg):
        await pytgcalls.change_volume_call(chat_id, 60)
        await msg.reply("volume 60 percent set")
 
+
+@Hiroko.on_message(filters.command("ume", prefixes="/"))
+async def change_volume(client, message):
+    chat_id = message.chat.id
+    args = message.text.split()
+    if len(args) == 2 and args[1].isdigit():
+        volume = int(args[1])
+        await pytgcalls.change_volume_call(chat_id, volume)
+        await message.reply(f"Volume set to {volume}%")
+    else:
+        await message.reply("Usage: /volume [0-100]")
+
+
+
+

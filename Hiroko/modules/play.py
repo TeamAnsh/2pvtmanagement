@@ -2,6 +2,7 @@ import os, aiofiles, aiohttp, ffmpeg, random, textwrap
 import numpy as np
 import requests
 from os import path
+from Hiroko import Hiroko, pytgcalls, userbot
 from typing import Callable
 from pyrogram import filters
 from pyrogram.types import *
@@ -18,10 +19,11 @@ from pytgcalls.types.input_stream import InputAudioStream
 
 
 
+que = {}
 
-# plus
 chat_id = None
 useer = "NaN"
+
 
 def make_col():
     return (random.randint(0,255),random.randint(0,255),random.randint(0,255))
@@ -34,7 +36,7 @@ def transcode(filename):
     os.remove(filename)
 
 
-# Convert seconds to mm:ss
+
 def convert_seconds(seconds):
     seconds = seconds % (24 * 3600)
     seconds %= 3600
@@ -43,7 +45,6 @@ def convert_seconds(seconds):
     return "%02d:%02d" % (minutes, seconds)
 
 
-# Convert hh:mm:ss to seconds
 def time_to_seconds(time):
     stringt = str(time)
     return sum(int(x) * 60 ** i for i, x in enumerate(reversed(stringt.split(":"))))
@@ -63,7 +64,7 @@ def truncate(text):
     return [text1,text2]
 
 
-# Change image size
+
 def changeImageSize(maxWidth, maxHeight, image):
     widthRatio = maxWidth / image.size[0]
     heightRatio = maxHeight / image.size[1]
@@ -82,8 +83,8 @@ async def generate_cover(requested_by, title, views, duration, thumbnail):
                 await f.close()
 
     image = Image.open(f"./background.png")
-    black = Image.open("Hiroko/Helper/resource/black.jpg")
-    img = Image.open("Hiroko/Helper/resource/nistha.png")
+    black = Image.open("Hiroko/Helper/resources/black.jpg")
+    img = Image.open("Hiroko/Helper/resources/hiroko.png")
     image5 = changeImageSize(1280, 720, img)
     image1 = changeImageSize(1280, 720, image)
     image1 = image1.filter(ImageFilter.BoxBlur(10))
@@ -106,7 +107,6 @@ async def generate_cover(requested_by, title, views, duration, thumbnail):
     image5 = im2
 
 
-    # Cropping circle from thubnail
     image3 = image11.crop((280,0,1000,720))
     lum_img = Image.new('L', [720,720] , 0)
     draw = ImageDraw.Draw(lum_img)
@@ -120,22 +120,22 @@ async def generate_cover(requested_by, title, views, duration, thumbnail):
     image2.paste(image3, (50,70), mask = image3)
     image2.paste(image5, (0,0), mask = image5)
 
-    # fonts
+    
     font1 = ImageFont.truetype(r'resource/robot.otf', 30)
     font2 = ImageFont.truetype(r'resource/robot.otf', 60)
     font3 = ImageFont.truetype(r'resource/robot.otf', 49)
     font4 = ImageFont.truetype(r'resource/Mukta-ExtraBold.ttf', 35)
 
     image4 = ImageDraw.Draw(image2)
-    image4.text((10, 10), "NISTHA MUSIC", fill="white", font = font1, align ="left") 
+    image4.text((10, 10), "HIROKO MUSIC", fill="white", font = font1, align ="left") 
     image4.text((670, 150), "NOW PLAYING", fill="white", font = font2, stroke_width=2, stroke_fill="white", align ="left") 
 
-    # title
+    
     title1 = truncate(title)
     image4.text((670, 280), text=title1[0], fill="white", font = font3, align ="left") 
     image4.text((670, 332), text=title1[1], fill="white", font = font3, align ="left") 
 
-    # description
+    
     views = f"Views : {views}"
     duration = f"Duration : {duration} minutes"
     channel = f"Channel : T-Series"
@@ -158,15 +158,13 @@ async def play(_: Hiroko, message: Message):
     global que
     global useer
     
-    lel = await message.reply("**🔎 sᴇᴀʀᴄʜɪɴɢ...**")
-   
+    lel = await message.reply("**🔎 sᴇᴀʀᴄʜɪɴɢ...**")   
     bsdk = message.from_user.mention
-
     administrators = await get_administrators(message.chat)
     chid = message.chat.id
 
     try:
-        user = await USER.get_me()
+        user = await userbot.get_me()
     except:
         user.first_name = "SumitYadav"
     usar = user
@@ -184,20 +182,20 @@ async def play(_: Hiroko, message: Message):
                     return
 
                 try:
-                    await USER.join_chat(invitelink)
-                    await USER.send_message(
+                    await userbot.join_chat(invitelink)
+                    await _.send_message(
                         message.chat.id, "** ✅ ᴀssɪsᴛᴀɴᴛ ᴊᴏɪɴᴇᴅ ᴛʜɪs ɢʀᴏᴜᴘ ғᴏʀ ᴘʟᴀʏ ᴍᴜsɪᴄ.**")
 
                 except UserAlreadyParticipant:
                     pass
                 except Exception:
                     await lel.edit(
-                        f"**ᴘʟᴇᴀsᴇ ᴍᴀɴᴜᴀʟʟʏ ᴀᴅᴅ ᴀssɪsᴛᴀɴᴛ ᴏʀ ᴄᴏɴᴛᴀᴄᴛ [sᴜᴍɪᴛ ʏᴀᴅᴀᴠ](https://t.me/{OWNER_USERNAME})** ")
+                        f"**ᴘʟᴇᴀsᴇ ᴍᴀɴᴜᴀʟʟʏ ᴀᴅᴅ ᴀssɪsᴛᴀɴᴛ ᴏʀ ᴄᴏɴᴛᴀᴄᴛ [sᴜᴍɪᴛ ʏᴀᴅᴀᴠ](https://t.me/AnonDeveloper)** ")
     try:
-        await USER.get_chat(chid)
+        await userbot.get_chat(chid)
     except:
         await lel.edit(
-            f"**ᴘʟᴇᴀsᴇ ᴍᴀɴᴜᴀʟʟʏ ᴀᴅᴅ ᴀssɪsᴛᴀɴᴛ ᴏʀ ᴄᴏɴᴛᴀᴄᴛ [sᴜᴍɪᴛ ʏᴀᴅᴀᴠ](https://t.me/{OWNER_USERNAME})*")
+            f"**ᴘʟᴇᴀsᴇ ᴍᴀɴᴜᴀʟʟʏ ᴀᴅᴅ ᴀssɪsᴛᴀɴᴛ ᴏʀ ᴄᴏɴᴛᴀᴄᴛ [sᴜᴍɪᴛ ʏᴀᴅᴀᴠ](https://t.me/AnonDeveloper)*")
         return
     
     audio = (
@@ -277,11 +275,11 @@ async def play(_: Hiroko, message: Message):
             )
         await lel.edit("**⇆ ᴘʀᴏᴄᴇssɪɴɢ.**")
         query = message.text.split(None, 1)[1]
-        # print(query)
+        
         try:
             results = YoutubeSearch(query, max_results=1).to_dict()
             url = f"https://youtube.com{results[0]['url_suffix']}"
-            # print results
+            
             title = results[0]["title"]
             thumbnail = results[0]["thumbnails"][0]
             thumb_name = f"thumb{title}.jpg"
@@ -373,8 +371,6 @@ async def skip(_, message: Message):
                     ),
                 ),
             )
-
-
     await message.reply_text("**» ᴍᴜsɪᴄ ᴘʟᴀʏᴇʀ sᴋɪᴘᴘᴇᴅ ᴛʜᴇ sᴏɴɢ.**")
     
 

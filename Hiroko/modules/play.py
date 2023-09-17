@@ -84,7 +84,7 @@ async def generate_cover(requested_by, title, views, duration, thumbnail):
 
     image = Image.open(f"./background.png")
     black = Image.open("Hiroko/Helper/resources/black.jpg")
-    img = Image.open("Hiroko/Helper/resources/hiroko.png")
+    img = Image.open("Hiroko/Helper/resources/music.png")
     image5 = changeImageSize(1280, 720, img)
     image1 = changeImageSize(1280, 720, image)
     image1 = image1.filter(ImageFilter.BoxBlur(10))

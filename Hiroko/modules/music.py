@@ -244,7 +244,7 @@ async def play(_, message: Message):
         file_path = await converter(downloader(url))
     else:
         if len(message.command) < 2:
-            await message.reply_photo(
+            await lel.edit_photo(
                      photo=f"https://te.legra.ph/file/71bdd6e8c353398a4034a.jpg",
                      caption="💌 **ᴜsᴀɢᴇ: /play ɢɪᴠᴇ ᴀ ᴛɪᴛʟᴇ sᴏɴɢ ᴛᴏ ᴘʟᴀʏ ᴍᴜsɪᴄ**"
                     

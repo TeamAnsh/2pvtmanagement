@@ -207,6 +207,25 @@ async def play(_, message: Message):
             if not path.isfile(path.join("downloads", file_name))
             else file_name
         )
+        await pytgcalls.join_group_call(
+                chat_id, 
+                InputStream(
+                    AudioPiped(
+                        file_path,
+                    ),
+                ),
+                stream_type=StreamType().local_stream,
+            )
+
+        await message.reply_photo(
+            photo="final.png",
+            reply_markup=keyboard,
+            caption=f"**➻ ꜱᴛᴀʀᴛᴇᴅ ꜱᴛʀᴇᴀᴍɪɴɢ\n\n🍒 ɴᴀᴍᴇ : **[{title[:65]}]({url})\n⏰ **ᴅᴜʀᴀᴛɪᴏɴ :** `{duration}` ᴍɪɴᴜᴛᴇs\n👀 **ʀᴇǫᴜᴇsᴛᴇᴅ ʙʏ ​:** {bsdk}\n",
+           )
+
+    os.remove("final.png")
+    return await lel.delete()
+    
 
 
 """"

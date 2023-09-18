@@ -1,4 +1,5 @@
 import asyncio
+import yt_dlp
 from yt_dlp import YoutubeDL
 from typing import List, Dict, Union
 from asyncio import Queue, QueueEmpty as Empty
@@ -86,7 +87,7 @@ ydl = YoutubeDL(ydl_opts)
 
 
 def downloader(url: str) -> str:
-    info = ydl.extract_info(url, False)
+    info = ytdl.extract_info(url, False)
     duration = round(info["duration"] / 60)
     if duration > DURATION_LIMIT:
         raise DurationLimitError(

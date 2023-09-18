@@ -3,6 +3,7 @@ import os
 from Hiroko import Hiroko, pytgcalls
 from pyrogram import filters
 from pytgcalls import StreamType
+from pytgcalls.types.input_stream import InputStream
 from pytgcalls.types.input_stream import AudioPiped
 
 
@@ -15,7 +16,7 @@ def text_to_audio(text):
     return audio_file_path
 
 async def play_audio_in_voice_chat(chat_id, audio_file_path):
-    input_audio_stream = InputAudioStream(
+    input_audio_stream = AudioPiped(
         file_path=audio_file_path,
     )
 

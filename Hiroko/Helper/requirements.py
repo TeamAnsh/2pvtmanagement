@@ -7,27 +7,19 @@ from asyncio import Queue, QueueEmpty as Empty
 from pyrogram.types import *
 
 
-
 DURATION_LIMIT = 300
-
-
-
 
 # ===================================================================================== #
 
 admins: Dict[int, List[int]] = {}
 
 
-def set(chat_id: int, admins_: List[int]):
+def set_admins(chat_id: int, admins_: List[int]):
     admins[chat_id] = admins_
 
 
-def get(chat_id: int) -> Union[List[int], bool]:
-    if chat_id in admins:
-        return admins[chat_id]
-
-    return False
-
+def get_admins(chat_id: int) -> Union[List[int], bool]:
+    return admins.get(chat_id, False)
 
 # ===================================================================================== #
 
@@ -52,15 +44,14 @@ def get_url(message_1: Message) -> Union[str, None]:
                     offset, length = entity.offset, entity.length
                     break
 
-    if offset in (None,):
+    if offset is None:
         return None
 
     return text[offset:offset + length]
 
-
 def get_file_name(audio: Union[Audio, Voice]):
-    return f'{audio.file_unique_id}.{audio.file_name.split(".")[-1] if not isinstance(audio, Voice) else "ogg"}'
-
+    ext = audio.file_name.split(".")[-1] if not isinstance(audio, Voice) else "ogg"
+    return f'{audio.file_unique_id}.{ext}'
 
 # ===================================================================================== #
 
@@ -70,24 +61,23 @@ ydl_opts = {
     "nocheckcertificate": True,
     "outtmpl": "downloads/%(id)s.%(ext)s",
 }
-ydl = YoutubeDL(ydl_opts)
 
+ydl = YoutubeDL(ydl_opts)
 
 def downloader(url: str) -> str:
     info = ydl.extract_info(url, False)
     duration = round(info["duration"] / 60)
     if duration > DURATION_LIMIT:
         raise DurationLimitError(
-            f"🛑 ᴠɪᴅᴇᴏs ʟᴏɴɢᴇʀ ᴛʜᴀɴ {DURATION_LIMIT} ᴍɪɴᴜᴛᴇ(s) ᴀʀᴇ'ᴛ ᴀʟʟᴏᴡᴇᴅ, ᴛʜᴇ ᴘʀᴏᴠɪᴅᴇᴅ ɪs {duration} ᴍɪɴᴜᴛᴇ(s)",
+            f"🛑 Videos longer than {DURATION_LIMIT} minute(s) are not allowed, the provided is {duration} minute(s)"
         )
     try:
         ydl.download([url])
     except:
         raise DurationLimitError(
-            f"🛑 ᴠɪᴅᴇᴏs ʟᴏɴɢᴇʀ ᴛʜᴀɴ {DURATION_LIMIT} ᴍɪɴᴜᴛᴇ(s) ᴀʀᴇ'ᴛ ᴀʟʟᴏᴡᴇᴅ, ᴛʜᴇ ᴘʀᴏᴠɪᴅᴇᴅ ɪs {duration} ᴍɪɴᴜᴛᴇ(s)",
+            f"🛑 Videos longer than {DURATION_LIMIT} minute(s) are not allowed, the provided is {duration} minute(s)"
         )
     return path.join("downloads", f"{info['id']}.{info['ext']}")
-
 
 # ===================================================================================== #
 
@@ -126,11 +116,6 @@ async def converter(file_path: str) -> str:
     except:
         raise FFmpegReturnCodeError("FFmpeg did not return 0")
 
-
-
-
-
-
 # ===================================================================================== #
 
 
@@ -142,7 +127,6 @@ async def put(chat_id: int, **kwargs) -> int:
     await queues[chat_id].put({**kwargs})
     return queues[chat_id].qsize()
 
-
 def get(chat_id: int) -> Dict[str, str]:
     if chat_id in queues:
         try:
@@ -150,12 +134,10 @@ def get(chat_id: int) -> Dict[str, str]:
         except Empty:
             return None
 
-
 def is_empty(chat_id: int) -> bool:
     if chat_id in queues:
         return queues[chat_id].empty()
     return True
-
 
 def task_done(chat_id: int):
     if chat_id in queues:
@@ -163,7 +145,6 @@ def task_done(chat_id: int):
             queues[chat_id].task_done()
         except ValueError:
             pass
-
 
 def clear(chat_id: int):
     if chat_id in queues:
@@ -175,4 +156,5 @@ def clear(chat_id: int):
 
 
 # ===================================================================================== #
+
 

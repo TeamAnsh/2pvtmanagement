@@ -169,12 +169,13 @@ async def generate_cover(requested_by, title, views, duration, thumbnail):
     return final
 
 
-@Hiroko.on_message(filters.command(["yt", "play"], prefixes=["/", "!"]))    
+
+@Hiroko.on_message(filters.command(["yt", "play"], prefixes=["/", "!"]))
 async def play(_, message: Message):
     global que
     global useer
     
-    lel = await message.reply("**🔎 sᴇᴀʀᴄʜɪɴɢ...**")
+    lel = await message.reply("**🔎 Searching...**")
    
     bsdk = message.from_user.mention    
     audio = (
@@ -187,7 +188,7 @@ async def play(_, message: Message):
     if audio:
         if round(audio.duration / 60) > DURATION_LIMIT:
             raise DurationLimitError(
-                f"**» sᴏɴɢ ʟᴏɴɢᴇʀ ᴛʜᴀɴ {DURATION_LIMIT} ᴍɪɴᴜᴛᴇ's ᴀʀᴇ ɴᴏᴛ ᴀʟʟᴏᴡᴇᴅ ᴛᴏ ᴘʟᴀʏ.**"
+                f"**» Songs longer than {DURATION_LIMIT} minutes are not allowed to play.**"
             )
 
         file_name = get_file_name(audio)
@@ -197,13 +198,11 @@ async def play(_, message: Message):
         duration = round(audio.duration / 60)
         views = "Locally added"
 
-        
-
         requested_by = message.from_user.first_name
         await generate_cover(requested_by, title, views, duration, thumbnail)
         file_path = await converter(
             (await message.reply_to_message.download(file_name))
-            if not path.isfile(path.join("downloads", file_name))
+            if not os.path.isfile(os.path.join("downloads", file_name))
             else file_name
         )
             
@@ -226,7 +225,6 @@ async def play(_, message: Message):
                 dur += int(dur_arr[i]) * secmul
                 secmul *= 60
 
-            
         except Exception as e:
             title = "NaN"
             thumb_name = "https://telegra.ph/file/00411492c1fb4c0a91f18.jpg"
@@ -236,7 +234,7 @@ async def play(_, message: Message):
 
         if (dur / 60) > DURATION_LIMIT:
             await lel.edit(
-                f"**» sᴏɴɢ ʟᴏɴɢᴇʀ ᴛʜᴀɴ {DURATION_LIMIT} ᴍɪɴᴜᴛᴇ's ᴀʀᴇ ɴᴏᴛ ᴀʟʟᴏᴡᴇᴅ ᴛᴏ ᴘʟᴀʏ.**"
+                f"**» Songs longer than {DURATION_LIMIT} minutes are not allowed to play.**"
             )
             return
         requested_by = message.from_user.first_name
@@ -245,11 +243,11 @@ async def play(_, message: Message):
     else:
         if len(message.command) < 2:
             await lel.edit(
-                     "💌 **ᴜsᴀɢᴇ: /play ɢɪᴠᴇ ᴀ ᴛɪᴛʟᴇ sᴏɴɢ ᴛᴏ ᴘʟᴀʏ ᴍᴜsɪᴄ**"
+                     "💌 **Usage: /play give a title song to play music**"
                     
             )
         else:
-            await lel.edit("**⇆ ᴘʀᴏᴄᴇssɪɴɢ.**")
+            await lel.edit("**⇆ Processing...**")
         query = message.text.split(None, 1)[1]
         
         try:
@@ -273,7 +271,7 @@ async def play(_, message: Message):
 
         except Exception as e:
             await lel.edit(
-                "**» ɴᴏᴛ ғᴏᴜɴᴅ, ᴛʀʏ sᴇᴀʀᴄʜɪɴɢ ᴡɪᴛʜ ᴛʜᴇ sᴏɴɢ ɴᴀᴍᴇ.**"
+                "**» Song not found, try searching with the song name.**"
             )
             print(str(e))
             return
@@ -281,7 +279,7 @@ async def play(_, message: Message):
         
         if (dur / 60) > DURATION_LIMIT:
             await lel.edit(
-                f"**» sᴏɴɢ ʟᴏɴɢᴇʀ ᴛʜᴀɴ {DURATION_LIMIT} ᴍɪɴᴜᴛᴇ's ᴀʀᴇ ɴᴏᴛ ᴀʟʟᴏᴡᴇᴅ ᴛᴏ ᴘʟᴀʏ.**"
+                f"**Songs longer than {DURATION_LIMIT} minutes are not allowed to play.**"
             )
             return
         requested_by = message.from_user.first_name
@@ -295,7 +293,7 @@ async def play(_, message: Message):
         position = await queues.put(chat_id, file=file_path)
         await message.reply_photo(
             photo="final.png",
-            caption=f"**➻ ᴛʀᴀᴄᴋ ᴀᴅᴅᴇᴅ ᴛᴏ ϙᴜᴇᴜᴇ » {position} **\n\n​ 🍒**ɴᴀᴍᴇ :**[{title[:65]}]({url})\n⏰ ** ᴅᴜʀᴀᴛɪᴏɴ :** `{duration}` **ᴍɪɴᴜᴛᴇs**\n👀 ** ʀᴇǫᴜᴇsᴛᴇᴅ ʙʏ​ : **{bsdk}",
+            caption=f"**➻ Track added to queue » {position} **\n\n​ 🍒**Name :**[{title[:65]}]({url})\n⏰ ** Duration :** `{duration}` **minutes**\n👀 ** Requested by : **{bsdk}",
             reply_markup=keyboard,
         )
        
@@ -313,11 +311,12 @@ async def play(_, message: Message):
         await message.reply_photo(
             photo="final.png",
             reply_markup=keyboard,
-            caption=f"**➻ ꜱᴛᴀʀᴛᴇᴅ ꜱᴛʀᴇᴀᴍɪɴɢ\n\n🍒 ɴᴀᴍᴇ : **[{title[:65]}]({url})\n⏰ **ᴅᴜʀᴀᴛɪᴏɴ :** `{duration}` ᴍɪɴᴜᴛᴇs\n👀 **ʀᴇǫᴜᴇsᴛᴇᴅ ʙʏ ​:** {bsdk}\n",
+            caption=f"**➻ Started streaming\n\n🍒 Name : **[{title[:65]}]({url})\n⏰ ** Duration :** `{duration}` minutes\n👀 ** Requested by : **{bsdk}\n",
            )
 
     os.remove("final.png")
     return await lel.delete()
+
 
 
 

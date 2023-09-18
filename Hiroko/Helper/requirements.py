@@ -1,6 +1,6 @@
 import asyncio
 from os import path
-from Hiroko.Helper.errors import FFmpegReturnCodeError
+from Hiroko.Helper.errors import FFmpegReturnCodeError, DurationLimitError
 from yt_dlp import YoutubeDL
 from typing import List, Dict, Union
 from asyncio import Queue, QueueEmpty as Empty

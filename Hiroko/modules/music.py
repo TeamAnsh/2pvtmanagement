@@ -248,7 +248,8 @@ async def play(_, message: Message):
                      "💌 **ᴜsᴀɢᴇ: /play ɢɪᴠᴇ ᴀ ᴛɪᴛʟᴇ sᴏɴɢ ᴛᴏ ᴘʟᴀʏ ᴍᴜsɪᴄ**"
                     
             )
-        await lel.edit("**⇆ ᴘʀᴏᴄᴇssɪɴɢ.**")
+        else:
+            await lel.edit("**⇆ ᴘʀᴏᴄᴇssɪɴɢ.**")
         query = message.text.split(None, 1)[1]
         
         try:
@@ -320,9 +321,6 @@ async def play(_, message: Message):
 
 
 
-
-
-
 @Hiroko.on_message(filters.command(["skip", "next"], prefixes=["/", "!"]))
 async def skip(_, message: Message):
     global que
@@ -330,25 +328,27 @@ async def skip(_, message: Message):
     chat_id = message.chat.id
     for x in pytgcalls.active_calls:
         ACTV_CALLS.append(int(x.chat_id))
-    if str(chat_id) not in str(ACTV_CALLS):
+    if chat_id not in ACTV_CALLS:
         await message.reply_text("**» ᴍᴜsɪᴄ ᴘʟᴀʏᴇʀ ɴᴏᴛʜɪɴɢ ɪs ᴘʟᴀʏɪɴɢ ᴛᴏ sᴋɪᴘ.**")
-        
     else:
-        queues.task_done(chat_id)
-        
-        if queues.is_empty(chat_id):
+        que.task_done(chat_id)
+        if que.is_empty(chat_id):
             await pytgcalls.leave_group_call(chat_id)
         else:
             await pytgcalls.change_stream(
-                chat_id, 
+                chat_id,
                 InputStream(
                     InputAudioStream(
-                        pytgcalls.queues.get(chat_id)["file"],
+                        que.get(chat_id)["file"],
                     ),
                 ),
             )
-    await message.reply_text("**» ᴍᴜsɪᴄ ᴘʟᴀʏᴇʀ sᴋɪᴘᴘᴇᴅ ᴛʜᴇ sᴏɴɢ.**")
- 
+        await message.reply_text("**» ᴍᴜsɪᴄ ᴘʟᴀʏᴇʀ sᴋɪᴘᴘᴇᴅ ᴛʜᴇ sᴏɴɢ.**")
+
+
+
+
+
 
 
 @pytgcalls.on_stream_end()

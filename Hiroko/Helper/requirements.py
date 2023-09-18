@@ -6,7 +6,7 @@ from asyncio import Queue, QueueEmpty as Empty
 from pyrogram.types import *
 from os import path
 
-DURATION_LIMIT = float(300)
+DURATION_LIMIT = 300
 
 
 

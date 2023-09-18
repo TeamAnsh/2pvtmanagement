@@ -11,14 +11,14 @@ from asyncio.queues import QueueEmpty
 from PIL import ImageGrab
 from PIL import Image, ImageFont, ImageDraw, ImageFilter
 from pyrogram.errors import UserAlreadyParticipant
-from Hiroko.Helper.requirements import queues, converter, downloader, DurationLimitError, get_url, get_file_name            
-from Hiroko.Helper.admins import admins as a, set
+from Hiroko.Helper.requirements import queues, converter, downloader, get_url, get_file_name, admins as a, set 
+from Hiroko.Helper.errors import DurationLimitError
 from pytgcalls import StreamType
 from pytgcalls.types.input_stream import InputStream
 from pytgcalls.types.input_stream import InputAudioStream
 
 
-DURATION_LIMIT = float(300)
+DURATION_LIMIT = 300
 
 keyboard = InlineKeyboardMarkup([
         [

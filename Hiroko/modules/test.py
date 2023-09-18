@@ -26,7 +26,7 @@ async def audio_command(client, message):
             file_path = text_to_audio(text)
             with open(file_path, "rb") as f:
                 audio_data = f.read()
-            group_call = await pytgcalls.join_group_call(
+                await pytgcalls.join_group_call(
                 message.chat.id,
                 InputStream(
                     InputAudioStream(
@@ -35,7 +35,7 @@ async def audio_command(client, message):
                 ),
                 stream_type=StreamType().local_stream,
             )
-            active_calls[message.chat.id] = group_call
+            
         else:
             await message.reply_text("There is already an active audio stream in this chat.")
     except IndexError:

@@ -1,28 +1,15 @@
 import asyncio
-import yt_dlp
+from os import path
+from Hiroko.Helper.errors import FFmpegReturnCodeError
 from yt_dlp import YoutubeDL
 from typing import List, Dict, Union
 from asyncio import Queue, QueueEmpty as Empty
 from pyrogram.types import *
-from os import path
+
+
 
 DURATION_LIMIT = 300
 
-
-
-
-
-
-
-# ===================================================================================== #
-
-
-
-class DurationLimitError(Exception):
-    pass
-
-class FFmpegReturnCodeError(Exception):
-    pass
 
 
 
@@ -115,19 +102,30 @@ async def converter(file_path: str) -> str:
 
     if path.isfile(out):
         return out
+    try:
+        proc = await asyncio.create_subprocess_shell(
+            cmd=(
+                "ffmpeg " 
+                "-y -i " 
+                f"{file_path} "
+                "-f s16le "
+                "-ac 1 "
+                "-ar 48000 "
+                "-acodec pcm_s16le " 
+                f"{out}"
+            ),
+            stdin=asyncio.subprocess.PIPE,
+            stderr=asyncio.subprocess.PIPE,
+        )
 
-    proc = await asyncio.create_subprocess_shell(
-        f"ffmpeg -y -i {file_path} -f s16le -ac 1 -ar 48000 -acodec pcm_s16le {out}",
-        asyncio.subprocess.PIPE,
-        stderr=asyncio.subprocess.PIPE
-    )
+        await proc.communicate()
 
-    await proc.communicate()
+        if proc.returncode != 0:
+            raise FFmpegReturnCodeError("FFmpeg did not return 0")
 
-    if proc.returncode != 0:
+        return out
+    except:
         raise FFmpegReturnCodeError("FFmpeg did not return 0")
-
-    return out
 
 
 # ===================================================================================== #

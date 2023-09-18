@@ -91,33 +91,42 @@ def downloader(url: str) -> str:
 
 # ===================================================================================== #
 
-
 async def converter(file_path: str) -> str:
     out = path.basename(file_path)
-    out = out.rsplit(".", 1)[0] + ".raw"  # Replace the file extension with ".raw"
+    out = out.split(".")
+    out[-1] = "raw"
+    out = ".".join(out)
+    out = path.basename(out)
     out = path.join("raw_files", out)
 
     if path.isfile(out):
         return out
-
     try:
         proc = await asyncio.create_subprocess_shell(
-            cmd=f"ffmpeg -y -i {file_path} -f s16le -ac 1 -ar 48000 -acodec pcm_s16le {out}",
+            cmd=(
+                "ffmpeg " 
+                "-y -i " 
+                f"{file_path} "
+                "-f s16le "
+                "-ac 1 "
+                "-ar 48000 "
+                "-acodec pcm_s16le " 
+                f"{out}"
+            ),
             stdin=asyncio.subprocess.PIPE,
             stderr=asyncio.subprocess.PIPE,
         )
 
-        stdout, stderr = await proc.communicate()
+        await proc.communicate()
 
         if proc.returncode != 0:
-            print(f"FFmpeg command failed with return code {proc.returncode}")
-            print(f"FFmpeg stderr: {stderr.decode()}")
             raise FFmpegReturnCodeError("FFmpeg did not return 0")
 
         return out
-    except Exception as e:
-        print(f"An error occurred: {str(e)}")
+    except:
         raise FFmpegReturnCodeError("FFmpeg did not return 0")
+
+
 
 
 

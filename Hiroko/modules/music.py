@@ -209,8 +209,7 @@ async def play(_, message: Message):
 
     elif url:
         try:
-            results = YoutubeSearch(url, max_results=1).to_dict()
-            # print results
+            results = YoutubeSearch(url, max_results=1).to_dict()            
             title = results[0]["title"]
             thumbnail = results[0]["thumbnails"][0]
             thumb_name = f"thumb{title}.jpg"
@@ -252,11 +251,10 @@ async def play(_, message: Message):
             )
         await lel.edit("**⇆ ᴘʀᴏᴄᴇssɪɴɢ.**")
         query = message.text.split(None, 1)[1]
-        # print(query)
+        
         try:
             results = YoutubeSearch(query, max_results=1).to_dict()
-            url = f"https://youtube.com{results[0]['url_suffix']}"
-            # print results
+            url = f"https://youtube.com{results[0]['url_suffix']}"            
             title = results[0]["title"]
             thumbnail = results[0]["thumbnails"][0]
             thumb_name = f"thumb{title}.jpg"
@@ -291,7 +289,7 @@ async def play(_, message: Message):
         file_path = await converter(downloader(url))
     ACTV_CALLS = []
     chat_id = message.chat.id
-    for x in clientbot.pytgcalls.active_calls:
+    for x in pytgcalls.active_calls:
         ACTV_CALLS.append(int(x.chat_id))
     if int(chat_id) in ACTV_CALLS:
         position = await queues.put(chat_id, file=file_path)

@@ -206,7 +206,7 @@ async def play(_, message: Message):
             if not path.isfile(path.join("downloads", file_name))
             else file_name
         )
-
+"""
     elif url:
         try:
             results = YoutubeSearch(url, max_results=1).to_dict()            
@@ -298,8 +298,9 @@ async def play(_, message: Message):
             caption=f"**➻ ᴛʀᴀᴄᴋ ᴀᴅᴅᴇᴅ ᴛᴏ ϙᴜᴇᴜᴇ » {position} **\n\n​ 🍒**ɴᴀᴍᴇ :**[{title[:65]}]({url})\n⏰ ** ᴅᴜʀᴀᴛɪᴏɴ :** `{duration}` **ᴍɪɴᴜᴛᴇs**\n👀 ** ʀᴇǫᴜᴇsᴛᴇᴅ ʙʏ​ : **{bsdk}",
             reply_markup=keyboard,
         )
+ """       
     else:
-        await clientbot.pytgcalls.join_group_call(
+        await pytgcalls.join_group_call(
                 chat_id, 
                 InputStream(
                     InputAudioStream(

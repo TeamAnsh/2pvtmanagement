@@ -22,18 +22,30 @@ from pytgcalls.types.input_stream import InputAudioStream
 
 DURATION_LIMIT = 300
 
-
-
-keyboard = InlineKeyboardMarkup([
+buttons = InlineKeyboardMarkup([
         [
             InlineKeyboardButton("50%", callback_data="volume_v50"),
             InlineKeyboardButton("100%", callback_data="volume_v100"),
         ],
         [      
             InlineKeyboardButton("150%", callback_data="volume_v150"),
-            InlineKeyboardButton("200%", callback_data="volume_v200")   
+            InlineKeyboardButton("200%", callback_data="volume_v200"),  
+        ],
+        [
+            InlineKeyboardButton("back", callback_data="back_"),    
         ]
+        
     ])
+
+keyboard = InlineKeyboardMarkup([
+        [
+            InlineKeyboardButton("Bass", callback_data="maintainer_"),
+            InlineKeyboardButton("volume", callback_data="volume_"),                
+        ],
+        [
+            InlineKeyboardButton("close", callback_data="close_data"),    
+        ]
+])
 
 
 

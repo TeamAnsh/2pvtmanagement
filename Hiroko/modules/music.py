@@ -454,7 +454,27 @@ async def change_volume(client, message):
         await message.reply("Usage: /volume [0-200]")
 
 
+volume_regex = re.compile(r'^volume_v(50|100|150|200)$')
 
+@Hiroko.on_callback_query(volume_regex)
+async def handle_volume_callback(client, query):
+    chat_id = query.message.chat.id
+    data_parts = query.data.split("_v")
+    
+    if len(data_parts) != 2:
+        await query.answer("Invalid volume data format.")
+        return
+    
+    try:
+        volume = int(data_parts[1])
+    except ValueError:
+        await query.answer("Invalid volume value.")
+        return
+
+    await pytgcalls.change_volume_call(chat_id, volume)
+    await query.answer(f"Volume set to {volume}%")
+
+"""
 volume_regex = re.compile(r'^volume_v(50|100|150|200)$')
 
 @Hiroko.on_callback_query(volume_regex)
@@ -464,12 +484,12 @@ async def handle_volume_callback(client, query):
     await pytgcalls.change_volume_call(chat_id, volume)
     await query.answer(f"Volume set to {volume}%")
 
-
+"""
 
 
 
 @Hiroko.on_message(filters.command("activevoice", prefixes="/"))
-async def active_voice(client, message):
+async def active_voice(hiroko :Hiroko, message):
     mystic = await message.reply(
         "Fetching active voice chats... Please wait."
     )
@@ -478,7 +498,7 @@ async def active_voice(client, message):
     
     for j, chat_id in enumerate(served_chats, start=1):
         try:
-            entity = await client.get_chat(chat_id)
+            entity = await hiroko.get_chat(chat_id)
             title = entity.title if entity.title else "Private Group"
             if entity.username:
                 text += f"{j}. [{title}](https://t.me/{entity.username}) [`{chat_id}`]\n"

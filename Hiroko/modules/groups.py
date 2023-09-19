@@ -19,67 +19,53 @@ from pyrogram.types import (
 
 # ------------------------------------------------------------------------------- #
 
-@Hiroko.on_message(filters.command("pin", COMMAND_HANDLER) & admin_filter)
-def pin(_, message):
-      chat = message.chat
-      chat_title = message.chat.title
-      chat_id = message.chat.id
-      user_id = message.from_user.id
-      first_name = message.from_user.first_name
-      
-      if message.chat.type == enums.ChatType.PRIVATE:
-            return message.reply_text("**ᴛʜɪs ᴄᴏᴍᴍᴀɴᴅ ᴡᴏʀᴋ ᴏɴʟʏ ᴏɴ ɢʀᴏᴜᴘs !**")
+
+@Hiroko.on_message(filters.command("pin"))
+async def pin(_, message):
+    replied = message.reply_to_message
+    chat_title = message.chat.title
+    chat_id = message.chat.id
+    user_id = message.from_user.id
+    name = message.from_user.mention
     
-      user_stats = Hiroko.get_chat_member(chat_id, user_id)
-      if user_stats.privileges.can_pin_messages and not message.reply_to_message:
-         
-          try:
-            message_id = str(message.text.split(None,1)[1])
-            Hiroko.pin_chat_message(chat_id, message_id)
-            message.reply_text(f"**sᴜᴄᴄᴇssғᴜʟʟʏ ᴘɪɴɴᴇᴅ ᴍᴇssᴀɢᴇ!**\n\n**ᴄʜᴀᴛ:** {message.chat.title}\n**ᴀᴅᴍɪɴ:** {first_name}",reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton(" 📝 ᴠɪᴇᴡs ᴍᴇssᴀɢᴇ ",url=f"t.me/{message.chat.username}/{message.id}")]]))
-          except Exception as e:
-                 return message.reply_text(str(e))
-
-      else:
-          try:
-            if user_stats.privileges.can_pin_messages and message.reply_to_message:
-               message.reply_to_message.pin()
-               message.reply_text(f"**hhhsᴜᴄᴄᴇssғᴜʟʟʏ ᴘɪɴɴᴇᴅ ᴍᴇssᴀɢᴇ!**\n\n**ᴄʜᴀᴛ:** {message.chat.title}\n**ᴀᴅᴍɪɴ:** {first_name}",reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton(" 📝 ᴠɪᴇᴡs ᴍᴇssᴀɢᴇ ",url=f"t.me/{message.chat.username}/{message.id}")]]))
-          except Exception as e:
-                return message.reply_text(str(e))
-
+    if message.chat.type == enums.ChatType.PRIVATE:
+        await message.reply_text("**ᴛʜɪs ᴄᴏᴍᴍᴀɴᴅ ᴡᴏʀᴋs ᴏɴʟʏ ᴏɴ ɢʀᴏᴜᴘs !**")
+    elif not replied:
+        await message.reply_text("Reply To A Message To Pin It!")
+    else:
+        user_stats = await Hiroko.get_chat_member(chat_id, user_id)
+        if user_stats.privileges.can_pin_messages and message.reply_to_message:
+            try:
+                await message.reply_to_message.pin()
+                await message.reply_text(f"**sᴜᴄᴄᴇssғᴜʟʟʏ ᴘɪɴɴᴇᴅ ᴍᴇssᴀɢᴇ!**\n\n**ᴄʜᴀᴛ:** {chat_title}\n**ᴀᴅᴍɪɴ:** {name}", reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton(" 📝 ᴠɪᴇᴡs ᴍᴇssᴀɢᴇ ", url=replied.link)]]))
+            except Exception as e:
+                await message.reply_text(str(e))
 
 
 # ------------------------------------------------------------------------------- #
 
-@Hiroko.on_message(filters.command("unpin", COMMAND_HANDLER) & admin_filter)
-def unpin(_, message):
-      chat = message.chat
-      chat_title = message.chat.title
-      chat_id = message.chat.id
-      user_id = message.from_user.id
-      first_name = message.from_user.first_name
-      
-      if message.chat.type == enums.ChatType.PRIVATE:
-            return message.reply_text("**ᴛʜɪs ᴄᴏᴍᴍᴀɴᴅ ᴡᴏʀᴋ ᴏɴʟʏ ᴏɴ ɢʀᴏᴜᴘs !**")
+@Hiroko.on_message(filters.command("pin"))
+async def unpin(_, message):
+    replied = message.reply_to_message
+    chat_title = message.chat.title
+    chat_id = message.chat.id
+    user_id = message.from_user.id
+    name = message.from_user.mention
     
-      user_stats = Hiroko.get_chat_member(chat_id, user_id)
-      if user_stats.privileges.can_pin_messages and not message.reply_to_message:
-         
-          try:
-            message_id = str(message.text.split(None,1)[1])    
-            Hiroko.unpin_chat_message(chat_id, message_id)
-            message.reply_text(f"**sᴜᴄᴄᴇssғᴜʟʟʏ ᴜɴᴘɪɴɴᴇᴅ ᴍᴇssᴀɢᴇ!**\n\n**ᴄʜᴀᴛ:** {message.chat.title}\n**ᴀᴅᴍɪɴ:** {first_name}",reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton(" 📝 ᴠɪᴇᴡs ᴍᴇssᴀɢᴇ ",url=f"t.me/{message.chat.username}/{message.id}")]]))
-          except Exception as e:
-                 return message.reply_text(str(e))
+    if message.chat.type == enums.ChatType.PRIVATE:
+        await message.reply_text("**ᴛʜɪs ᴄᴏᴍᴍᴀɴᴅ ᴡᴏʀᴋs ᴏɴʟʏ ᴏɴ ɢʀᴏᴜᴘs !**")
+    elif not replied:
+        await message.reply_text("Reply To A Message To Pin It!")
+    else:
+        user_stats = await Hiroko.get_chat_member(chat_id, user_id)
+        if user_stats.privileges.can_pin_messages and message.reply_to_message:
+            try:
+                await message.reply_to_message.unpin()
+                await message.reply_text(f"**sᴜᴄᴄᴇssғᴜʟʟʏ unᴘɪɴɴᴇᴅ ᴍᴇssᴀɢᴇ!**\n\n**ᴄʜᴀᴛ:** {chat_title}\n**ᴀᴅᴍɪɴ:** {name}", reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton(" 📝 ᴠɪᴇᴡs ᴍᴇssᴀɢᴇ ", url=replied.link)]]))
+            except Exception as e:
+                await message.reply_text(str(e))
 
-      else:
-          try:
-            if user_stats.privileges.can_pin_messages and message.reply_to_message:
-               message.reply_to_message.unpin()
-               message.reply_text(f"**sᴜᴄᴄᴇssғᴜʟʟʏ ᴜɴᴘɪɴɴᴇᴅ ᴍᴇssᴀɢᴇ!**\n\n**ᴄʜᴀᴛ:** {message.chat.title}\n**ᴀᴅᴍɪɴ:** {first_name}",reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton(" 📝 ᴠɪᴇᴡs ᴍᴇssᴀɢᴇ ",url=f"t.me/{message.chat.username}/{message.id}")]]))
-          except Exception as e:
-                return message.reply_text(str(e))
+
 
 
 # --------------------------------------------------------------------------------- #

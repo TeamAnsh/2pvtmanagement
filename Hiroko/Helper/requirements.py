@@ -11,7 +11,11 @@ from pyrogram.types import *
 
 DURATION_LIMIT = 300
 
+active = []
 
+
+async def get_active_chats() -> list:
+    return active
 
 # ===================================================================================== #
 

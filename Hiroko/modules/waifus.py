@@ -13,10 +13,9 @@ waifu_collection = db["waifus"]
 
 
 
-# Define a dictionary to store user states
 user_states = {}
 
-# Command handler for /addwaifu (only for sudo users)
+
 @Hiroko.on_message(filters.command(["addwaifu"]) & filters.user(SUDO_USERS))
 async def add_waifu_start(client, message):
     user_id = message.from_user.id
@@ -24,6 +23,8 @@ async def add_waifu_start(client, message):
     await message.reply_text("🌟 Great! Let's add a new waifu. Please send the waifu's photo as a reply to this message.")
     user_states[user_id]["state"] = "waiting_for_photo"
     user_states[user_id]["ask"] = await message.ask("Send the waifu's photo now.", reply_to=message)
+  
+    """
     if user_id in user_states:
         user_state = user_states[user_id]["state"]
         if user_state == "waiting_for_photo":
@@ -67,5 +68,5 @@ async def add_waifu_start(client, message):
 
 
 
-
+"""
 

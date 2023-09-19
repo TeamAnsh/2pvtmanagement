@@ -66,7 +66,7 @@ def downloader(url: str) -> str:
         "format": "bestaudio/best",
         "geo-bypass": True,
         "nocheckcertificate": True,
-        "outtmpl": os.path.join("downloads", "%(id)s.%(ext)s"),
+        "outtmpl": os.path.join("Hiroko/Helper/download/downloader", "%(id)s.%(ext)s"),
     }
 
     ydl = YoutubeDL(ydl_opts)
@@ -85,7 +85,7 @@ def downloader(url: str) -> str:
             f"🛑 Videos longer than {DURATION_LIMIT} minute(s) are not allowed, the provided is {duration} minute(s)"
         )
 
-    return os.path.join("Hiroko/Helper/download/downloads", f"{info['id']}.{info['ext']}")
+    return os.path.join("Hiroko/Helper/download/downloader", f"{info['id']}.{info['ext']}")
 
 async def converter(file_path: str) -> str:
     out = os.path.basename(file_path)

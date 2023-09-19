@@ -19,9 +19,8 @@ waifu_collection = db["waifus"]
 @Hiroko.on_message(filters.command(["addwaifu"]) & filters.user(SUDO_USERS))
 async def add_waifus(_, message):
     user_id = message.from_user.id    
-    await message.reply_text("🌟 Great! Let's add a new waifu. Please send the waifu's photo as a reply to this message.")
-    message = await message.chat.ask("Send the waifu's photo now.", reply_to=message)
-    photo = message.photo[-1].file_id
+    waifu_photo await message.chat.ask("🌟 Great! Let's add a new waifu. Please send the waifu's photo as a reply to this message.")
+    photo = waifu_photo.photo[-1].file_id
     waifu_name = await message.chat.ask("Thanks! Now, please enter the waifu's name.")
     name =waifu_name.text
     anime_name = await message.chat.ask("Got it! Please enter the anime the waifu is from.")
@@ -34,8 +33,8 @@ async def add_waifus(_, message):
                 "waifu_anime": "anime",
                 "waifu_rarity": "rarity",
             }
-            await waifu_collection.insert_one(waifu_data)            
-            await message.reply_text("🌟 Waifu added successfully! 🌟")
+    await waifu_collection.insert_one(waifu_data)            
+    await message.reply_text("🌟 Waifu added successfully! 🌟")
 
 
 

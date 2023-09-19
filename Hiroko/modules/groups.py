@@ -42,9 +42,36 @@ async def pin(_, message):
                 await message.reply_text(str(e))
 
 
+@Hiroko.on_message(filters.command("pinned", COMMAND_HANDLER))
+async def pinned(_, message):
+    chat = await Hiroko.get_chat(message.chat.id)
+    if not chat.pinned_message:
+        return await message.reply_text("No Pinned Message Found")
+    try:        
+        await message.reply_text("Here is The Latest Pinned Message",reply_markup=
+        InlineKeyboardMarkup([[InlineKeyboardButton(text="View Message",url=chat.pinned_message.link)]]))  
+    except Exception as er:
+        await message.reply_text(er)
+
+
+@Hiroko.on_callback_query(filters.regex(pattern=r"unpin_(.*)"))
+async def unpin_btn(hiroko : Hiroko, query : CallbackQuery):
+    user_id = query.from_user.id
+    chat_id = query.message.chat.id
+    ids = query.data.split("_")  
+    if int(ids[1]) == user_id:
+        await hiroko.unpin_chat_message(chat_id,int(ids[2])) 
+        await query.message.edit("**Unpinned The Message**")
+    else:
+        await hiroko.answer_callback_query(
+        query.id,
+    text="This Message is Not Pinned By You",
+    show_alert=True
+
+
 # ------------------------------------------------------------------------------- #
 
-@Hiroko.on_message(filters.command("pin"))
+@Hiroko.on_message(filters.command("unpin"))
 async def unpin(_, message):
     replied = message.reply_to_message
     chat_title = message.chat.title
@@ -55,7 +82,7 @@ async def unpin(_, message):
     if message.chat.type == enums.ChatType.PRIVATE:
         await message.reply_text("**ᴛʜɪs ᴄᴏᴍᴍᴀɴᴅ ᴡᴏʀᴋs ᴏɴʟʏ ᴏɴ ɢʀᴏᴜᴘs !**")
     elif not replied:
-        await message.reply_text("Reply To A Message To Pin It!")
+        await message.reply_text("Reply To A Message To unPin It!")
     else:
         user_stats = await Hiroko.get_chat_member(chat_id, user_id)
         if user_stats.privileges.can_pin_messages and message.reply_to_message:

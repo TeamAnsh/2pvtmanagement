@@ -20,18 +20,10 @@ user_states = {}
 @Hiroko.on_message(filters.command(["addwaifu"]) & filters.user(SUDO_USERS))
 async def add_waifu_start(client, message):
     user_id = message.from_user.id
-    user_states[user_id] = {}
-    
+    user_states[user_id] = {}    
     await message.reply_text("🌟 Great! Let's add a new waifu. Please send the waifu's photo as a reply to this message.")
     user_states[user_id]["state"] = "waiting_for_photo"
-    
-    # Use ask to wait for the photo input
     user_states[user_id]["ask"] = await message.ask("Send the waifu's photo now.", reply_to=message)
-
-# Message handler for user input during the /addwaifu process
-@Hiroko.on_message(filters.private)
-async def handle_user_input(client, message):
-    user_id = message.from_user.id
     if user_id in user_states:
         user_state = user_states[user_id]["state"]
         if user_state == "waiting_for_photo":

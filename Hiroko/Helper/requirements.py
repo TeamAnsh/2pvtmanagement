@@ -8,15 +8,49 @@ from asyncio import Queue, QueueEmpty as Empty
 from pyrogram.types import *
 
 
+
 DURATION_LIMIT = 300
 
+def downloader(url: str) -> str:
+    download_directory = os.path.join("Hiroko", "Helper", "downloader", "downloads")
+    
+    ydl_opts = {
+        "format": "bestaudio/best",
+        "geo-bypass": True,
+        "nocheckcertificate": True,
+        "outtmpl": os.path.join(download_directory, "%(id)s.%(ext)s"),
+    }
+
+    ydl = YoutubeDL(ydl_opts)
+    info = ydl.extract_info(url, False)
+    duration = round(info["duration"] / 60)
+
+    if duration > DURATION_LIMIT:
+        raise DurationLimitError(
+            f"🛑 Videos longer than {DURATION_LIMIT} minute(s) are not allowed, the provided is {duration} minute(s)"
+        )
+
+    try:
+        ydl.download([url])
+    except Exception as e:
+        raise DurationLimitError(
+            f"🛑 Videos longer than {DURATION_LIMIT} minute(s) are not allowed, the provided is {duration} minute(s)"
+        )
+
+    return os.path.join(download_directory, f"{info['id']}.{info['ext']}")
+
 async def converter(file_path: str) -> str:
+    raw_directory = os.path.join("Hiroko", "Helper", "downloader", "raw_files")
+    
     out = os.path.basename(file_path)
     out = out.split(".")
     out[-1] = "raw"
     out = ".".join(out)
     out = os.path.basename(out)
-    out = os.path.join("Hiroko", "Helper", "downloader", "raw_files", out)
+    out = os.path.join(raw_directory, out)
+
+    # Ensure the 'raw_files' directory exists
+    os.makedirs(raw_directory, exist_ok=True)
 
     if os.path.isfile(out):
         return out
@@ -45,37 +79,11 @@ async def converter(file_path: str) -> str:
         return out
     except Exception as e:
         raise FFmpegReturnCodeError(f"FFmpeg did not return 0: {str(e)}")
-        
+
+# ... (rest of the code) ...
 
 
-def downloader(url: str) -> str:
-    # Modify the download location
-    download_directory = os.path.join("Hiroko", "Helper", "downloader", "downloads")
-    
-    ydl_opts = {
-        "format": "bestaudio/best",
-        "geo-bypass": True,
-        "nocheckcertificate": True,
-        "outtmpl": os.path.join(download_directory, "%(id)s.%(ext)s"),
-    }
 
-    ydl = YoutubeDL(ydl_opts)
-    info = ydl.extract_info(url, False)
-    duration = round(info["duration"] / 60)
-
-    if duration > DURATION_LIMIT:
-        raise DurationLimitError(
-            f"🛑 Videos longer than {DURATION_LIMIT} minute(s) are not allowed, the provided is {duration} minute(s)"
-        )
-
-    try:
-        ydl.download([url])
-    except Exception as e:
-        raise DurationLimitError(
-            f"🛑 Videos longer than {DURATION_LIMIT} minute(s) are not allowed, the provided is {duration} minute(s)"
-        )
-
-    return os.path.join(download_directory, f"{info['id']}.{info['ext']}")
 
 
 

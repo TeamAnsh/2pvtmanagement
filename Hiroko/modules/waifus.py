@@ -1,5 +1,5 @@
 from config import SUDO_USERS
-from pyrogram import Client, filters
+from pyrogram import filters
 from config import MONGO_URL
 from motor.motor_asyncio import AsyncIOMotorClient as MongoCli
 from Hiroko import Hiroko

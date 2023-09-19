@@ -11,13 +11,13 @@ from asyncio.queues import QueueEmpty
 from PIL import ImageGrab
 from PIL import Image, ImageFont, ImageDraw, ImageFilter
 from pyrogram.errors import UserAlreadyParticipant
-from Hiroko.Helper.requirements import queues, get_url, get_file_name, admins as a, set_admins as set
+from Hiroko.Helper.requirements import queues, get_url, get_file_name, converter, downloader admins as a, set_admins as set
 from Hiroko.Helper.errors import DurationLimitError
 from pytgcalls import StreamType
 from pytgcalls.types.input_stream import InputStream
 from pytgcalls.types.input_stream import InputAudioStream
 
-
+"""
 import asyncio
 import os
 from yt_dlp import YoutubeDL
@@ -88,7 +88,7 @@ async def converter(file_path: str) -> str:
         raise FFmpegReturnCodeError(f"FFmpeg did not return 0: {str(e)}")
 
 
-
+"""
 
 keyboard = InlineKeyboardMarkup([
         [

@@ -26,12 +26,12 @@ DURATION_LIMIT = 300
 
 keyboard = InlineKeyboardMarkup([
         [
-            InlineKeyboardButton("50%", callback_data="volume_50"),
-            InlineKeyboardButton("100%", callback_data="volume_100"),
+            InlineKeyboardButton("50%", callback_data="volume_v50"),
+            InlineKeyboardButton("100%", callback_data="volume_v100"),
         ],
         [      
-            InlineKeyboardButton("150%", callback_data="volume_150"),
-            InlineKeyboardButton("200%", callback_data="volume_200")   
+            InlineKeyboardButton("150%", callback_data="volume_v150"),
+            InlineKeyboardButton("200%", callback_data="volume_v200")   
         ]
     ])
 
@@ -454,27 +454,8 @@ async def change_volume(client, message):
         await message.reply("Usage: /volume [0-200]")
 
 
-volume_regex = re.compile(r'^volume_v(50|100|150|200)$')
 
-@Hiroko.on_callback_query(volume_regex)
-async def handle_volume_callback(client, query):
-    chat_id = query.message.chat.id
-    data_parts = query.data.split("_v")
-    
-    if len(data_parts) != 2:
-        await query.answer("Invalid volume data format.")
-        return
-    
-    try:
-        volume = int(data_parts[1])
-    except ValueError:
-        await query.answer("Invalid volume value.")
-        return
 
-    await pytgcalls.change_volume_call(chat_id, volume)
-    await query.answer(f"Volume set to {volume}%")
-
-"""
 volume_regex = re.compile(r'^volume_v(50|100|150|200)$')
 
 @Hiroko.on_callback_query(volume_regex)
@@ -484,7 +465,7 @@ async def handle_volume_callback(client, query):
     await pytgcalls.change_volume_call(chat_id, volume)
     await query.answer(f"Volume set to {volume}%")
 
-"""
+
 
 
 

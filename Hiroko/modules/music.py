@@ -22,7 +22,7 @@ from pytgcalls.types.input_stream import InputAudioStream
 
 DURATION_LIMIT = 300
 
-buttons = InlineKeyboardMarkup([
+keyboard = InlineKeyboardMarkup([
         [
             InlineKeyboardButton("50%", callback_data="volume_v50"),
             InlineKeyboardButton("100%", callback_data="volume_v100"),
@@ -32,20 +32,11 @@ buttons = InlineKeyboardMarkup([
             InlineKeyboardButton("200%", callback_data="volume_v200"),  
         ],
         [
-            InlineKeyboardButton("back", callback_data="back_"),    
+            InlineKeyboardButton("Bass Boosted", callback_data="maintainer_"),    
         ]
         
     ])
 
-keyboard = InlineKeyboardMarkup([
-        [
-            InlineKeyboardButton("Bass", callback_data="maintainer_"),
-            InlineKeyboardButton("volume", callback_data="volume_"),                
-        ],
-        [
-            InlineKeyboardButton("close", callback_data="close_data"),    
-        ]
-])
 
 
 
@@ -506,6 +497,5 @@ async def active_voice(hiroko :Hiroko, message):
         await mystic.edit(
             f"**Active Voice Chats:**\n\n{text}"
         )
-
 
 

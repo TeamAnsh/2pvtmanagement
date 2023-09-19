@@ -13,7 +13,6 @@ from pyrogram.types import (
     InlineKeyboardButton,
 )
 
-button = InlineKeyboardMarkup([[InlineKeyboardButton(text="📝 View Message",url=chat.pinned_message.link)]])
 # ------------------------------------------------------------------------------- #
 
 
@@ -45,8 +44,8 @@ async def pinned(_, message):
     if not chat.pinned_message:
         return await message.reply_text("No Pinned Message Found")
     try:        
-        await message.reply_text("Here is The Latest Pinned Message",reply_markup=button)
-          
+        await message.reply_text("Here is The Latest Pinned Message",reply_markup=
+        InlineKeyboardMarkup([[InlineKeyboardButton(text="📝 View Message",url=chat.pinned_message.link)]]))  
     except Exception as er:
         await message.reply_text(er)
 

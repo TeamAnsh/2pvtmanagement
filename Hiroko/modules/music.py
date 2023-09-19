@@ -11,14 +11,84 @@ from asyncio.queues import QueueEmpty
 from PIL import ImageGrab
 from PIL import Image, ImageFont, ImageDraw, ImageFilter
 from pyrogram.errors import UserAlreadyParticipant
-from Hiroko.Helper.requirements import queues, converter, downloader, get_url, get_file_name, admins as a, set_admins as set 
+from Hiroko.Helper.requirements import queues, get_url, get_file_name, admins as a, set_admins as set
 from Hiroko.Helper.errors import DurationLimitError
 from pytgcalls import StreamType
 from pytgcalls.types.input_stream import InputStream
 from pytgcalls.types.input_stream import InputAudioStream
 
 
+import asyncio
+import os
+from yt_dlp import YoutubeDL
+from Hiroko.Helper.errors import FFmpegReturnCodeError, DurationLimitError
+
 DURATION_LIMIT = 300
+
+def downloader(url: str) -> str:
+    ydl_opts = {
+        "format": "bestaudio/best",
+        "geo-bypass": True,
+        "nocheckcertificate": True,
+        "outtmpl": os.path.join("downloads", "%(id)s.%(ext)s"),
+    }
+
+    ydl = YoutubeDL(ydl_opts)
+    info = ydl.extract_info(url, False)
+    duration = round(info["duration"] / 60)
+
+    if duration > DURATION_LIMIT:
+        raise DurationLimitError(
+            f"🛑 Videos longer than {DURATION_LIMIT} minute(s) are not allowed, the provided is {duration} minute(s)"
+        )
+
+    try:
+        ydl.download([url])
+    except Exception as e:
+        raise DurationLimitError(
+            f"🛑 Videos longer than {DURATION_LIMIT} minute(s) are not allowed, the provided is {duration} minute(s)"
+        )
+
+    return os.path.join("downloads", f"{info['id']}.{info['ext']}")
+
+async def converter(file_path: str) -> str:
+    out = os.path.basename(file_path)
+    out = out.split(".")
+    out[-1] = "raw"
+    out = ".".join(out)
+    out = os.path.basename(out)
+    out = os.path.join("raw_files", out)
+
+    if os.path.isfile(out):
+        return out
+
+    try:
+        proc = await asyncio.create_subprocess_shell(
+            cmd=(
+                "ffmpeg " 
+                "-y -i " 
+                f"{file_path} "
+                "-f s16le "
+                "-ac 1 "
+                "-ar 48000 "
+                "-acodec pcm_s16le " 
+                f"{out}"
+            ),
+            stdin=asyncio.subprocess.PIPE,
+            stderr=asyncio.subprocess.PIPE,
+        )
+
+        _, stderr = await proc.communicate()
+
+        if proc.returncode != 0:
+            raise FFmpegReturnCodeError(f"FFmpeg did not return 0: {stderr.decode()}")
+
+        return out
+    except Exception as e:
+        raise FFmpegReturnCodeError(f"FFmpeg did not return 0: {str(e)}")
+
+
+
 
 keyboard = InlineKeyboardMarkup([
         [

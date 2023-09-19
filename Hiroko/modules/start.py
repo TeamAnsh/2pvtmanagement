@@ -1,17 +1,13 @@
-import logging
 import asyncio
 import random
-import time
-import datetime 
 from config import BOT_USERNAME, OWNER_ID
-from pyrogram import filters, Client
+from pyrogram import filters
 from Hiroko import Hiroko
 from pyrogram.enums import ChatType 
-from pyrogram.errors import MessageNotModified, InputUserDeactivated, UserNotParticipant, FloodWait, UserIsBlocked, PeerIdInvalid, ChatAdminRequired
+from pyrogram.errors import MessageNotModified
 from pyrogram.types import Message, CallbackQuery, InlineKeyboardMarkup, InlineKeyboardButton
-from Hiroko.Helper.database.chatsdb import * 
-from Hiroko.Helper.database.usersdb import *
-from Hiroko.modules.text import SHORTENER_TEXT, ADMINS_TEXT, GITHUB_TEXT, FUN_TEXT, MISC_TEXT, NEKOS_TEXT, GAMES_TEXT, CHATGPT_TEXT, CHATBOT_TEXT, INSTATUS_TEXT, AFK_TEXT, ACTION_TEXT         
+
+
 
 
 
@@ -62,24 +58,29 @@ HELP_TEXT = """**
 hiroko_buttons = [              
                 [
                     InlineKeyboardButton("ᴀғᴋ", callback_data="maintainer_"),   
-                    InlineKeyboardButton("ᴀᴅᴍɪɴs", callback_data="admins_"),
-                    InlineKeyboardButton("ғᴜɴ", callback_data="fun_")
+                    InlineKeyboardButton("ᴀᴄᴛɪᴏɴ", callback_data="maintainer_"),
+                    InlineKeyboardButton("ғᴜɴ", callback_data="maintainer_")
                 ],
                 [
-                    InlineKeyboardButton("ɢɪᴛʜᴜʙ", callback_data="github_"),   
-                    InlineKeyboardButton("ɪɴsᴛᴀᴛᴜs", callback_data="instatus_"),
-                    InlineKeyboardButton("ɴᴇᴋᴏs", callback_data="nekos_")
+                    InlineKeyboardButton("ɢᴀᴍᴇs", callback_data="maintainer_"),   
+                    InlineKeyboardButton("ɪᴍᴀɢᴇs", callback_data="maintainer_"),
+                    InlineKeyboardButton("ɢʀᴏᴜᴘs", callback_data="maintainer_")
                 ],
                 [
                     InlineKeyboardButton("ᴄʜᴀᴛʙᴏᴛ", callback_data="maintainer_"),   
-                    InlineKeyboardButton("ᴍɪsᴄ", callback_data="misc_"),
-                    InlineKeyboardButton("sʜᴏʀᴛᴇɴᴇʀ", callback_data="shortener_")
+                    InlineKeyboardButton("ᴍɪsᴄ", callback_data="maintainer_"),
+                    InlineKeyboardButton("ɪᴍᴘᴏsᴛᴇʀ", callback_data="maintainer_")
                 ],
                 [
-                    InlineKeyboardButton("ɢᴀᴍᴇs", callback_data="action_"),   
-                    InlineKeyboardButton("ᴄʜᴀᴛɢᴘᴛ", callback_data="chatgpt_"),
-                    InlineKeyboardButton("ᴀᴄᴛɪᴏɴ", callback_data="action_")
-                ],             
+                    InlineKeyboardButton("ᴄʜᴀᴛɢᴘᴛ", callback_data="maintainer_"),   
+                    InlineKeyboardButton("ᴀɪ", callback_data="maintainer_"),
+                    InlineKeyboardButton("ᴍᴜsɪᴄ", callback_data="maintainer_")
+                ],
+                [
+                    InlineKeyboardButton("ᴡᴇʟᴄᴏᴍᴇ", callback_data="maintainer_"),   
+                    InlineKeyboardButton("ɴᴏᴛᴇs", callback_data="maintainer_"),
+                    InlineKeyboardButton("ғɪʟᴛᴇʀs", callback_data="maintainer_")
+                ],
                 [
                     InlineKeyboardButton("⟲ ʙᴀᴄᴋ ⟳", callback_data="home_"),
                     InlineKeyboardButton("⟲ ᴄʟᴏꜱᴇ ⟳", callback_data="close_data")
@@ -158,163 +159,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
         except MessageNotModified:
             pass
 
-  
-# ------------------------------------------------------------------------------- #
-
-    elif query.data=="afk_":        
-        reply_markup = InlineKeyboardMarkup(back_buttons)
-        try:
-            await query.edit_message_text(
-                AFK_TEXT.format(query.from_user.first_name, query.from_user.id),
-                reply_markup=reply_markup
-            )
-        except MessageNotModified:
-            pass
-
-  
-# ------------------------------------------------------------------------------- #
-
-    elif query.data=="admins_":        
-        reply_markup = InlineKeyboardMarkup(back_buttons)
-        try:
-            await query.edit_message_text(
-                ADMINS_TEXT.format(query.from_user.first_name, query.from_user.id),
-                reply_markup=reply_markup
-            )
-        except MessageNotModified:
-            pass
-
-
-# ------------------------------------------------------------------------------- #
-
-    elif query.data=="fun_":        
-        reply_markup = InlineKeyboardMarkup(back_buttons)
-        try:
-            await query.edit_message_text(
-                FUN_TEXT.format(query.from_user.first_name, query.from_user.id),
-                reply_markup=reply_markup
-            )
-        except MessageNotModified:
-            pass 
-
-
-# ------------------------------------------------------------------------------- #
-
-    elif query.data=="github_":        
-        reply_markup = InlineKeyboardMarkup(back_buttons)
-        try:
-            await query.edit_message_text(
-                GITHUB_TEXT.format(query.from_user.first_name, query.from_user.id),
-                reply_markup=reply_markup
-            )
-        except MessageNotModified:
-            pass
-
-
-# ------------------------------------------------------------------------------- #
-
-    elif query.data=="instatus_":        
-        reply_markup = InlineKeyboardMarkup(back_buttons)
-        try:
-            await query.edit_message_text(
-                INSTATUS_TEXT.format(query.from_user.first_name, query.from_user.id),
-                reply_markup=reply_markup
-            )
-        except MessageNotModified:
-            pass
-
-
-# ------------------------------------------------------------------------------- #
-
-    elif query.data=="nekos_":        
-        reply_markup = InlineKeyboardMarkup(back_buttons)
-        try:
-            await query.edit_message_text(
-                NEKOS_TEXT.format(query.from_user.first_name, query.from_user.id),
-                reply_markup=reply_markup
-            )
-        except MessageNotModified:
-            pass
-
-
-# ------------------------------------------------------------------------------- #
-
-    elif query.data=="chatbot_":        
-        reply_markup = InlineKeyboardMarkup(back_buttons)
-        try:
-            await query.edit_message_text(
-                CHATBOT_TEXT.format(query.from_user.first_name, query.from_user.id),
-                reply_markup=reply_markup
-            )
-        except MessageNotModified:
-            pass
-
-
-# ------------------------------------------------------------------------------- #
-
-    elif query.data=="misc_":        
-        reply_markup = InlineKeyboardMarkup(back_buttons)
-        try:
-            await query.edit_message_text(
-                MISC_TEXT.format(query.from_user.first_name, query.from_user.id),
-                reply_markup=reply_markup
-            )
-        except MessageNotModified:
-            pass
-
-
-# ------------------------------------------------------------------------------- #
-
-    elif query.data=="shortener_":        
-        reply_markup = InlineKeyboardMarkup(back_buttons)
-        try:
-            await query.edit_message_text(
-                SHORTENER_TEXT.format(query.from_user.first_name, query.from_user.id),
-                reply_markup=reply_markup
-            )
-        except MessageNotModified:
-            pass
-
-
-# ------------------------------------------------------------------------------- #
-
-    elif query.data=="games_":        
-        reply_markup = InlineKeyboardMarkup(back_buttons)
-        try:
-            await query.edit_message_text(
-                GAMES_TEXT.format(query.from_user.first_name, query.from_user.id),
-                reply_markup=reply_markup
-            )
-        except MessageNotModified:
-            pass
-
-
-# ------------------------------------------------------------------------------- #
-
-    elif query.data=="chatgpt_":        
-        reply_markup = InlineKeyboardMarkup(back_buttons)
-        try:
-            await query.edit_message_text(
-                CHATGPT_TEXT.format(query.from_user.first_name, query.from_user.id),
-                reply_markup=reply_markup
-            )
-        except MessageNotModified:
-            pass
-
-
-# ------------------------------------------------------------------------------- #
-
-    elif query.data=="action_":        
-        reply_markup = InlineKeyboardMarkup(back_buttons)
-        try:
-            await query.edit_message_text(
-                ACTION_TEXT.format(query.from_user.first_name, query.from_user.id),
-                reply_markup=reply_markup
-            )
-        except MessageNotModified:
-            pass
-
-
+    
 # ------------------------------------------------------------------------------- #
 
     elif query.data=="maintainer_":
@@ -330,89 +175,4 @@ async def cb_handler(client: Client, query: CallbackQuery):
         except:
             pass
           
-
-# ------------------------------------------------------------------------------- #
-
-
-    elif query.data=="usercast_":      
-        users = await get_served_users()
-        status = await query.message.reply_text(
-            text="**ʙʀᴏᴀᴅᴄᴀsᴛɪɴɢ ʏᴏᴜʀ ᴍᴇssᴀɢᴇs...**"
-        )
-        start_time = time.time()
-        done = 0
-        deleted = 0
-        success = 0
-
-        for user in users:
-            success, reason = await broadcast_messages(int(user['user_id']))
-            if success:
-                success += 1
-            elif success is False:
-                if reason == "Deleted":
-                    deleted += 1
-            done += 1
-
-            if not done % 20:
-                await status.edit(f"**ʙʀᴏᴀᴅᴄᴀsᴛ ɪɴ ᴘʀᴏɢʀᴇss**:\n\**nᴛᴏᴛᴀʟ ᴜsᴇʀs**: {len(users)}\n**ᴄᴏᴍᴘʟᴇᴛᴇᴅ**: {done}/{len(users)}\n**ᴅᴇʟᴇᴛᴇᴅ**: {deleted}")
-
-        time_taken = datetime.timedelta(seconds=int(time.time()-start_time))
-        await status.edit(f"**ʙʀᴏᴀᴅᴄᴀsᴛ ᴄᴏᴍᴘʟᴇᴛᴇᴅ**:\n\n**ᴛᴏᴛᴀʟ ᴜsᴇʀs**: {len(users)}\n**ᴄᴏᴍᴘʟᴇᴅᴛᴇᴅ**: {done}/{len(users)}\n**ᴅᴇʟᴇᴛᴇᴅ**: {deleted}\n\n**ᴛɪᴍᴇ ᴛᴀᴋᴇɴ**: {time_taken}")
-
-
-
-# ------------------------------------------------------------------------------- #
-
-  
-    elif query.data=="groupcast_":
-        chats = await get_served_chats()
-        status = await query.message.reply_text(
-            text="**ʙʀᴏᴀᴅᴄᴀsᴛɪɴɢ ʏᴏᴜʀ ᴍᴇssᴀɢᴇs...**"
-        )
-        start_time = time.time()
-        done = 0
-        success = 0
-
-        for chat in chats:
-            success, reason = await broadcast_messages(int(chat['chat_id']))
-            if success:
-                success += 1
-            done += 1
-            await asyncio.sleep(2)
-            if not done % 20:
-                await status.edit(f"**ʙʀᴏᴀᴅᴄᴀsᴛ ɪɴ ᴘʀᴏɢʀᴇss**:\n\n**ᴛᴏᴛᴀʟ ᴄʜᴀᴛs**: {len(chats)}\n**ᴄᴏᴍᴘʟᴇᴛᴇᴅ**: {done}/{len(chats)}")
-
-        time_taken = datetime.timedelta(seconds=int(time.time()-start_time))
-        await status.edit(f"**ʙʀᴏᴀᴅᴄᴀsᴛ ᴄᴏᴍᴘʟᴇᴛᴇᴅ**:\n\n**ᴛᴏᴛᴀʟ ᴄʜᴀᴛs**: {len(chats)}\n**ᴄᴏᴍᴘʟᴇᴛᴇᴅ**: {done}/{len(chats)}\n\n**ᴛɪᴍᴇ ᴛᴀᴋᴇɴ**: {time_taken}")
-
-
-
-# ------------------------------------------------------------------------------- #
-
-
-async def broadcast_messages(user_id, message):
-    try:
-        await message.copy(chat_id=user_id)
-        return True, "Success"
-    except FloodWait as e:
-        await asyncio.sleep(e.x)
-        return await broadcast_messages(user_id, message)
-    except InputUserDeactivated:
-        await remove_served_user(int(user_id))
-        logging.info(f"{user_id} - Removed from database, since deleted account.")
-        return False, "Deleted"
-    except UserIsBlocked:
-        logging.info(f"{user_id} - Blocked the bot.")
-        return False, "Blocked"
-    except PeerIdInvalid:
-        await remove_served_user(int(user_id))
-        logging.info(f"{user_id} - PeerIdInvalid")
-        return False, "Error"
-    except Exception as e:
-        return False, "Error"
-
-
-# ------------------------------------------------------------------------------- #
-
-
 

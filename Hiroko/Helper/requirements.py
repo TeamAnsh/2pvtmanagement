@@ -11,6 +11,56 @@ from pyrogram.types import *
 
 DURATION_LIMIT = 300
 
+
+
+# ===================================================================================== #
+
+admins: Dict[int, List[int]] = {}
+
+
+def set_admins(chat_id: int, admins_: List[int]):
+    admins[chat_id] = admins_
+
+
+def get_admins(chat_id: int) -> Union[List[int], bool]:
+    return admins.get(chat_id, False)
+
+# ===================================================================================== #
+
+def get_url(message_1: Message) -> Union[str, None]:
+    messages = [message_1]
+
+    if message_1.reply_to_message:
+        messages.append(message_1.reply_to_message)
+
+    text = ""
+    offset = None
+    length = None
+
+    for message in messages:
+        if offset:
+            break
+
+        if message.entities:
+            for entity in message.entities:
+                if entity.type == "url":
+                    text = message.text or message.caption
+                    offset, length = entity.offset, entity.length
+                    break
+
+    if offset is None:
+        return None
+
+    return text[offset:offset + length]
+
+def get_file_name(audio: Union[Audio, Voice]):
+    ext = audio.file_name.split(".")[-1] if not isinstance(audio, Voice) else "ogg"
+    return f'{audio.file_unique_id}.{ext}'
+
+# ===================================================================================== #
+
+
+
 def downloader(url: str) -> str:
     download_directory = os.path.join("Hiroko", "Helper", "downloader", "downloads")
     
@@ -80,129 +130,9 @@ async def converter(file_path: str) -> str:
     except Exception as e:
         raise FFmpegReturnCodeError(f"FFmpeg did not return 0: {str(e)}")
 
-# ... (rest of the code) ...
 
 
 
-
-
-
-# ===================================================================================== #
-
-admins: Dict[int, List[int]] = {}
-
-
-def set_admins(chat_id: int, admins_: List[int]):
-    admins[chat_id] = admins_
-
-
-def get_admins(chat_id: int) -> Union[List[int], bool]:
-    return admins.get(chat_id, False)
-
-# ===================================================================================== #
-
-def get_url(message_1: Message) -> Union[str, None]:
-    messages = [message_1]
-
-    if message_1.reply_to_message:
-        messages.append(message_1.reply_to_message)
-
-    text = ""
-    offset = None
-    length = None
-
-    for message in messages:
-        if offset:
-            break
-
-        if message.entities:
-            for entity in message.entities:
-                if entity.type == "url":
-                    text = message.text or message.caption
-                    offset, length = entity.offset, entity.length
-                    break
-
-    if offset is None:
-        return None
-
-    return text[offset:offset + length]
-
-def get_file_name(audio: Union[Audio, Voice]):
-    ext = audio.file_name.split(".")[-1] if not isinstance(audio, Voice) else "ogg"
-    return f'{audio.file_unique_id}.{ext}'
-
-# ===================================================================================== #
-"""
-import asyncio
-import os
-from yt_dlp import YoutubeDL
-from Hiroko.Helper.errors import FFmpegReturnCodeError, DurationLimitError
-
-DURATION_LIMIT = 300
-
-def downloader(url: str) -> str:
-    ydl_opts = {
-        "format": "bestaudio/best",
-        "geo-bypass": True,
-        "nocheckcertificate": True,
-        "outtmpl": os.path.join("downloads", "%(id)s.%(ext)s"),
-    }
-
-    ydl = YoutubeDL(ydl_opts)
-    info = ydl.extract_info(url, False)
-    duration = round(info["duration"] / 60)
-
-    if duration > DURATION_LIMIT:
-        raise DurationLimitError(
-            f"🛑 Videos longer than {DURATION_LIMIT} minute(s) are not allowed, the provided is {duration} minute(s)"
-        )
-
-    try:
-        ydl.download([url])
-    except Exception as e:
-        raise DurationLimitError(
-            f"🛑 Videos longer than {DURATION_LIMIT} minute(s) are not allowed, the provided is {duration} minute(s)"
-        )
-
-    return os.path.join("downloads", f"{info['id']}.{info['ext']}")
-
-async def converter(file_path: str) -> str:
-    out = os.path.basename(file_path)
-    out = out.split(".")
-    out[-1] = "raw"
-    out = ".".join(out)
-    out = os.path.basename(out)
-    out = os.path.join("raw_files", out)
-
-    if os.path.isfile(out):
-        return out
-
-    try:
-        proc = await asyncio.create_subprocess_shell(
-            cmd=(
-                "ffmpeg " 
-                "-y -i " 
-                f"{file_path} "
-                "-f s16le "
-                "-ac 1 "
-                "-ar 48000 "
-                "-acodec pcm_s16le " 
-                f"{out}"
-            ),
-            stdin=asyncio.subprocess.PIPE,
-            stderr=asyncio.subprocess.PIPE,
-        )
-
-        _, stderr = await proc.communicate()
-
-        if proc.returncode != 0:
-            raise FFmpegReturnCodeError(f"FFmpeg did not return 0: {stderr.decode()}")
-
-        return out
-    except Exception as e:
-        raise FFmpegReturnCodeError(f"FFmpeg did not return 0: {str(e)}")
-        
-"""
 # ===================================================================================== #
 
 

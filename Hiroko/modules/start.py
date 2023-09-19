@@ -118,7 +118,7 @@ async def start(client: Client, message: Message):
         )
     else:
         btn = InlineKeyboardMarkup([[
-            InlineKeyboardButton("ᴘᴍ ᴍᴇ", url=f"http://t.me/{BOT_USERNAME}?start"]])
+            InlineKeyboardButton("ᴘᴍ ᴍᴇ", url=f"http://t.me/{BOT_USERNAME}?start")]])
         await message.reply(
             f"ʜᴇʏ {message.from_user.mention} ᴘᴍ ᴍᴇ ɪғ ʏᴏᴜ ɪɴᴛʀᴇsᴛᴇᴅ.",
             reply_markup=btn

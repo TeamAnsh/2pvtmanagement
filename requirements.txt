@@ -34,3 +34,4 @@ youtube_search
 yt_dlp
 carbon
 lexica-api
+pyromod

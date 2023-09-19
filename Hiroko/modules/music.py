@@ -467,35 +467,32 @@ async def handle_volume_callback(client, query):
 
 
 
+
 @Hiroko.on_message(filters.command("activevoice", prefixes="/"))
-async def activevc(message):
+async def active_voice(message):
     mystic = await message.reply(
-        "Getting active voice chats.. Please hold"
+        "Fetching active voice chats... Please wait."
     )
     served_chats = await rq.get_active_chats()
     text = ""
-    j = 0
-    for x in served_chats:
+    
+    for j, chat_id in enumerate(served_chats, start=1):
         try:
-            title = (await message.client.get_entity(x)).title
-        except Exception:
-            title = "Private Group"
-        if (await message.client.get_entity(x)).username:
-            user = (await message.client.get_entity(x)).username
-            text += f"{j + 1}.  [{title}](https://t.me/{user})[`{x}`]\n"
-        else:
-            text += f"{j + 1}. {title} [`{x}`]\n"
-        j += 1
+            entity = await message.client.get_chat(chat_id)
+            title = entity.title if entity.title else "Private Group"
+            if entity.username:
+                text += f"{j}. [{title}](https://t.me/{entity.username}) [`{chat_id}`]\n"
+            else:
+                text += f"{j}. {title} [`{chat_id}`]\n"
+        except Exception as e:
+            print(f"Error fetching chat info: {e}")
+    
     if not text:
-        await mystic.edit("No Active Voice Chats")
+        await mystic.edit("No Active Voice Chats found.")
     else:
         await mystic.edit(
-            f"**Active Voice Chats:-**\n\n{text}"
+            f"**Active Voice Chats:**\n\n{text}"
         )
-
-
-
-
 
 
 

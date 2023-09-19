@@ -94,7 +94,7 @@ back_buttons  = [[
 # ------------------------------------------------------------------------------- #
 
 
-@app.on_message(filters.command(["start"], prefixes=["/", "!"]))
+@Hiroko.on_message(filters.command(["start"], prefixes=["/", "!"]))
 async def start(client: Client, message: Message):
     buttons =  [
             [

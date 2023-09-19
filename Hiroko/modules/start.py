@@ -1,9 +1,8 @@
 import asyncio
 import random
 from config import BOT_USERNAME, OWNER_ID
-from pyrogram import filters
+from pyrogram import filters, enums
 from Hiroko import Hiroko
-from pyrogram.enums import ChatType 
 from pyrogram.errors import MessageNotModified
 from pyrogram.types import Message, CallbackQuery, InlineKeyboardMarkup, InlineKeyboardButton
 
@@ -94,11 +93,10 @@ back_buttons  = [[
 
 # ------------------------------------------------------------------------------- #
 
-@Hiroko.on_message(filters.command(["start"], prefixes=["/", "!"]))
-async def start(client: Client, message: Message):    
-        get_me = await client.get_me()
-        BOT_USERNAME = get_me.username
-        buttons = [
+
+@app.on_message(filters.command(["start"], prefixes=["/", "!"]))
+async def start(client: Client, message: Message):
+    buttons =  [
             [
                 InlineKeyboardButton("➕ ᴀᴅᴅ ᴍᴇ ᴛᴏ ʏᴏᴜʀ ɢʀᴏᴜᴘ ➕", url=f"https://t.me/{BOT_USERNAME}?startgroup=true")
             ],
@@ -110,14 +108,22 @@ async def start(client: Client, message: Message):
                 InlineKeyboardButton("📚 ʜᴇʟᴘ ᴀɴᴅ ᴄᴏᴍᴍᴀɴᴅs 📚", callback_data="help_")
             ]    
         ]
-        reply_markup = InlineKeyboardMarkup(buttons)
+                                    
+    reply_markup = InlineKeyboardMarkup(buttons)
+    if message.chat.type == enums.ChatType.PRIVATE:
         await message.reply_photo(
             photo=random.choice(START_IMG),
             caption=START_TEXT.format(message.from_user.first_name, message.from_user.id),
             reply_markup=reply_markup
         )
-        await add_served_user(message.from_user.id)            
-        await add_served_chat(message.chat.id)
+    else:
+        btn = InlineKeyboardMarkup([[
+            InlineKeyboardButton("ᴘᴍ ᴍᴇ", url=f"http://t.me/{BOT_USERNAME}?start"]])
+        await message.reply(
+            f"ʜᴇʏ {message.from_user.mention} ᴘᴍ ᴍᴇ ɪғ ʏᴏᴜ ɪɴᴛʀᴇsᴛᴇᴅ.",
+            reply_markup=btn
+        )
+
 
 
 # ------------------------------------------------------------------------------- #

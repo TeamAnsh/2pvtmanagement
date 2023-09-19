@@ -17,8 +17,7 @@ waifu_collection = db["waifus"]
 user_states = {}
 
 # Command handler for /addwaifu (only for sudo users)
-@app.on_message(filters.command(["addwaifu"]) & filters.user(SUDO_USERS))
-
+@Hiroko.on_message(filters.command(["addwaifu"]) & filters.user(SUDO_USERS))
 async def add_waifu_start(client, message):
     user_id = message.from_user.id
     user_states[user_id] = {}

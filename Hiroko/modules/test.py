@@ -3,7 +3,7 @@ import os
 from Hiroko import Hiroko, pytgcalls
 from pyrogram import filters
 from pytgcalls import StreamType
-from pytgcalls.types.input_stream import InputStream, InputAudioStream
+from pytgcalls.types.input_stream import InputStream, AudioPiped
 from io import BytesIO
 
 
@@ -29,7 +29,7 @@ async def audio_command(client, message):
                 await pytgcalls.join_group_call(
                 message.chat.id,
                 InputStream(
-                    InputAudioStream(
+                    AudioPiped(
                         BytesIO(audio_data),
                     ),
                 ),

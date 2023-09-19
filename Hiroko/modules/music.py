@@ -15,6 +15,7 @@ from Hiroko.Helper.requirements import get_url, get_file_name, converter, downlo
 from Hiroko.Helper import requirements as rq
 from Hiroko.Helper.errors import DurationLimitError
 from pytgcalls import StreamType
+from pytgcalls.types import Update
 from pytgcalls.types.input_stream import InputStream
 from pytgcalls.types.input_stream import InputAudioStream
 

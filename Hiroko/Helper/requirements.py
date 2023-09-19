@@ -1,5 +1,6 @@
 import asyncio
 from os import path
+import os
 from Hiroko.Helper.errors import FFmpegReturnCodeError, DurationLimitError
 from yt_dlp import YoutubeDL
 from typing import List, Dict, Union
@@ -8,6 +9,75 @@ from pyrogram.types import *
 
 
 DURATION_LIMIT = 300
+
+async def converter(file_path: str) -> str:
+    out = os.path.basename(file_path)
+    out = out.split(".")
+    out[-1] = "raw"
+    out = ".".join(out)
+    out = os.path.basename(out)
+    out = os.path.join("Hiroko", "Helper", "downloader", "raw_files", out)
+
+    if os.path.isfile(out):
+        return out
+
+    try:
+        proc = await asyncio.create_subprocess_shell(
+            cmd=(
+                "ffmpeg " 
+                "-y -i " 
+                f"{file_path} "
+                "-f s16le "
+                "-ac 1 "
+                "-ar 48000 "
+                "-acodec pcm_s16le " 
+                f"{out}"
+            ),
+            stdin=asyncio.subprocess.PIPE,
+            stderr=asyncio.subprocess.PIPE,
+        )
+
+        _, stderr = await proc.communicate()
+
+        if proc.returncode != 0:
+            raise FFmpegReturnCodeError(f"FFmpeg did not return 0: {stderr.decode()}")
+
+        return out
+    except Exception as e:
+        raise FFmpegReturnCodeError(f"FFmpeg did not return 0: {str(e)}")
+        
+
+
+def downloader(url: str) -> str:
+    # Modify the download location
+    download_directory = os.path.join("Hiroko", "Helper", "downloader", "downloads")
+    
+    ydl_opts = {
+        "format": "bestaudio/best",
+        "geo-bypass": True,
+        "nocheckcertificate": True,
+        "outtmpl": os.path.join(download_directory, "%(id)s.%(ext)s"),
+    }
+
+    ydl = YoutubeDL(ydl_opts)
+    info = ydl.extract_info(url, False)
+    duration = round(info["duration"] / 60)
+
+    if duration > DURATION_LIMIT:
+        raise DurationLimitError(
+            f"🛑 Videos longer than {DURATION_LIMIT} minute(s) are not allowed, the provided is {duration} minute(s)"
+        )
+
+    try:
+        ydl.download([url])
+    except Exception as e:
+        raise DurationLimitError(
+            f"🛑 Videos longer than {DURATION_LIMIT} minute(s) are not allowed, the provided is {duration} minute(s)"
+        )
+
+    return os.path.join(download_directory, f"{info['id']}.{info['ext']}")
+
+
 
 # ===================================================================================== #
 
@@ -54,6 +124,7 @@ def get_file_name(audio: Union[Audio, Voice]):
     return f'{audio.file_unique_id}.{ext}'
 
 # ===================================================================================== #
+"""
 import asyncio
 import os
 from yt_dlp import YoutubeDL
@@ -123,7 +194,7 @@ async def converter(file_path: str) -> str:
     except Exception as e:
         raise FFmpegReturnCodeError(f"FFmpeg did not return 0: {str(e)}")
         
-
+"""
 # ===================================================================================== #
 
 

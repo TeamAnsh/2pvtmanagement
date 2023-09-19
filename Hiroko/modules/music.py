@@ -456,7 +456,7 @@ async def change_volume(client, message):
 
 
 volume_regex = re.compile(r'^volume_(50|100|150|200)$')
-
+"""
 @Hiroko.on_callback_query(volume_regex)
 async def handle_volume_callback(client, query):
     chat_id = query.message.chat.id
@@ -464,7 +464,7 @@ async def handle_volume_callback(client, query):
     await pytgcalls.change_volume_call(chat_id, volume)
     await query.answer(f"Volume set to {volume}%")
 
-
+"""
 
 
 

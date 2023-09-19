@@ -3,41 +3,47 @@ from Hiroko import Hiroko
 from pyrogram import filters
 from pyrogram.types import Message
 
-downloads = os.path.realpath("downloads")
-raw_files = os.path.realpath("raw_files")
+
+
+downloads_directory = os.path.join("Hiroko", "Helper", "downloader", "downloads")
+raw_directory = os.path.join("Hiroko", "Helper", "downloader", "raw_files")
+
 
 @Hiroko.on_message(filters.command(["rmd", "clear"], prefixes=["/", "!"]))
 async def clear_downloads(_, message: Message):
-    ls_dir = os.listdir(downloads)
+    ls_dir = os.listdir(downloads_directory)
     if ls_dir:
-        for file in os.listdir(downloads):
-            os.remove(os.path.join(downloads, file))
-        await message.reply_text("✅ **ᴅᴇʟᴇᴛᴇᴅ ᴀʟʟ ᴅᴏᴡɴʟᴏᴀᴅ ғɪʟᴇs**")
+        for file in os.listdir(downloads_directory):
+            os.remove(os.path.join(downloads_directory, file))
+        await message.reply_text("✅ **Deleted all download files**")
     else:
-        await message.reply_text("❌ **ɴᴏ ғɪʟᴇs ᴅᴏᴡɴʟᴏᴀᴅᴇᴅ**")
+        await message.reply_text("❌ **No files downloaded**")
 
-        
+
 @Hiroko.on_message(filters.command(["rmw", "clean"], prefixes=["/", "!"]))
 async def clear_raw(_, message: Message):
-    ls_dir = os.listdir(raw_files)
+    ls_dir = os.listdir(raw_directory)
     if ls_dir:
-        for file in os.listdir(raw_files):
-            os.remove(os.path.join(raw_files, file))
-        await message.reply_text("✅ **ᴅᴇʟᴇᴛᴇᴅ ᴀʟʟ ʀᴀᴡ ғɪʟᴇs**")
+        for file in os.listdir(raw_directory):
+            os.remove(os.path.join(raw_directory, file))
+        await message.reply_text("✅ **Deleted all raw files**")
     else:
-        await message.reply_text("❌ **ɴᴏ ʀᴀᴡ ғɪʟᴇs**")
+        await message.reply_text("❌ **No raw files**")
 
 
 @Hiroko.on_message(filters.command(["cleanup"], prefixes=["/", "!"]))
 async def cleanup(_, message: Message):
     pth = os.path.realpath(".")
-    ls_dir = os.listdir(pth)
-    if ls_dir:
+    ls_files = os.listdir(pth)
+    if ls_files:
         for dta in os.listdir(pth):
-            os.system("rm -rf *.webm *.jpg")
-        await message.reply_text("✅ **ᴄʟᴇᴀɴᴇᴅ**")
+            if dta.endswith(".webm") or dta.endswith(".jpg"):
+                os.remove(os.path.join(pth, dta))
+        await message.reply_text("✅ **Cleaned**")
     else:
-        await message.reply_text("✅ **ᴀʟʀᴇᴀᴅʏ ᴄʟᴇᴀɴᴇᴅ**")
+        await message.reply_text("✅ **Already cleaned**")
+
+
 
 
 

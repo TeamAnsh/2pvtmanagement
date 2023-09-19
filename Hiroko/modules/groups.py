@@ -44,7 +44,7 @@ def pin(_, message):
           try:
             if user_stats.privileges.can_pin_messages and message.reply_to_message:
                message.reply_to_message.pin()
-               message.reply_text(f"**sᴜᴄᴄᴇssғᴜʟʟʏ ᴘɪɴɴᴇᴅ ᴍᴇssᴀɢᴇ!**\n\n**ᴄʜᴀᴛ:** {message.chat.title}\n**ᴀᴅᴍɪɴ:** {first_name}",reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton(" 📝 ᴠɪᴇᴡs ᴍᴇssᴀɢᴇ ",url=f"t.me/{message.chat.username}/{message.id}")]]))
+               message.reply_text(f"**hhhsᴜᴄᴄᴇssғᴜʟʟʏ ᴘɪɴɴᴇᴅ ᴍᴇssᴀɢᴇ!**\n\n**ᴄʜᴀᴛ:** {message.chat.title}\n**ᴀᴅᴍɪɴ:** {first_name}",reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton(" 📝 ᴠɪᴇᴡs ᴍᴇssᴀɢᴇ ",url=f"t.me/{message.chat.username}/{message.id}")]]))
           except Exception as e:
                 return message.reply_text(str(e))
 

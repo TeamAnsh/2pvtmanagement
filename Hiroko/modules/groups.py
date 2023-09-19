@@ -13,7 +13,7 @@ from pyrogram.types import (
     InlineKeyboardButton,
 )
 
-
+button = InlineKeyboardMarkup([[InlineKeyboardButton(text="📝 View Message",url=chat.pinned_message.link)]]))
 # ------------------------------------------------------------------------------- #
 
 

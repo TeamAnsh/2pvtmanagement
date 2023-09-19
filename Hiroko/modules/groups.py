@@ -14,9 +14,6 @@ from pyrogram.types import (
 )
 
 
-
-
-
 # ------------------------------------------------------------------------------- #
 
 
@@ -48,25 +45,10 @@ async def pinned(_, message):
     if not chat.pinned_message:
         return await message.reply_text("No Pinned Message Found")
     try:        
-        await message.reply_text("Here is The Latest Pinned Message",reply_markup=
-        InlineKeyboardMarkup([[InlineKeyboardButton(text="View Message",url=chat.pinned_message.link)]]))  
+        await message.reply_text("Here is The Latest Pinned Message",reply_markup=button)
+          
     except Exception as er:
         await message.reply_text(er)
-
-
-@Hiroko.on_callback_query(filters.regex(pattern=r"unpin_(.*)"))
-async def unpin_btn(hiroko : Hiroko, query : CallbackQuery):
-    user_id = query.from_user.id
-    chat_id = query.message.chat.id
-    ids = query.data.split("_")  
-    if int(ids[1]) == user_id:
-        await hiroko.unpin_chat_message(chat_id,int(ids[2])) 
-        await query.message.edit("**Unpinned The Message**")
-    else:
-        await hiroko.answer_callback_query(
-        query.id,
-    text="This Message is Not Pinned By You",
-    show_alert=True
 
 
 # ------------------------------------------------------------------------------- #

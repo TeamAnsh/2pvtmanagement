@@ -110,11 +110,11 @@ async def converter(file_path: str) -> str:
         await proc.communicate()
 
         if proc.returncode != 0:
-            raise FFmpegReturnCodeError("FFmpeg did not return 0")
+            raise FFmpegReturnCodeError("FFmpeg did not return 0 Test 1")
 
         return out
     except:
-        raise FFmpegReturnCodeError("FFmpeg did not return 0")
+        raise FFmpegReturnCodeError("FFmpeg did not return 0 Test 2")
 
 # ===================================================================================== #
 

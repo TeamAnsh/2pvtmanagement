@@ -469,7 +469,7 @@ async def handle_volume_callback(client, query):
 
 
 @Hiroko.on_message(filters.command("activevoice", prefixes="/"))
-async def active_voice(message):
+async def active_voice(client, message):
     mystic = await message.reply(
         "Fetching active voice chats... Please wait."
     )
@@ -478,7 +478,7 @@ async def active_voice(message):
     
     for j, chat_id in enumerate(served_chats, start=1):
         try:
-            entity = await message.client.get_chat(chat_id)
+            entity = await client.get_chat(chat_id)
             title = entity.title if entity.title else "Private Group"
             if entity.username:
                 text += f"{j}. [{title}](https://t.me/{entity.username}) [`{chat_id}`]\n"

@@ -29,10 +29,10 @@ async def add_waifus(_, message):
     waifu_rarity =  await message.chat.ask("Great! Finally, please enter the rarity of the waifu (e.g., common, rare, legendary).") 
     rarity = waifu_rarity.text
     waifu_data = {
-                "photo": "photo",
-                "name": name",
-                "anime": "anime",
-                "rarity": "rarity",
+                "waifu_photo": "photo",
+                "waifu_name": "name",
+                "waifu_anime": "anime",
+                "waifu_rarity": "rarity",
             }
             await waifu_collection.insert_one(waifu_data)            
             await message.reply_text("🌟 Waifu added successfully! 🌟")

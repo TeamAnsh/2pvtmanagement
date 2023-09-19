@@ -11,7 +11,8 @@ from asyncio.queues import QueueEmpty
 from PIL import ImageGrab
 from PIL import Image, ImageFont, ImageDraw, ImageFilter
 from pyrogram.errors import UserAlreadyParticipant
-from Hiroko.Helper.requirements import queues, get_url, get_file_name, converter, downloader, admins as a, set_admins as set
+from Hiroko.Helper.requirements import get_url, get_file_name, converter, downloader, admins as a, set_admins as set
+from Hiroko.Helper import requirements as rq
 from Hiroko.Helper.errors import DurationLimitError
 from pytgcalls import StreamType
 from pytgcalls.types.input_stream import InputStream
@@ -363,7 +364,7 @@ async def play(_, message: Message):
     for x in pytgcalls.active_calls:
         ACTV_CALLS.append(int(x.chat_id))
     if int(chat_id) in ACTV_CALLS:
-        position = await queues.put(chat_id, file=file_path)
+        position = await rq.put(chat_id, file=file_path)
         await message.reply_photo(
             photo="final.png",
             caption=f"**➻ Track added to queue » {position} **\n\n​ 🍒**Name :**[{title[:65]}]({url})\n⏰ ** Duration :** `{duration}` **minutes**\n👀 ** Requested by : **{bsdk}",
@@ -394,8 +395,7 @@ async def play(_, message: Message):
 
 
 @Hiroko.on_message(filters.command(["skip", "next"], prefixes=["/", "!"]))
-async def skip(_, message: Message):
-    global que
+async def skip(_, message: Message):    
     ACTV_CALLS = []
     chat_id = message.chat.id
     for x in pytgcalls.active_calls:
@@ -403,15 +403,15 @@ async def skip(_, message: Message):
     if chat_id not in ACTV_CALLS:
         await message.reply_text("**» ᴍᴜsɪᴄ ᴘʟᴀʏᴇʀ ɴᴏᴛʜɪɴɢ ɪs ᴘʟᴀʏɪɴɢ ᴛᴏ sᴋɪᴘ.**")
     else:
-        que.task_done(chat_id)
-        if que.is_empty(chat_id):
+        rq.task_done(chat_id)
+        if rq.is_empty(chat_id):
             await pytgcalls.leave_group_call(chat_id)
         else:
             await pytgcalls.change_stream(
                 chat_id,
                 InputStream(
                     InputAudioStream(
-                        que.get(chat_id)["file"],
+                        rq.get(chat_id)["file"],
                     ),
                 ),
             )

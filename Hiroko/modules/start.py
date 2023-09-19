@@ -1,7 +1,7 @@
 import asyncio
 import random
 from config import BOT_USERNAME, OWNER_ID
-from pyrogram import filters, enums
+from pyrogram import Client, filters, enums
 from Hiroko import Hiroko
 from pyrogram.errors import MessageNotModified
 from pyrogram.types import Message, CallbackQuery, InlineKeyboardMarkup, InlineKeyboardButton

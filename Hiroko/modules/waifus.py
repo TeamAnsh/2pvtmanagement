@@ -12,10 +12,11 @@ waifu_collection = db["waifus"]
 
 
 
-
-
 @Hiroko.on_message(filters.command(["addwaifu"]) & filters.user(SUDO_USERS))
 async def add_waifus(_, message):
+    if len(message.command) < 2:
+        return await message.reply("💌 **hello hottie ..**")
+
     waifu = message.text.split("-")
     waifu_photo = waifu[0]
     waifu_name = waifu[1]
@@ -29,5 +30,4 @@ async def add_waifus(_, message):
     }
     await waifu_collection.insert_one(waifu_data)            
     await message.reply_text("🌟 Waifu added successfully! 🌟")
-
 

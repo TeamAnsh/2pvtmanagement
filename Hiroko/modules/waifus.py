@@ -1,5 +1,6 @@
 from config import SUDO_USERS
 from pyrogram import filters
+from pyrogram.types import *
 from config import MONGO_URL
 from motor.motor_asyncio import AsyncIOMotorClient as MongoCli
 from pyrogram.types import Message
@@ -10,7 +11,14 @@ mongo = MongoCli(MONGO_URL).Rankings
 db = mongo["waifu_bot"]
 waifu_collection = db["waifus"]
 
-button = 
+button = InlineKeyboardMarkup([
+        [
+            InlineKeyboardButton(f"message.from_user.mention", url=f"message.from_user.username"),
+            InlineKeyboardButton("close", callback_data="maintainer_"),
+        ]                
+    ])
+
+
 
 @Hiroko.on_message(filters.command(["addwaifu"]) & filters.user(SUDO_USERS))
 async def add_waifus(_, message):

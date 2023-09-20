@@ -10,7 +10,7 @@ mongo = MongoCli(MONGO_URL).Rankings
 db = mongo["waifu_bot"]
 waifu_collection = db["waifus"]
 
-
+button = 
 
 @Hiroko.on_message(filters.command(["addwaifu"]) & filters.user(SUDO_USERS))
 async def add_waifus(_, message):
@@ -28,6 +28,7 @@ async def add_waifus(_, message):
         "waifu_anime": waifu_anime,
         "waifu_rarity": waifu_rarity,
     }
-    await waifu_collection.insert_one(waifu_data)            
+    await waifu_collection.insert_one(waifu_data)
+    await Hiroko.send_photo(-1001936480103, photo=waifu_photo,reply_markup=button)
     await message.reply_text("🌟 Waifu added successfully! 🌟")
 

@@ -33,7 +33,6 @@ async def chat(hiroko :Hiroko, message):
         await message.reply_text(f"**ᴇʀʀᴏʀ**: {e} ")        
 
 
-
 import time
 from pyrogram import Client, filters
 import openai
@@ -42,20 +41,11 @@ import io
 from Hiroko import Hiroko, pytgcalls
 from pyrogram.enums import ChatAction
 from pytgcalls.types.input_stream import InputStream
+from pytgcalls import StreamType
 from pytgcalls.types.input_stream import AudioPiped
 
 
-
-
-
-
-
-
-
-
-
-
-@Hiroko.on_message(filters.command(["test"],  prefixes=["+", ".", "/", "-", "?", "$","#","&"]))
+@Hiroko.on_message(filters.command(["peest"],  prefixes=["+", ".", "/", "-", "?", "$","#","&"]))
 async def chat(hiroko: Hiroko, message):
     
     try:
@@ -70,30 +60,30 @@ async def chat(hiroko: Hiroko, message):
             x = resp['choices'][0]["message"]["content"]
             
             # Convert the AI response to audio
-            tts = gTTS(text=x, lang='en')
+            tts = gTTS(text=x, lang='en', slow=False)
             audio_stream = io.BytesIO()
-            tts.save(audio_stream, format="mp3")
+            tts.save(audio_stream)
             audio_stream.seek(0)
+            
+            # Save audio file to path
+            audio_file_path = 'response.mp3'
+            with open(audio_file_path, 'wb') as f:
+                f.write(audio_stream.getbuffer())
             
             # Send the audio to the voice chat
             chat_id = message.chat.id
-            audio_file = "response.mp3"
             
             await pytgcalls.join_group_call(
                 message.chat.id, 
                 InputStream(
-                    AudioPiped(
-                        audio_file,
-                    ),
+                    AudioPiped(audio_file_path),
                 ),
                 stream_type=StreamType().local_stream,
             )
-            await mesaage.reply("chat gpt answerring..")
-            
-            
+            await message.reply_text("chat gpt answering..")
             
     except Exception as e:
         await message.reply_text(f"ᴇʀʀᴏʀ: {e}")
 
 
-        
+                                                                      

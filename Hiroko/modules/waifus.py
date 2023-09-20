@@ -42,7 +42,9 @@ async def add_waifus(_, message):
 
     await Hiroko.send_photo(chat_id=-1001936480103, photo=waifu_photo_bytes, reply_markup=InlineKeyboardMarkup([       
     [  
-        InlineKeyboardButton(f"message.from_user.mention", url=f"https://t.me/@{message.from_user.username}"),
+        InlineKeyboardButton(f"message.from_user.first_name", url=f"https://t.me/{message.from_user.username}"),
+    ],
+    [
         InlineKeyboardButton("Close", callback_data="maintainer_"),
     ]]))
     await message.reply_text("🌟 Waifu added successfully! 🌟")

@@ -99,3 +99,35 @@ async def grab_waifus(client, message):
 
 
 
+# Command: /mywaifus
+@Hiroko.on_message(filters.command("mywaifus", prefixes="/") & filters.private)
+async def my_waifus(_, message):
+    user_id = message.from_user.id
+    user_waifus = await waifu_collection.find({"user_id": user_id}).to_list(None)
+    
+    if user_waifus:
+        waifus = "\n".join([waifu["waifu_name"] for waifu in user_waifus])
+        await message.reply(f"👫 Your waifus:\n{waifus}")
+    else:
+        await message.reply("👫 You don't have any waifus yet. Use /grab to get one!")
+
+
+@Hiroko.on_message(filters.command("giftwaifu", prefixes="/") & filters.private)
+async def gift_waifu(_, message):
+    if len(message.command) != 2:
+        return await message.reply("🎁 Please use /giftwaifu @user to gift a waifu.")
+    
+    user_id = message.from_user.id
+    target_username = message.command[1]
+    
+    waifu_to_gift = await waifu_collection.find_one({"user_id": user_id})
+    
+    if waifu_to_gift:
+        await waifu_collection.update_one({"user_id": user_id}, {"$unset": {"user_id": ""}})
+        await message.reply(f"🎁 You've gifted {waifu_to_gift['waifu_name']} to {target_username}!")
+    else:
+        await message.reply("🎁 You don't have any waifus to gift.")
+
+
+
+

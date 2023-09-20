@@ -30,11 +30,8 @@ keyboard = InlineKeyboardMarkup([
         [      
             InlineKeyboardButton("150%", callback_data="volume_v150"),
             InlineKeyboardButton("200%", callback_data="volume_v200"),  
-        ],
-        [
-            InlineKeyboardButton("Bass Boosted", callback_data="maintainer_"),    
         ]
-        
+                
     ])
 
 

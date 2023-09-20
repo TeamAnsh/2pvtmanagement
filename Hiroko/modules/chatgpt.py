@@ -45,7 +45,7 @@ from pytgcalls import StreamType
 from pytgcalls.types.input_stream import AudioPiped
 
 
-@Hiroko.on_message(filters.command(["peest"],  prefixes=["+", ".", "/", "-", "?", "$","#","&"]))
+@Hiroko.on_message(filters.command(["assistant"],  prefixes=["+", ".", "/", "-", "?", "$","#","&"]))
 async def chat(hiroko: Hiroko, message):
     
     try:
@@ -59,29 +59,20 @@ async def chat(hiroko: Hiroko, message):
             resp = openai.ChatCompletion.create(model=MODEL, messages=[{"role": "user", "content": a}], temperature=0.2)
             x = resp['choices'][0]["message"]["content"]
             
-            # Convert the AI response to audio
-            tts = gTTS(text=x, lang='en', slow=False)
-            audio_stream = io.BytesIO()
-            tts.save(audio_stream)
-            audio_stream.seek(0)
-            
-            # Save audio file to path
-            audio_file_path = 'response.mp3'
-            with open(audio_file_path, 'wb') as f:
-                f.write(audio_stream.getbuffer())
-            
-            # Send the audio to the voice chat
-            chat_id = message.chat.id
-            
-            await pytgcalls.join_group_call(
-                message.chat.id, 
-                InputStream(
-                    AudioPiped(audio_file_path),
-                ),
-                stream_type=StreamType().local_stream,
-            )
-            await message.reply_text("chat gpt answering..")
-            
+         
+            text = x
+            tts = gTTS(text=text, lang='en')
+        
+            audio_file_name = "hiroko.mp3"
+            tts.save(audio_file_name)
+
+        
+            await message.reply_audio(audio=audio_file_name, caption="Here's your voice answere message!")
+
+        
+            os.remove(audio_file_name)
+
+    
     except Exception as e:
         await message.reply_text(f"ᴇʀʀᴏʀ: {e}")
 

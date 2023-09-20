@@ -1,4 +1,6 @@
 import requests
+import asyncio
+import matplotlib.pyplot as plt
 from io import BytesIO
 from config import SUDO_USERS, MONGO_URL
 from pyrogram import filters
@@ -226,6 +228,67 @@ async def decline_trade(_, callback_query):
 
 # ==================================================================== #
 
+
+
+
+chat_groups_data = [
+    {"group_name": "Group 1", "percentage": 15},
+    {"group_name": "Group 2", "percentage": 12},
+    {"group_name": "Group 3", "percentage": 10},
+    {"group_name": "Group 4", "percentage": 8},
+    {"group_name": "Group 5", "percentage": 5},
+]
+
+
+@Hiroko.on_message(filters.command("topgrabber", prefixes="/"))
+async def view_top_grabbers(_, message):
+    top_players = await users_collection.find().sort([("waifus_collected", -1)]).limit(10).to_list(None)
+    
+    player_names = [user.get("username", "Unknown") for user in top_players]
+    waifus_collected = [user.get("waifus_collected", 0) for user in top_players]
+    
+    plt.figure(figsize=(10, 6))
+    plt.barh(player_names, waifus_collected, color='skyblue')
+    plt.xlabel('Waifus Collected')
+    plt.title('Top 10 Waifu Players')
+    
+    caption = "Top 10 Waifu Players:\n"
+    for i, player_name in enumerate(player_names, start=1):
+        caption += f"{i}. {player_name}\n"
+    
+    chart_image = 'top_waifu_players.png'
+    plt.savefig(chart_image, bbox_inches='tight')
+    plt.close()
+    await message.reply_photo(photo=chart_image, caption=caption)
+    
+
+    import os
+    os.remove(chart_image)
+
+
+@Hiroko.on_message(filters.command("topgrabbersgroups", prefixes="/"))
+async def view_top_groups(_, message):
+    group_names = [data["group_name"] for data in chat_groups_data]
+    percentages = [data["percentage"] for data in chat_groups_data]
+    
+
+    plt.figure(figsize=(8, 6))
+    plt.bar(group_names, percentages, color='red')
+    plt.ylabel('Percentage')
+    plt.title('Top 5 Chat Groups by Percentage')
+    
+    
+    for i, percentage in enumerate(percentages):
+        plt.text(i, percentage + 1, f"{percentage}%", ha='center', va='bottom')
+    
+
+    chart_image = 'top_chat_groups.png'
+    plt.savefig(chart_image, bbox_inches='tight')
+    plt.close()
+    await message.reply_photo(photo=chart_image, caption="Top 5 Chat Groups by Percentage")
+
+    import os
+    os.remove(chart_image)
 
 
 

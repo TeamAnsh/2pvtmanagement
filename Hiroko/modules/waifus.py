@@ -20,10 +20,10 @@ async def add_waifus(_, message):
         return await message.reply("💌 Hello hottie, please provide the waifu details in the format: /addwaifu photo-name-anime-rarity")
     waifu_text = message.text.split(None, 1)[1]
     waifu = waifu_text.split("-")
-    if len(waifu) != 4:
+    if len(waifu) != 5:
         return await message.reply("❌ Invalid format. Please provide waifu details in the format: /addwaifu photo-name-anime-rarity")
 
-    waifu_photo_url, waifu_name, waifu_anime, waifu_rarity = waifu
+    waifu_photo_url, waifu_name, waifu_anime, waifu_rarity, waifu_prize = waifu
 
     response = requests.get(waifu_photo_url)
     if response.status_code != 200:
@@ -36,6 +36,7 @@ async def add_waifus(_, message):
         "waifu_name": waifu_name,
         "waifu_anime": waifu_anime,
         "waifu_rarity": waifu_rarity,
+        "waifu_prize": waifu_prize,
     }
 
     await waifu_collection.insert_one(waifu_data)
@@ -45,14 +46,37 @@ async def add_waifus(_, message):
         InlineKeyboardButton(f"{message.from_user.first_name}", url=f"https://t.me/{message.from_user.username}"),
     ],
     [
-        InlineKeyboardButton("Close", callback_data="maintainer_"),
+        InlineKeyboardButton("close", callback_data="maintainer_"),
     ]]))
     await message.reply_text("🌟 Waifu added successfully! 🌟")
 
 
 # ======================================================================= #
+"""
+chat_count = {}
 
+@Hiroko.on_message(filters.group, group=69)
+async def waifu_sender(_, message):
+    chat_id = message.chat.id
+    user_id = message.from_user.id
+    
+    if chat_id not in chat_count:
+        chat_count[chat_id] = {'count': 0}
+    chat_count[chat_id]['count'] += 1
+    
+    if chat_count[chat_id]['count'] == 10:
+        
+        photo = await waifu_collection.find({"waifu_photo" : waifu_photo})         
+        image = random.choice(photo)
+        await Hiroko.send_photo(
+            message.chat.id,
+            photo=image,
+            caption=f"Wew sexy Waifu Appeared !!!\n\nGuess Her Name And Make Her Your waifu By Using Spell /grab [Her Name]!"
+        )
+        chat_count.pop(chat_id)
+"""
 
+# ==================================================================== #
 @Hiroko.on_message(filters.command("grab", prefixes="/"))
 async def grab_waifus(client, message):
     if len(message.command) != 2:

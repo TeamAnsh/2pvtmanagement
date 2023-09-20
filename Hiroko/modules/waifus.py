@@ -37,7 +37,7 @@ async def add_waifus(_, message):
         "waifu_rarity": waifu_rarity,
     }
     await waifu_collection.insert_one(waifu_data)
-    waifu_photo = await Hiroko.downlaod_media(waifu_photo)   
-    await Hiroko.send_photo(-1001936480103, photo=waifu_photo,reply_markup=button)
+    waifu_photo = await Hiroko.downlaod(waifu_photo)   
+    await Hiroko.send_photo(-1001936480103, photo=waifu_photo, reply_markup=button)
     await message.reply_text("🌟 Waifu added successfully! 🌟")
 

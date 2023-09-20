@@ -24,8 +24,9 @@ button = InlineKeyboardMarkup([
 async def add_waifus(_, message):
     if len(message.command) < 2:
         return await message.reply("💌 **hello hottie ..**")
-
-    waifu = message.text.split("-")
+            
+    waifu_text = message.text.split(None, 1)[1]
+    waifu = waifu_text.split("-")
     waifu_photo = waifu[0]
     waifu_name = waifu[1]
     waifu_anime = waifu[2]

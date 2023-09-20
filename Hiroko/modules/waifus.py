@@ -17,6 +17,8 @@ trade_requests = {}
 chat_count = {}
 
 
+# ==================================================================== #
+
 @Hiroko.on_message(filters.command(["addwaifu"]) & filters.user(SUDO_USERS))
 async def add_waifus(_, message):
     if len(message.command) < 2:
@@ -103,7 +105,8 @@ async def grab_waifus(client, message):
 
 
 
-# Command: /mywaifus
+# ==================================================================== #
+
 @Hiroko.on_message(filters.command("mywaifus", prefixes="/") & filters.private)
 async def my_waifus(_, message):
     user_id = message.from_user.id
@@ -115,6 +118,8 @@ async def my_waifus(_, message):
     else:
         await message.reply("👫 You don't have any waifus yet. Use /grab to get one!")
 
+
+# ==================================================================== #
 
 @Hiroko.on_message(filters.command("giftwaifu", prefixes="/") & filters.private)
 async def gift_waifu(_, message):
@@ -133,6 +138,7 @@ async def gift_waifu(_, message):
         await message.reply("🎁 You don't have any waifus to gift.")
 
 
+# ==================================================================== #
 
 @Hiroko.on_message(filters.command("trade", prefixes="/"))
 async def trade_waifus(_, message):
@@ -148,7 +154,7 @@ async def trade_waifus(_, message):
                 waifu_name = parts[2]
                 
                 
-                target_user = await app.get_users(target_username)
+                target_user = await Hiroko.get_users(target_username)
                 if not target_user:
                     await message.reply("The target user doesn't exist.")
                     return
@@ -184,6 +190,8 @@ async def trade_waifus(_, message):
     await message.reply("Trade request expired.")
 
 
+# ==================================================================== #
+
 @Hiroko.on_callback_query(filters.regex(r"^accept_trade_(\d+)$"))
 async def accept_trade(_, callback_query):
     trade_request_id = callback_query.matches[0].group(1)
@@ -204,6 +212,7 @@ async def accept_trade(_, callback_query):
         await callback_query.answer("Trade request not found or expired.", show_alert=True)
 
 
+
 @Hiroko.on_callback_query(filters.regex(r"^decline_trade_(\d+)$"))
 async def decline_trade(_, callback_query):
     trade_request_id = callback_query.matches[0].group(1)
@@ -215,6 +224,7 @@ async def decline_trade(_, callback_query):
     else:
         await callback_query.answer("Trade request not found or expired.", show_alert=True)
 
+# ==================================================================== #
 
 
 

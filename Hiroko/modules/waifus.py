@@ -10,8 +10,11 @@ from Hiroko import Hiroko
 mongo = MongoCli(MONGO_URL)
 db = mongo["waifu_bot"]
 waifu_collection = db["waifus"]
+users_collection = db["users"]
 
 
+trade_requests = {}
+chat_count = {}
 
 
 @Hiroko.on_message(filters.command(["addwaifu"]) & filters.user(SUDO_USERS))
@@ -53,7 +56,7 @@ async def add_waifus(_, message):
 
 # ======================================================================= #
 """
-chat_count = {}
+
 
 @Hiroko.on_message(filters.group, group=69)
 async def waifu_sender(_, message):
@@ -77,6 +80,7 @@ async def waifu_sender(_, message):
 """
 
 # ==================================================================== #
+
 @Hiroko.on_message(filters.command("grab", prefixes="/"))
 async def grab_waifus(client, message):
     if len(message.command) != 2:
@@ -127,6 +131,90 @@ async def gift_waifu(_, message):
         await message.reply(f"🎁 You've gifted {waifu_to_gift['waifu_name']} to {target_username}!")
     else:
         await message.reply("🎁 You don't have any waifus to gift.")
+
+
+
+@Hiroko.on_message(filters.command("trade", prefixes="/"))
+async def trade_waifus(_, message):
+    user_id = message.from_user.id
+    await message.reply("Mention the user you want to trade with in the format: `/trade @username waifu_name`")
+    
+    @Hiroko.on_message(filters.reply & filters.user(user_id))
+    async def confirm_trade(_, trade_message):
+        if trade_message.text.startswith("/trade @") and " " in trade_message.text:
+            parts = trade_message.text.split()
+            if len(parts) == 3:
+                target_username = parts[1].replace("@", "")
+                waifu_name = parts[2]
+                
+                
+                target_user = await app.get_users(target_username)
+                if not target_user:
+                    await message.reply("The target user doesn't exist.")
+                    return
+                
+                
+                user_data = await users_collection.find_one({"user_id": user_id})
+                if not user_data or waifu_name not in user_data.get("waifus", []):
+                    await message.reply("You don't have the specified waifu to trade.")
+                    return
+                
+                
+                trade_request_id = str(message.message_id)
+                
+                
+                trade_requests[trade_request_id] = {
+                    "user_id": user_id,
+                    "target_user_id": target_user.id,
+                    "waifu_name": waifu_name,
+                }
+                
+                keyboard = InlineKeyboardMarkup([
+                    [InlineKeyboardButton("Accept", callback_data=f"accept_trade_{trade_request_id}"),
+                     InlineKeyboardButton("Decline", callback_data=f"decline_trade_{trade_request_id}")]
+                ])
+                
+                await message.reply(f"@{target_username}, {message.from_user.mention} wants to trade {waifu_name} with you.", reply_markup=keyboard)
+            else:
+                await message.reply("Invalid format. Use `/trade @username waifu_name`.")
+        else:
+            await message.reply("Invalid format. Use `/trade @username waifu_name`.")
+    
+    await asyncio.sleep(60)  # Wait for 60 seconds for a reply
+    await message.reply("Trade request expired.")
+
+
+@Hiroko.on_callback_query(filters.regex(r"^accept_trade_(\d+)$"))
+async def accept_trade(_, callback_query):
+    trade_request_id = callback_query.matches[0].group(1)
+    
+    if trade_request_id in trade_requests:
+        trade_request = trade_requests.pop(trade_request_id)
+        target_user_id = trade_request["target_user_id"]
+        user_id = trade_request["user_id"]
+        waifu_name = trade_request["waifu_name"]
+        
+        
+        await users_collection.update_one({"user_id": user_id}, {"$pull": {"waifus": waifu_name}})
+        await users_collection.update_one({"user_id": target_user_id}, {"$push": {"waifus": waifu_name}})
+        
+        await callback_query.message.edit_text(f"Trade accepted! {callback_query.from_user.mention} has traded {waifu_name} with you.")
+    
+    else:
+        await callback_query.answer("Trade request not found or expired.", show_alert=True)
+
+
+@Hiroko.on_callback_query(filters.regex(r"^decline_trade_(\d+)$"))
+async def decline_trade(_, callback_query):
+    trade_request_id = callback_query.matches[0].group(1)
+    
+    if trade_request_id in trade_requests:
+        trade_requests.pop(trade_request_id)
+        await callback_query.message.edit_text(f"Trade declined. {callback_query.from_user.mention} has declined the trade request.")
+    
+    else:
+        await callback_query.answer("Trade request not found or expired.", show_alert=True)
+
 
 
 

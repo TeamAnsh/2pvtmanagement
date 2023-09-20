@@ -50,4 +50,28 @@ async def add_waifus(_, message):
     await message.reply_text("🌟 Waifu added successfully! 🌟")
 
 
+# ======================================================================= #
+
+
+@Hiroko.on_message(filters.command("grab", prefixes="/"))
+async def grab_waifus(client, message):
+    if len(message.command) != 2:
+        return await message.reply("Hello sweetheart. Please use /grab waifu_name")
+
+    user_id = message.from_user.id
+    waifu_name = message.command[1]
+    waifus_name = await waifu_collection.find({"waifu_name" : waifu_name})
+
+    if waifu_name in waifus_name:
+        user_waifu_data = {
+            "user_id": user_id,
+            "waifu": waifu_name
+        }
+        await waifu_collection.insert_one(user_waifu_data)
+        await message.reply(f"Grabbed {waifu_name} as your waifu!")
+    else:
+        await message.reply("bsdk k glt hai name . Please choose a valid waifu.")
+
+
+
 

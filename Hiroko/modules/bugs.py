@@ -66,7 +66,7 @@ async def bugs(_, msg: Message):
                 f"<b>ʙᴜɢ ʀᴇᴩᴏʀᴛ : {bugs}</b>\n\n"
                 "<b>» ʙᴜɢ sᴜᴄᴄᴇssғᴜʟʟʏ ʀᴇᴩᴏʀᴛᴇᴅ ᴀᴛ sᴜᴩᴩᴏʀᴛ ᴄʜᴀᴛ !</b>",
                 reply_markup=InlineKeyboardMarkup(
-                    [[InlineKeyboardButton("• ᴄʟᴏsᴇ •", callback_data=f"close_reply")]]
+                    [[InlineKeyboardButton("⌯ ᴄʟᴏsᴇ ⌯", callback_data="close_data")]]
                 ),
             )
             await Hiroko.send_photo(
@@ -90,12 +90,9 @@ async def bugs(_, msg: Message):
             )
 
 
-@Client.on_callback_query(filters.regex("close_reply"))
-async def close_reply(msg, CallbackQuery):
-    await CallbackQuery.message.delete()
 
 
-@Client.on_callback_query(filters.regex("close_send_photo"))
+@Hiroko.on_callback_query(filters.regex("close_send_photo"))
 async def close_send_photo(_, CallbackQuery):
     is_Admin = await Hiroko.get_chat_member(
         CallbackQuery.message.chat.id, CallbackQuery.from_user.id

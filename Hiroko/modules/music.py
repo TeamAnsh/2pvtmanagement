@@ -35,7 +35,18 @@ keyboard = InlineKeyboardMarkup([
         ]
 ])
 
-
+keyboard = InlineKeyboardMarkup([
+        [
+            InlineKeyboardButton("50", callback_data="volume_50"),
+            InlineKeyboardButton("100", callback_data="volume_100"),    
+            InlineKeyboardButton("150", callback_data="volume_150"),      
+            InlineKeyboardButton("1200", callback_data="volume_200"),
+                
+        ],
+        [
+            InlineKeyboardButton("⊝ ᴄʟᴏsᴇ ⊝", callback_data="close_data"),    
+        ]
+])
 
 
 # --------------------------------------------------------------------------------------------------------- #
@@ -481,20 +492,10 @@ async def change_volume(client, message):
 
 
 # --------------------------------------------------------------------------------------------------------- #
-
-                   
-"""
-volume_regex = re.compile(r'^volumev(50|100|150|200)$')
+#             <--------------------  HERE IS STARTED  RAGEX MUSIC CALLBACK ---------------------->
+# --------------------------------------------------------------------------------------------------------- #
 
 
-@Hiroko.on_callback_query(volume_regex)
-async def handle_volume_callback(client, query):
-    chat_id = query.message.chat.id
-    volume = int(query.data.split("up")[1])
-    await pytgcalls.change_volume_call(chat_id, volume)
-    await query.answer(f"Volume set to {volume}%")
-
-"""
 
 @Hiroko.on_callback_query(filters.regex("music_skip"))
 async def callback_skip(_, query: CallbackQuery):    
@@ -535,7 +536,7 @@ async def callback_pause(_, query: CallbackQuery):
 # --------------------------------------------------------------------------------------------------------- #
 
 
-@Hancock.on_callback_query(filters.regex("music_resume"))
+@Hiroko.on_callback_query(filters.regex("music_resume"))
 async def callback_resume(_, query: CallbackQuery):
     chat_id = query.chat.id
     if str(chat_id) in str(pytgcalls.active_calls):
@@ -548,7 +549,7 @@ async def callback_resume(_, query: CallbackQuery):
 # --------------------------------------------------------------------------------------------------------- #
 
 
-@Hancock.on_callback_query(filters.regex("music_end"))
+@Hiroko.on_callback_query(filters.regex("music_end"))
 async def callback_end(_, query: CallbackQuery):
     chat_id = query.chat.id
     if str(chat_id) in str(pytgcalls.active_calls):
@@ -557,6 +558,42 @@ async def callback_end(_, query: CallbackQuery):
     else:
         await query.answer("sorry no music playing on the voice chat.")
 
+
+# --------------------------------------------------------------------------------------------------------- #
+
+@Hiroko.on_callback_query(filters.regex("music_volume"))
+async def volume_sec(_, query: CallbackQuery):
+    await query.edit_message_caption(f"**➻ sᴛᴀʀᴇᴅ sᴛʀᴇᴀᴍɪɴɢ**\n**🏷️ ɴᴀᴍᴇ : **[{title[:15]}]({url})\n⏰ ** ᴅᴜʀᴀᴛɪᴏɴ :** `{duration}` ᴍɪɴᴜᴛᴇs\n👀 ** ʀᴇǫᴜᴇsᴛᴇᴅ ʙʏ : **{bsdk}\n",
+       reply_markup=button)
+                  
+# --------------------------------------------------------------------------------------------------------- #
+
+@Hiroko.on_callback_query(filters.regex("volume_50"))
+async def volume_50(_, query: CallbackQuery):
+    chat_id = query.chat.id
+    await pytgcalls.change_volume_call(chat_id, 50)
+    await message.reply(f"successfully volume set to 50%")
+    
+@Hiroko.on_callback_query(filters.regex("volume_100"))
+async def volume_100(_, query: CallbackQuery):
+    chat_id = query.chat.id
+    await pytgcalls.change_volume_call(chat_id, 100)
+    await message.reply(f"successfully volume set to 100%")
+
+@Hiroko.on_callback_query(filters.regex("volume_150"))
+async def volume_150(_, query: CallbackQuery):
+    chat_id = query.chat.id
+    await pytgcalls.change_volume_call(chat_id, 150)
+    await message.reply(f"successfully volume set to 150%")
+
+@Hiroko.on_callback_query(filters.regex("volume_200"))
+async def volume_200(_, query: CallbackQuery):
+    chat_id = query.chat.id
+    await pytgcalls.change_volume_call(chat_id, 200)
+    await message.reply(f"successfully volume set to 200%")
+
+
+# --------------------------------------------------------------------------------------------------------- #
 
 
 @Hiroko.on_message(filters.command("activevoice", prefixes="/"))

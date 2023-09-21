@@ -38,7 +38,7 @@ keyboard = InlineKeyboardMarkup([
 
 
 
-
+# --------------------------------------------------------------------------------------------------------- #
 
 
 que = {}
@@ -173,6 +173,7 @@ async def generate_cover(requested_by, title, views, duration, thumbnail):
     final = f"temp.png"
     return final
 
+# --------------------------------------------------------------------------------------------------------- #
 
 
 @Hiroko.on_message(filters.command(["yt", "play"], prefixes=["/", "!"]))
@@ -323,6 +324,7 @@ async def play(_, message: Message):
     return await lel.delete()
 
 
+# --------------------------------------------------------------------------------------------------------- #
 
 
 @Hiroko.on_message(filters.command(["skip", "next"], prefixes=["/", "!"]))
@@ -349,9 +351,7 @@ async def skip(_, message: Message):
         await message.reply_text("**» ᴍᴜsɪᴄ ᴘʟᴀʏᴇʀ sᴋɪᴘᴘᴇᴅ ᴛʜᴇ sᴏɴɢ.**")
 
 
-
-
-
+# --------------------------------------------------------------------------------------------------------- #
 
 
 @pytgcalls.on_stream_end()
@@ -373,16 +373,22 @@ async def on_stream_end(_, update: Update) -> None:
 
 
 
-
+# --------------------------------------------------------------------------------------------------------- #
 
 
 @Hiroko.on_message(filters.video_chat_started)
 async def brah(_, msg):
-       await msg.reply("voice chat started")
+       await msg.reply("**ᴠᴏɪᴄᴇ ᴄʜᴀᴛ sᴛᴀʀᴛᴇᴅ**")
+
+
+# --------------------------------------------------------------------------------------------------------- #
 
 @Hiroko.on_message(filters.video_chat_ended)
 async def brah2(_, msg):
-       await msg.reply("voice chat ended")
+       await msg.reply("**ᴠᴏɪᴄᴇ ᴄʜᴀᴛ ᴇɴᴅᴇᴅ**")
+
+
+# --------------------------------------------------------------------------------------------------------- #
 
 @Hiroko.on_message(filters.video_chat_members_invited)
 async def fuckoff(hiroko :Hiroko, message:Message):
@@ -400,14 +406,18 @@ async def fuckoff(hiroko :Hiroko, message:Message):
              pass
 
 
+# --------------------------------------------------------------------------------------------------------- #
+
+
 @Hiroko.on_message(filters.command("join"))
 async def join_userbot(_,msg:Message):
   chat_id = msg.chat.id
   invitelink = await Hiroko.export_chat_invite_link(chat_id)
   await userbot.join_chat(invitelink)
-  await msg.reply("assistant successfully join.")
+  await msg.reply("ᴀssɪsᴛᴀɴᴛ sᴜᴄᴄᴇssғᴜʟʟʏ ᴊᴏɪɴ.")
 
 
+# --------------------------------------------------------------------------------------------------------- #
 
 
 @Hiroko.on_message(filters.command(["pause"], prefixes=["/", "!"]))    
@@ -418,6 +428,8 @@ async def pause(_, msg: Message):
         await msg.reply(f"Music player successfully paused\nPaused by {msg.from_user.mention}")
     else:
         await msg.reply(f"Sorry {msg.from_user.mention}, I can't pause because there is no music playing on the voice chat.")
+
+# --------------------------------------------------------------------------------------------------------- #
 
 
 @Hiroko.on_message(filters.command(["resume"], prefixes=["/", "!"]))    
@@ -430,6 +442,9 @@ async def resume(_, msg: Message):
         await msg.reply(f"Sorry {msg.from_user.mention}, I can't resume because there is no music playing on the voice chat.")
 
 
+# --------------------------------------------------------------------------------------------------------- #
+
+
 @Hiroko.on_message(filters.command(["end"], prefixes=["/", "!"]))    
 async def stop(_, msg: Message):
     chat_id = msg.chat.id
@@ -439,12 +454,19 @@ async def stop(_, msg: Message):
     else:
         await msg.reply(f"Sorry {msg.from_user.mention}, I can't end music because there is no music playing on the voice chat.")
 
+
+# --------------------------------------------------------------------------------------------------------- #
+
+
 @Hiroko.on_message(filters.command(["leavevc"], prefixes=["/", "!"]))    
 async def leavevc(_, msg: Message):
     chat_id = msg.chat.id
     await pytgcalls.leave_group_call(chat_id)
     await msg.reply(f"Music player successfully leave\nleaved by {msg.from_user.mention}",)
     
+
+# --------------------------------------------------------------------------------------------------------- #
+
 
 @Hiroko.on_message(filters.command("volume", prefixes="/"))
 async def change_volume(client, message):
@@ -458,6 +480,9 @@ async def change_volume(client, message):
         await message.reply("Usage: /volume [0-200]")
 
 
+# --------------------------------------------------------------------------------------------------------- #
+
+                   
 """
 volume_regex = re.compile(r'^volumev(50|100|150|200)$')
 

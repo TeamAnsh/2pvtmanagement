@@ -4,7 +4,7 @@ from pyrogram import Client, filters
 import openai
 from config import MONGO_URL
 from gtts import gTTS
-from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
+from pyrogram.types import *
 from motor.motor_asyncio import AsyncIOMotorClient as MongoCli
 from Hiroko import Hiroko
 from pyrogram.enums import ChatAction, ChatMemberStatus, ParseMode
@@ -47,11 +47,11 @@ def get_chat_mode(chat_id):
     if chat_mode:
         return chat_mode.get("mode", "text")
     else:
-        return "text"
+        return "unset"
 
 
 def set_chat_mode(chat_id, mode):
-    collection.insert_one({"chat_id": chat_id}, {"$set": {"mode": mode}}, upsert=True)
+    collection.update_one({"chat_id": chat_id}, {"$set": {"mode": mode}}, upsert=True)
 
 
 

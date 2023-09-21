@@ -24,6 +24,19 @@ DURATION_LIMIT = 300
 
 keyboard = InlineKeyboardMarkup([
         [
+            InlineKeyboardButton("▷", callback_data="music_pause"),
+            InlineKeyboardButton("Ⅱ", callback_data="music_resume"),    
+            InlineKeyboardButton("Ⓥ", callback_data="maintainer_"),      
+            InlineKeyboardButton("⊜", callback_data="music_skip"),
+            InlineKeyboardButton("⊝", callback_data="music_end"),  
+        ],
+        [
+            InlineKeyboardButton("⊝ ᴄʟᴏsᴇ ⊝", callback_data="close_data"),    
+        ]
+])
+
+
+button = 
             InlineKeyboardButton("50%", callback_data="volumeup50"),
             InlineKeyboardButton("100%", callback_data="volumeup100"),
         ],
@@ -312,7 +325,7 @@ async def play(_, message: Message):
         await message.reply_photo(
             photo="final.png",
             reply_markup=keyboard,
-            caption=f"**➻ Started streaming\n\n🍒 Name : **[{title[:65]}]({url})\n⏰ ** Duration :** `{duration}` minutes\n👀 ** Requested by : **{bsdk}\n",
+            caption=f"**➻ sᴛᴀʀᴇᴅ sᴛʀᴇᴀᴍɪɴɢ**\n**🏷️ ɴᴀᴍᴇ : **[{title[:10]}]({url})\n⏰ ** ᴅᴜʀᴀᴛɪᴏɴ :** `{duration}` ᴍɪɴᴜᴛᴇs\n👀 ** ʀᴇǫᴜᴇsᴛᴇᴅ ʙʏ : **{bsdk}\n",
            )
 
     os.remove("final.png")

@@ -101,7 +101,7 @@ async def set_mode_callback(hiroko :Hiroko, query):
     is_admin = await hiroko.get_chat_member(chat_id, user_id)
     
     if is_admin.status == ChatMemberStatus.ADMINISTRATOR or is_admin.status == ChatMemberStatus.OWNER:
-        set_chat_mode(chat_id, mode)
+        set_chat_mode(chat_id, audio)
         return await query.answer("chat mode set to: audio mode")   
         
     await query.answer("Only group admins can change the mode.")
@@ -114,7 +114,7 @@ async def set_mode_callback(hiroko :Hiroko, query):
     is_admin = await hiroko.get_chat_member(chat_id, user_id)
     
     if is_admin.status == ChatMemberStatus.ADMINISTRATOR or is_admin.status == ChatMemberStatus.OWNER:
-        set_chat_mode(chat_id, mode)
+        set_chat_mode(chat_id, text)
         return await query.answer("chat mode set to: text mode")   
         
     await query.answer("Only group admins can change the mode.")

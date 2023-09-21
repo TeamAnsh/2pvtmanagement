@@ -180,7 +180,7 @@ async def play(_, message: Message):
     global que
     global useer
     
-    lel = await message.reply("**🔎 Searching...**")
+    lel = await message.reply("**🔎 sᴇᴀʀᴄʜɪɴɢ...**")
    
     bsdk = message.from_user.mention    
     audio = (
@@ -239,7 +239,7 @@ async def play(_, message: Message):
 
         if (dur / 60) > DURATION_LIMIT:
             await lel.edit(
-                f"**» Songs longer than {DURATION_LIMIT} minutes are not allowed to play.**"
+                f"** sᴏɴɢs ʟᴏɴɢᴇʀ ᴛʜᴀɴ {DURATION_LIMIT} ᴍɪɴᴜᴛᴇs ᴀʀᴇ ɴᴏᴛ ᴀʟʟᴏᴡᴇᴅ ᴛᴏ ᴘʟᴀʏ.**"
             )
             return
         requested_by = message.from_user.first_name
@@ -248,11 +248,11 @@ async def play(_, message: Message):
     else:
         if len(message.command) < 2:
             await lel.edit(
-                     "💌 **Usage: /play give a title song to play music**"
+                     "💌 **ᴜsᴀɢᴇ: /ᴘʟᴀʏ ɢɪᴠᴇ ᴀ ᴛɪᴛʟᴇ sᴏɴɢ ᴛᴏ ᴘʟᴀʏ ᴍᴜsɪᴄ.**"
                     
             )
         else:
-            await lel.edit("**⇆ Processing...**")
+            await lel.edit("**⇆ ᴘʀᴏᴄᴇssɪɴɢ...**")
         query = message.text.split(None, 1)[1]
         
         try:
@@ -276,7 +276,7 @@ async def play(_, message: Message):
 
         except Exception as e:
             await lel.edit(
-                "**» Song not found, try searching with the song name.**"
+                "**sᴏɴɢ ɴᴏᴛ ғᴏᴜɴᴅ, ᴛʀʏ sᴇᴀʀᴄʜɪɴɢ ᴡɪᴛʜ sᴏɴɢ ɴᴀᴍᴇ.**"
             )
             print(str(e))
             return
@@ -284,7 +284,7 @@ async def play(_, message: Message):
         
         if (dur / 60) > DURATION_LIMIT:
             await lel.edit(
-                f"**Songs longer than {DURATION_LIMIT} minutes are not allowed to play.**"
+                f"**sᴏɴɢs ʟᴏɴɢᴇʀ ᴛʜᴀɴ {DURATION_LIMIT} ᴍɪɴᴜᴛᴇs ᴀʀᴇ ɴᴏᴛ ᴀʟʟᴏᴡᴇᴅ ᴛᴏ ᴘʟᴀʏ.**"
             )
             return
         requested_by = message.from_user.first_name
@@ -298,7 +298,7 @@ async def play(_, message: Message):
         position = await rq.put(chat_id, file=file_path)
         await message.reply_photo(
             photo="final.png",
-            caption=f"**➻ Track added to queue » {position} **\n\n​ 🍒**Name :**[{title[:65]}]({url})\n⏰ ** Duration :** `{duration}` **minutes**\n👀 ** Requested by : **{bsdk}",
+            caption=f"**➻ ᴛʀᴀᴄᴋ ᴀᴅᴅᴇᴅ ᴛᴏ ǫᴜᴇᴜᴇ » {position} **\n\n**​🏷️ ɴᴀᴍᴇ :**[{title[:15]}]({url})\n⏰** ᴅᴜʀᴀᴛɪᴏɴ :** `{duration}` **ᴍɪɴᴜᴛᴇs**\n👀 ** ʀᴇǫᴜᴇsᴛᴇᴅ ʙʏᴇ : **{bsdk}",
             reply_markup=keyboard,
         )
        
@@ -316,7 +316,7 @@ async def play(_, message: Message):
         await message.reply_photo(
             photo="final.png",
             reply_markup=keyboard,
-            caption=f"**➻ sᴛᴀʀᴇᴅ sᴛʀᴇᴀᴍɪɴɢ**\n**🏷️ ɴᴀᴍᴇ : **[{title[:10]}]({url})\n⏰ ** ᴅᴜʀᴀᴛɪᴏɴ :** `{duration}` ᴍɪɴᴜᴛᴇs\n👀 ** ʀᴇǫᴜᴇsᴛᴇᴅ ʙʏ : **{bsdk}\n",
+            caption=f"**➻ sᴛᴀʀᴇᴅ sᴛʀᴇᴀᴍɪɴɢ**\n**🏷️ ɴᴀᴍᴇ : **[{title[:15]}]({url})\n⏰ ** ᴅᴜʀᴀᴛɪᴏɴ :** `{duration}` ᴍɪɴᴜᴛᴇs\n👀 ** ʀᴇǫᴜᴇsᴛᴇᴅ ʙʏ : **{bsdk}\n",
            )
 
     os.remove("final.png")

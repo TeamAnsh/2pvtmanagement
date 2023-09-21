@@ -13,14 +13,14 @@ collection = db["chatgpt_settings"]
 
 openai.api_key = "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"
 
-@Hiroko.on_message(filters.command(["setmode"], prefixes=["+", ".", "/", "-", "?", "$", "#", "&"]))
-async def set_mode(hiroko, message):
+@Hiroko.on_message(filters.command(["start"], prefixes=["+", ".", "/", "-", "?", "$", "#", "&"]))
+async def start(hiroko, message):
     chat_id = message.chat.id
     user_id = message.from_user.id
     is_admin = await hiroko.get_chat_member(chat_id, user_id)
     
     if not is_admin or is_admin.status not in ("creator", "administrator"):
-        await message.reply_text("Only group admins can change the mode.")
+        await message.reply_text("Only group admins can set the mode.")
         return
 
     buttons = InlineKeyboardMarkup(
@@ -32,8 +32,7 @@ async def set_mode(hiroko, message):
         ]
     )
 
-    await message.reply_text("Please select a mode:", reply_markup=buttons)
-
+    await message.reply_text("Please select a mode first:", reply_markup=buttons)
 
 @Hiroko.on_callback_query(filters.regex("^mode_"))
 async def set_mode_callback(hiroko, callback_query):
@@ -50,11 +49,18 @@ async def set_mode_callback(hiroko, callback_query):
     set_chat_mode(chat_id, mode)
     await callback_query.answer(f"Chat mode set to: {mode}")
 
+
+
 @Hiroko.on_message(filters.command(["assistant"], prefixes=["+", ".", "/", "-", "?", "$", "#", "&"]))
 async def chat(hiroko, message):
+    chat_id = message.chat.id
+    chat_mode = get_chat_mode(chat_id)
+    
+    if chat_mode == "unset":
+        await message.reply_text("Please choose a mode first using /start")
+        return
+
     try:
-        chat_id = message.chat.id
-        chat_mode = get_chat_mode(chat_id)
         await hiroko.send_chat_action(chat_id, ChatAction.TYPING)
 
         if len(message.command) < 2:
@@ -62,14 +68,13 @@ async def chat(hiroko, message):
         else:
             question = message.text.split(' ', 1)[1]
             if chat_mode == "audio":
-                # Process the question and send an audio response
+                
                 await process_question_audio(hiroko, question, chat_id)
             else:
-                # Process the question and send a text response
+                
                 await process_question_text(hiroko, question, chat_id)
 
     except Exception as e:
         await message.reply_text(f"Error: {e}")
-
 
 

@@ -4,6 +4,7 @@ from functools import partial
 from Hiroko import Hiroko 
 from pyrogram import filters
 from pyrogram.types import *
+from pykeyboard import InlineKeyboard
 from aiohttp import ClientSession
 
 

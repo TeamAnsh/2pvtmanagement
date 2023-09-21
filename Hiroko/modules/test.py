@@ -2,17 +2,18 @@ import os
 import time
 from pyrogram import Client, filters
 import openai
+from config import MONGO_URL
 from gtts import gTTS
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 from motor.motor_asyncio import AsyncIOMotorClient as MongoCli
 from Hiroko import Hiroko
 from pyrogram.enums import ChatAction, ParseMode
 
-# Initialize MongoDB client
-mongo_client = pymongo.MongoClient("mongodb://localhost:27017/")
 
 
-db = mongo_client["chatgpt_db"]
+
+mongo = MongoCli(MONGO_URL)
+db = mongo["chatgpt_db"]
 collection = db["chatgpt_settings"]
 
 openai.api_key = "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"

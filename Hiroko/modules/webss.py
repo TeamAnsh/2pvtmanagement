@@ -82,9 +82,9 @@ async def take_ss(_, message: Message):
         m = await m.edit("ᴜᴘʟᴏᴀᴅɪɴɢ...")
 
         if not full:
-            await message.reply_document(photo)
+            await message.reply_photo(photo)
         else:
-            await message.reply_document(photo)
+            await message.reply_photo(photo)
         await m.delete()
     except Exception as e:
         await m.edit(str(e))

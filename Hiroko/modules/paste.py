@@ -1,11 +1,7 @@
-import socket
-import aiofiles
+import re, os, socket, aiofiles, aiohttp, asyncio
 from asyncio import get_running_loop
 from functools import partial
-import re  
-import os  
-import aiohttp  
-import asyncio
+from Hiroko import Hiroko 
 from pyrogram import filters
 from pyrogram.types import *
 from aiohttp import ClientSession

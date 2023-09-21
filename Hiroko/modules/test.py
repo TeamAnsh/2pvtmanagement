@@ -7,7 +7,7 @@ from gtts import gTTS
 from pyrogram.types import *
 from motor.motor_asyncio import AsyncIOMotorClient as MongoCli
 from Hiroko import Hiroko
-from pyrogram.enums import ChatAction, ChatMemberStatus, ParseMode
+from pyrogram.enums import ChatAction, ChatMemberStatus, ParseMode, ChatType
     
 
 
@@ -63,18 +63,20 @@ async def start(hiroko :Hiroko, message):
     chat_id = message.chat.id
     user_id = message.from_user.id
     is_admin = await hiroko.get_chat_member(chat_id, user_id)
-    
-    if is_admin.status == ChatMemberStatus.ADMINISTRATOR or is_admin.status == ChatMemberStatus.OWNER:          
-        return await message.reply_text("Please select a mode first:", reply_markup=InlineKeyboardMarkup(
-        [
-            [
+    if message.chat.type == ChatType.PRIVATE:
+        return await message.reply("fuck you this command only use in group.")
+        
+        if is_admin.status == ChatMemberStatus.ADMINISTRATOR or is_admin.status == ChatMemberStatus.OWNER:          
+            return await message.reply_text("Please select a mode first:", reply_markup=InlineKeyboardMarkup(
+              [
+             [
                 InlineKeyboardButton("Audio Mode", callback_data="mode_audio"),
                 InlineKeyboardButton("Text Mode", callback_data="mode_text"),
             ]
-        ]
-    ))
+            ]
+            ))
 
-    await message.reply_text("Only group admins can set the mode.")
+        await message.reply_text("Only group admins can set the mode.")
 
 """
 @Hiroko.on_callback_query(filters.regex("^mode_"))

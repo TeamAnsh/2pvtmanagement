@@ -78,18 +78,18 @@ async def start(hiroko :Hiroko, message):
 
 
 @Hiroko.on_callback_query(filters.regex("^mode_"))
-async def set_mode_callback(hiroko :Hiroko, callback_query):
-    chat_id = callback_query.message.chat.id
-    user_id = callback_query.from_user.id
-    mode = callback_query.data.split("_")[1]
+async def set_mode_callback(hiroko :Hiroko, query):
+    chat_id = query.message.chat.id
+    user_id = query.from_user.id
+    mode = query.data.split("_")[1]
 
     is_admin = await hiroko.get_chat_member(chat_id, user_id)
     
     if is_admin.status == ChatMemberStatus.ADMINISTRATOR or is_admin.status == ChatMemberStatus.OWNER:
         set_chat_mode(chat_id, mode)
-        return await callback_query.answer(f"Chat mode set to: {mode}")   
+        return await query.answer(f"Chat mode set to: {mode}")   
         
-    await callback_query.answer("Only group admins can change the mode.")
+    await query.answer("Only group admins can change the mode.")
         
 
 

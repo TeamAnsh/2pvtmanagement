@@ -64,10 +64,9 @@ async def start(hiroko :Hiroko, message):
     user_id = message.from_user.id
     is_admin = await hiroko.get_chat_member(chat_id, user_id)
     
-    if is_admin.status == ChatMemberStatus.ADMINISTRATOR or is_admin.status == ChatMemberStatus.OWNER:        
-        await message.reply_text("Only group admins can set the mode.")
-        return
-
+    if is_admin.status == ChatMemberStatus.ADMINISTRATOR or is_admin.status == ChatMemberStatus.OWNER:          
+        await message.reply_text("Please select a mode first:", reply_markup=buttons)
+                 
     buttons = InlineKeyboardMarkup(
         [
             [
@@ -77,7 +76,8 @@ async def start(hiroko :Hiroko, message):
         ]
     )
 
-    await message.reply_text("Please select a mode first:", reply_markup=buttons)
+    await message.reply_text("Only group admins can set the mode.")
+
 
 @Hiroko.on_callback_query(filters.regex("^mode_"))
 async def set_mode_callback(hiroko :Hiroko, callback_query):
@@ -88,12 +88,11 @@ async def set_mode_callback(hiroko :Hiroko, callback_query):
     is_admin = await hiroko.get_chat_member(chat_id, user_id)
     
     if is_admin.status == ChatMemberStatus.ADMINISTRATOR or is_admin.status == ChatMemberStatus.OWNER:
-        await callback_query.answer("Only group admins can change the mode.")
-        return
+        await callback_query.answer(f"Chat mode set to: {mode}")       
 
     set_chat_mode(chat_id, mode)
-    await callback_query.answer(f"Chat mode set to: {mode}")
-
+    await callback_query.answer("Only group admins can change the mode.")
+        
 
 
 @Hiroko.on_message(filters.command(["assis"], prefixes=["+", ".", "/", "-", "?", "$", "#", "&"]))

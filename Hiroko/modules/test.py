@@ -50,6 +50,8 @@ def get_chat_mode(chat_id):
         return "text"
 
 
+def set_chat_mode(chat_id, mode):
+    collection.update_one({"chat_id": chat_id}, {"$set": {"mode": mode}}, upsert=True)
 
 
 

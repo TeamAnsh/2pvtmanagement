@@ -58,7 +58,7 @@ def set_chat_mode(chat_id, mode):
 
 
 
-@Hirko.on_message(filters.command(["gptmode"], prefixes=["+", ".", "/", "-", "?", "$", "#", "&"]))
+@Hiroko.on_message(filters.command(["gptmode"], prefixes=["+", ".", "/", "-", "?", "$", "#", "&"]))
 async def gpt_mode(_, message):
     chat_id = message.chat.id
     user_id = message.from_user.id

@@ -16,7 +16,42 @@ mongo = MongoCli(MONGO_URL)
 db = mongo["chatgpt_db"]
 collection = db["chatgpt_settings"]
 
+
 openai.api_key = "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"
+
+
+
+
+async def process_question_text(hiroko :Hiroko, question, chat_id):
+    MODEL = "gpt-3.5-turbo"
+    resp = openai.ChatCompletion.create(model=MODEL, messages=[{"role": "user", "content": question}], temperature=0.2)
+    response_text = resp['choices'][0]["message"]["content"]
+    await hiroko.send_message(chat_id, response_text)
+
+
+async def process_question_audio(hiroko :Hiroko, question, chat_id):
+    MODEL = "gpt-3.5-turbo"
+    resp = openai.ChatCompletion.create(model=MODEL, messages=[{"role": "user", "content": question}], temperature=0.2)
+    response_text = resp['choices'][0]["message"]["content"]
+    
+    tts = gTTS(text=response_text, lang='en')
+    audio_file_name = "Hiroko.mp3"
+    tts.save(audio_file_name)
+        
+    await hiroko.send_audio(chat_id, audio=audio_file_name, caption="Here's your voice answer message!")    
+    os.remove(audio_file_name)
+
+
+def get_chat_mode(chat_id):
+    chat_mode = collection.find_one({"chat_id": chat_id})
+    if chat_mode:
+        return chat_mode.get("mode", "text")
+    else:
+        return "text"
+
+
+
+
 
 
 
@@ -86,3 +121,6 @@ async def chat(hiroko :Hiroko, message):
         await message.reply_text(f"Error: {e}")
 
 
+
+
+                                   

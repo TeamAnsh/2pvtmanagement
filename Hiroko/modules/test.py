@@ -76,7 +76,7 @@ async def start(hiroko :Hiroko, message):
 
     await message.reply_text("Only group admins can set the mode.")
 
-
+"""
 @Hiroko.on_callback_query(filters.regex("^mode_"))
 async def set_mode_callback(hiroko :Hiroko, query):
     chat_id = query.message.chat.id
@@ -90,7 +90,32 @@ async def set_mode_callback(hiroko :Hiroko, query):
         return await query.answer(f"Chat mode set to: {mode}")   
         
     await query.answer("Only group admins can change the mode.")
+ """       
+
+@Hiroko.on_callback_query(filters.regex("mode_audio"))
+async def set_mode_callback(hiroko :Hiroko, query):
+    chat_id = query.message.chat.id
+    user_id = query.from_user.id    
+    is_admin = await hiroko.get_chat_member(chat_id, user_id)
+    
+    if is_admin.status == ChatMemberStatus.ADMINISTRATOR or is_admin.status == ChatMemberStatus.OWNER:
+        set_chat_mode(chat_id, mode)
+        return await query.answer("chat mode set to: audio mode")   
         
+    await query.answer("Only group admins can change the mode.")
+
+
+@Hiroko.on_callback_query(filters.regex("mode_text"))
+async def set_mode_callback(hiroko :Hiroko, query):
+    chat_id = query.message.chat.id
+    user_id = query.from_user.id
+    is_admin = await hiroko.get_chat_member(chat_id, user_id)
+    
+    if is_admin.status == ChatMemberStatus.ADMINISTRATOR or is_admin.status == ChatMemberStatus.OWNER:
+        set_chat_mode(chat_id, mode)
+        return await query.answer("chat mode set to: text mode")   
+        
+    await query.answer("Only group admins can change the mode.")
 
 
 @Hiroko.on_message(filters.command(["assis"], prefixes=["+", ".", "/", "-", "?", "$", "#", "&"]))

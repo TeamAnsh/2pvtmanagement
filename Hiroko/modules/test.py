@@ -64,7 +64,7 @@ async def gpt_mode(_, message):
     user_id = message.from_user.id
     is_admin = await Hiroko.get_chat_member(chat_id, user_id)
     
-    if message.chat.type == ChatType.Private:
+    if message.chat.type == ChatType.PRIVATE:
         return await message.reply("This command can only be used in group chats.")
     
     if is_admin.status == ChatMemberStatus.ADMINISTRATOR or is_admin.status == ChatMemberStatus.OWNER:

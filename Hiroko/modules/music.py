@@ -35,7 +35,7 @@ keyboard = InlineKeyboardMarkup([
         ]
 ])
 
-keyboard = InlineKeyboardMarkup([
+button = InlineKeyboardMarkup([
         [
             InlineKeyboardButton("50", callback_data="volume_50"),
             InlineKeyboardButton("100", callback_data="volume_100"),    
@@ -572,25 +572,25 @@ async def volume_sec(_, query: CallbackQuery):
 async def volume_50(_, query: CallbackQuery):
     chat_id = query.chat.id
     await pytgcalls.change_volume_call(chat_id, 50)
-    await message.reply(f"successfully volume set to 50%")
+    await query.answer("successfully volume set to 50%")
     
 @Hiroko.on_callback_query(filters.regex("volume_100"))
 async def volume_100(_, query: CallbackQuery):
     chat_id = query.chat.id
     await pytgcalls.change_volume_call(chat_id, 100)
-    await message.reply(f"successfully volume set to 100%")
+    await query.answer("successfully volume set to 100%")
 
 @Hiroko.on_callback_query(filters.regex("volume_150"))
 async def volume_150(_, query: CallbackQuery):
     chat_id = query.chat.id
     await pytgcalls.change_volume_call(chat_id, 150)
-    await message.reply(f"successfully volume set to 150%")
+    await query.answer("successfully volume set to 150%")
 
 @Hiroko.on_callback_query(filters.regex("volume_200"))
 async def volume_200(_, query: CallbackQuery):
     chat_id = query.chat.id
     await pytgcalls.change_volume_call(chat_id, 200)
-    await message.reply(f"successfully volume set to 200%")
+    await query.answer("successfully volume set to 200%")
 
 
 # --------------------------------------------------------------------------------------------------------- #

@@ -496,6 +496,67 @@ async def handle_volume_callback(client, query):
 
 """
 
+@Hiroko.on_callback_query(filters.regex("music_skip"))
+async def callback_skip(_, query: CallbackQuery):    
+    ACTV_CALLS = []
+    chat_id = query.chat.id
+    for x in pytgcalls.active_calls:
+        ACTV_CALLS.append(int(x.chat_id))
+    if chat_id not in ACTV_CALLS:
+        await query.answer("ᴍᴜsɪᴄ ᴘʟᴀʏᴇʀ ɴᴏᴛʜɪɴɢ ɪs ᴘʟᴀʏɪɴɢ ᴛᴏ sᴋɪᴘ.")
+    else:
+        rq.task_done(chat_id)
+        if rq.is_empty(chat_id):
+            await pytgcalls.leave_group_call(chat_id)
+        else:
+            await pytgcalls.change_stream(
+                chat_id,
+                InputStream(
+                    InputAudioStream(
+                        rq.get(chat_id)["file"],
+                    ),
+                ),
+            )
+        await query.answer("ᴍᴜsɪᴄ ᴘʟᴀʏᴇʀ sᴋɪᴘᴘᴇᴅ ᴛʜᴇ sᴏɴɢ.")
+
+
+# --------------------------------------------------------------------------------------------------------- #
+
+
+@Hiroko.on_callback_query(filters.regex("music_pause"))
+async def callback_pause(_, query: CallbackQuery):
+    chat_id = query.chat.id
+    if str(chat_id) in str(pytgcalls.active_calls):
+        await pytgcalls.pause_stream(chat_id)
+        await query.answer("music player successfully paused")
+    else:
+        await query.answer("sorry no music playing on the voice chat.")
+
+# --------------------------------------------------------------------------------------------------------- #
+
+
+@Hancock.on_callback_query(filters.regex("music_resume"))
+async def callback_resume(_, query: CallbackQuery):
+    chat_id = query.chat.id
+    if str(chat_id) in str(pytgcalls.active_calls):
+        await pytgcalls.resume_stream(chat_id)
+        await query.answer("music player successfully resumed.")
+    else:
+        await query.answer("sorry no music playing on the voice chat.")
+
+
+# --------------------------------------------------------------------------------------------------------- #
+
+
+@Hancock.on_callback_query(filters.regex("music_end"))
+async def callback_end(_, query: CallbackQuery):
+    chat_id = query.chat.id
+    if str(chat_id) in str(pytgcalls.active_calls):
+        await pytgcalls.leave_group_call(chat_id)
+        await query.answer("music player successfully ended")
+    else:
+        await query.answer("sorry no music playing on the voice chat.")
+
 
 
 @Hiroko.on_message(filters.command("activevoice", prefixes="/"))

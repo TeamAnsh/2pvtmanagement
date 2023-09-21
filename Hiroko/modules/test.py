@@ -65,7 +65,7 @@ async def start(hiroko :Hiroko, message):
     is_admin = await hiroko.get_chat_member(chat_id, user_id)
     if message.chat.type == ChatType.PRIVATE:
         return await message.reply("fuck you this command only use in group.")
-        
+    else:    
         if is_admin.status == ChatMemberStatus.ADMINISTRATOR or is_admin.status == ChatMemberStatus.OWNER:          
             return await message.reply_text("Please select a mode first:", reply_markup=InlineKeyboardMarkup(
               [

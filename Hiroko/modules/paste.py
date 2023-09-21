@@ -1,4 +1,4 @@
-import socket
+import socket, aiofiles
 from asyncio import get_running_loop
 from functools import partial
 from Hiroko import Hiroko

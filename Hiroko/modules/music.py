@@ -36,16 +36,7 @@ keyboard = InlineKeyboardMarkup([
 ])
 
 
-button = 
-            InlineKeyboardButton("50%", callback_data="volumeup50"),
-            InlineKeyboardButton("100%", callback_data="volumeup100"),
-        ],
-        [      
-            InlineKeyboardButton("150%", callback_data="volumeup150"),
-            InlineKeyboardButton("200%", callback_data="volumeup200"),  
-        ]
-                
-    ])
+
 
 
 
@@ -467,7 +458,7 @@ async def change_volume(client, message):
         await message.reply("Usage: /volume [0-200]")
 
 
-
+"""
 volume_regex = re.compile(r'^volumev(50|100|150|200)$')
 
 
@@ -478,7 +469,7 @@ async def handle_volume_callback(client, query):
     await pytgcalls.change_volume_call(chat_id, volume)
     await query.answer(f"Volume set to {volume}%")
 
-
+"""
 
 
 

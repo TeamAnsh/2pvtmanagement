@@ -563,6 +563,10 @@ async def callback_end(_, query : CallbackQuery):
 
 @Hiroko.on_callback_query(filters.regex("music_volume"))
 async def volume_sec(_, query : CallbackQuery):
+    results = YoutubeSearch(query, max_results=1).to_dict()
+    url = f"https://youtube.com{results[0]['url_suffix']}"            
+    title = results[0]["title"]            
+    duration = results[0]["duration"]
     await query.edit_message_caption(f"**➻ sᴛᴀʀᴇᴅ sᴛʀᴇᴀᴍɪɴɢ**\n**🏷️ ɴᴀᴍᴇ : **[{title[:15]}]({url})\n⏰ ** ᴅᴜʀᴀᴛɪᴏɴ :** `{duration}` ᴍɪɴᴜᴛᴇs\n👀 ** ʀᴇǫᴜᴇsᴛᴇᴅ ʙʏ : **{bsdk}\n",
        reply_markup=button)
                   

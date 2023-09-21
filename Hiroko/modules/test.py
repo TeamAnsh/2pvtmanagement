@@ -51,7 +51,7 @@ def get_chat_mode(chat_id):
 
 
 def set_chat_mode(chat_id, mode):
-    collection.update_one({"chat_id": chat_id}, {"$set": {"mode": mode}}, upsert=True)
+    collection.insert_one({"chat_id": chat_id}, {"$set": {"mode": mode}}, upsert=True)
 
 
 
@@ -86,9 +86,9 @@ async def set_mode_callback(hiroko :Hiroko, callback_query):
     is_admin = await hiroko.get_chat_member(chat_id, user_id)
     
     if is_admin.status == ChatMemberStatus.ADMINISTRATOR or is_admin.status == ChatMemberStatus.OWNER:
-        return await callback_query.answer(f"Chat mode set to: {mode}")       
-
-    set_chat_mode(chat_id, mode)
+        set_chat_mode(chat_id, mode)
+        return await callback_query.answer(f"Chat mode set to: {mode}")   
+        
     await callback_query.answer("Only group admins can change the mode.")
         
 

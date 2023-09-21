@@ -1,9 +1,18 @@
-import socket, aiofiles
+import socket
+import aiofiles
 from asyncio import get_running_loop
 from functools import partial
-from Hiroko import Hiroko
+import re  
+import os  
+import aiohttp  
+import asyncio
 from pyrogram import filters
 from pyrogram.types import *
+from aiohttp import ClientSession
+
+
+aiohttpsession = ClientSession()
+
 
 def _netcat(host, port, content):
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -76,4 +85,3 @@ async def paste_func(_, message):
 
 
 
-                             

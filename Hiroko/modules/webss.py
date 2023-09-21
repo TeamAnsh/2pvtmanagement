@@ -4,8 +4,14 @@ from io import BytesIO
 import requests
 from aiohttp import ClientSession
 from pyrogram import filters
-from pyrogram.types import Message
+from pyrogram.types import *
 from Hiroko import Hiroko
+
+button = InlineKeyboardMarkup([[
+            InlineKeyboardButton("⌯ ᴄʟᴏsᴇ ⌯", callback_data="close_data")
+                              ]])
+
+
 
 aiohttpsession = ClientSession()
 
@@ -82,9 +88,9 @@ async def take_ss(_, message: Message):
         m = await m.edit("ᴜᴘʟᴏᴀᴅɪɴɢ...")
 
         if not full:
-            await message.reply_photo(photo)
+            await message.reply_photo(photo, reply_markup=button)
         else:
-            await message.reply_photo(photo)
+            await message.reply_photo(photo, reply_markup=button)
         await m.delete()
     except Exception as e:
         await m.edit(str(e))

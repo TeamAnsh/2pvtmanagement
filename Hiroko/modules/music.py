@@ -24,12 +24,12 @@ DURATION_LIMIT = 300
 
 keyboard = InlineKeyboardMarkup([
         [
-            InlineKeyboardButton("50%", callback_data="volumev50"),
-            InlineKeyboardButton("100%", callback_data="volumev100"),
+            InlineKeyboardButton("50%", callback_data="volumeup50"),
+            InlineKeyboardButton("100%", callback_data="volumeup100"),
         ],
         [      
-            InlineKeyboardButton("150%", callback_data="volumev150"),
-            InlineKeyboardButton("200%", callback_data="volumev200"),  
+            InlineKeyboardButton("150%", callback_data="volumeup150"),
+            InlineKeyboardButton("200%", callback_data="volumeup200"),  
         ]
                 
     ])
@@ -461,7 +461,7 @@ volume_regex = re.compile(r'^volumev(50|100|150|200)$')
 @Hiroko.on_callback_query(volume_regex)
 async def handle_volume_callback(client, query):
     chat_id = query.message.chat.id
-    volume = int(query.data.split("v")[1])
+    volume = int(query.data.split("up")[1])
     await pytgcalls.change_volume_call(chat_id, volume)
     await query.answer(f"Volume set to {volume}%")
 

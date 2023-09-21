@@ -18,8 +18,11 @@ collection = db["chatgpt_settings"]
 
 openai.api_key = "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"
 
-@Hiroko.on_message(filters.command(["start"], prefixes=["+", ".", "/", "-", "?", "$", "#", "&"]))
-async def start(hiroko, message):
+
+
+
+@Hiroko.on_message(filters.command(["gptmode"], prefixes=["+", ".", "/", "-", "?", "$", "#", "&"]))
+async def start(hiroko :Hiroko, message):
     chat_id = message.chat.id
     user_id = message.from_user.id
     is_admin = await hiroko.get_chat_member(chat_id, user_id)
@@ -40,7 +43,7 @@ async def start(hiroko, message):
     await message.reply_text("Please select a mode first:", reply_markup=buttons)
 
 @Hiroko.on_callback_query(filters.regex("^mode_"))
-async def set_mode_callback(hiroko, callback_query):
+async def set_mode_callback(hiroko :Hiroko, callback_query):
     chat_id = callback_query.message.chat.id
     user_id = callback_query.from_user.id
     mode = callback_query.data.split("_")[1]
@@ -56,13 +59,13 @@ async def set_mode_callback(hiroko, callback_query):
 
 
 
-@Hiroko.on_message(filters.command(["assistant"], prefixes=["+", ".", "/", "-", "?", "$", "#", "&"]))
-async def chat(hiroko, message):
+@Hiroko.on_message(filters.command(["assis"], prefixes=["+", ".", "/", "-", "?", "$", "#", "&"]))
+async def chat(hiroko :Hiroko, message):
     chat_id = message.chat.id
     chat_mode = get_chat_mode(chat_id)
     
     if chat_mode == "unset":
-        await message.reply_text("Please choose a mode first using /start")
+        await message.reply_text("Please choose a mode first using /gptmode")
         return
 
     try:

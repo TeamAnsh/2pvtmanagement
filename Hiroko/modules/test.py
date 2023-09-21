@@ -7,8 +7,8 @@ from gtts import gTTS
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 from motor.motor_asyncio import AsyncIOMotorClient as MongoCli
 from Hiroko import Hiroko
-from pyrogram.enums import ChatAction, ParseMode
-
+from pyrogram.enums import ChatAction, ChatMemberStatus, ParseMode
+    
 
 
 
@@ -64,7 +64,7 @@ async def start(hiroko :Hiroko, message):
     user_id = message.from_user.id
     is_admin = await hiroko.get_chat_member(chat_id, user_id)
     
-    if not is_admin or is_admin.status not in ("creator", "administrator"):
+    if is_admin.status == ChatMemberStatus.ADMINISTRATOR or member.status == ChatMemberStatus.OWNER:        
         await message.reply_text("Only group admins can set the mode.")
         return
 
@@ -87,7 +87,7 @@ async def set_mode_callback(hiroko :Hiroko, callback_query):
 
     is_admin = await hiroko.get_chat_member(chat_id, user_id)
     
-    if not is_admin or is_admin.status not in ("creator", "administrator"):
+    if is_admin.status == ChatMemberStatus.ADMINISTRATOR or member.status == ChatMemberStatus.OWNER:
         await callback_query.answer("Only group admins can change the mode.")
         return
 

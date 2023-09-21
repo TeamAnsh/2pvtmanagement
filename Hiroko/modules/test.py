@@ -4,10 +4,14 @@ from pyrogram import Client, filters
 import openai
 from gtts import gTTS
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
-import pymongo
+from motor.motor_asyncio import AsyncIOMotorClient as MongoCli
+from Hiroko import Hiroko
+from pyrogram.enums import ChatAction, ParseMode
 
 # Initialize MongoDB client
 mongo_client = pymongo.MongoClient("mongodb://localhost:27017/")
+
+
 db = mongo_client["chatgpt_db"]
 collection = db["chatgpt_settings"]
 

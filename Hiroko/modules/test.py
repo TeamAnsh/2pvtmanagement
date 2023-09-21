@@ -65,7 +65,7 @@ async def start(hiroko :Hiroko, message):
     is_admin = await hiroko.get_chat_member(chat_id, user_id)
     
     if is_admin.status == ChatMemberStatus.ADMINISTRATOR or is_admin.status == ChatMemberStatus.OWNER:          
-        await message.reply_text("Please select a mode first:", reply_markup=InlineKeyboardMarkup(
+        return await message.reply_text("Please select a mode first:", reply_markup=InlineKeyboardMarkup(
         [
             [
                 InlineKeyboardButton("Audio Mode", callback_data="mode_audio"),
@@ -86,7 +86,7 @@ async def set_mode_callback(hiroko :Hiroko, callback_query):
     is_admin = await hiroko.get_chat_member(chat_id, user_id)
     
     if is_admin.status == ChatMemberStatus.ADMINISTRATOR or is_admin.status == ChatMemberStatus.OWNER:
-        await callback_query.answer(f"Chat mode set to: {mode}")       
+        return await callback_query.answer(f"Chat mode set to: {mode}")       
 
     set_chat_mode(chat_id, mode)
     await callback_query.answer("Only group admins can change the mode.")

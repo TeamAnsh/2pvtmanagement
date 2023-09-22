@@ -88,10 +88,7 @@ async def _watcher(_, message):
     if DICT[chat_id]['count'] == 10:
         cusr.execute("SELECT * FROM waifus")
         result = cusr.fetchall()
-        run = []
-        for yos in result:         
-            run.append(yos)
-        waifu = random.choice(run)
+        waifu = random.choice(result)
         photo = waifu[1]
         name = waifu[2]
         anime = waifu[3]

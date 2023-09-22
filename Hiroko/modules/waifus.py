@@ -102,7 +102,7 @@ async def _watcher(_, message):
         DICT[chat_id] = {'count': 0, 'running_count': 0, 'photo': None, 'name': None, 'anime': None, 'rarity': None}
     DICT[chat_id]['count'] += 1
 
-    if DICT[chat_id]['count'] == 10:
+    if DICT[chat_id]['count'] == 100:
         cusr.execute("SELECT * FROM waifus")
         result = cusr.fetchall()
         waifu = random.choice(result)

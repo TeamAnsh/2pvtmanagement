@@ -125,7 +125,7 @@ async def _watcher(_, message):
         if DICT[chat_id]['running_count'] == 30:
             try:
                 character = DICT[chat_id]['name']
-                await _.send_message(chat_id, f"ɴᴀᴍᴇ {character}")
+                await _.send_message(chat_id, f"**ᴀ sᴇxʏ ᴡᴀɪғᴜ ʜᴀꜱ ʀᴀɴ ᴀᴡᴀʏ!!**\n**ɴᴀᴍᴇ** {character}\n**ᴍᴀᴋᴇ ꜱᴜʀᴇ ᴛᴏ ʀᴇᴍᴇᴍʙᴇʀ ɪᴛ ɴᴇxᴛ ᴛɪᴍᴇ.**")
                 DICT.pop(chat_id)
             except errors.FloodWait as e:
                 await asyncio.sleep(e.value)

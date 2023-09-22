@@ -101,7 +101,7 @@ async def close_nightmode():
             await Hiroko.set_chat_permissions(rm_chat,OPEN_CHAT)
 
         except Exception as e:
-            LOG.print(f"[bold red] Unable To open Group {rm_chat} - {e}")
+            print(f"[bold red] Unable To open Group {rm_chat} - {e}")
 
 scheduler = AsyncIOScheduler(timezone="Asia/Kolkata")
 scheduler.add_job(close_nightmode, trigger="cron", hour=6, minute=1)

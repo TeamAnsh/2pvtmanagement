@@ -9,16 +9,16 @@ from pyrogram.enums import ChatAction, ParseMode
 
 
 text = (
-"hey please don't.disturb me.",
+"hey please don't disturb me.",
 "who are you",    
 "aap kon ho",
-"aap mere to nhi lgte ",
+"aap mere owner to nhi lgte ",
 "hey tum mera name kyu le rhe ho meko sone do",
 "ha bolo kya kaam hai ",
 "dekho abhi mai busy hu ",
 "hey i am busy",
 "aapko smj nhi aata kya ",
-"leave ne alone",
+"leave me alone",
 "dude what happend",
 "?",
 "nikl lwde",    

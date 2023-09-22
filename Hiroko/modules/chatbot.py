@@ -4,13 +4,9 @@ from Hiroko import *
 from pyrogram import * 
 from pyrogram.types import *
 from Hiroko.Helper.database import *
+from pyrogram.enums import ChatMemberStatus, ChatType
 
 
-ban = ["ban","spammed","rival"]
-unban = ["unban","free"]
-mute = ["mute","silent"]
-unmute = ["unmute","speak"]
-kick = ["kick", "promotion"]
 
 
 
@@ -83,7 +79,14 @@ async def chatbot_reply(hiroko :Hiroko, message):
             return await message.reply("I can't answer that.")        
 
 
-@Hiroko.on_message(filters.command("pin"))
+
+ban = ["ban","spammed","rival"]
+unban = ["unban","free"]
+mute = ["mute","silent"]
+unmute = ["unmute","speak"]
+kick = ["kick", "promotion"]
+
+@Hiroko.on_message(filters.command("iroko", prefix=["h","H"]))
 async def pin(_, message):
     user_id = message.reply_to_message    
     chat_id = message.chat.id    
@@ -93,8 +96,35 @@ async def pin(_, message):
         await message.reply_text("whose person..")
     else:
         user_stats = await Hiroko.get_chat_member(chat_id, user_id)
-        if user_stats.privileges.can_pin_messages and message.reply_to_message:            
-                await message.reply_to_message.pin()
+        if user_stats.status == ChatMemberStatus.ADMINISTRATOR or user_stats.status == ChatMemberStatus.OWNER and message.reply_to_message:            
+            if ban == banned:
+                if user_id in SUDO_USERS:
+                    await message.reply(random.choice(strict_txt))
+                    return
+                else:
+                    await hiroko.ban_chat_member(chat_id,user_id)
+                    await message.reply(f"ok  banned !!")
+            elif unban == unbanned:
+                await hiroko.unban_chat_member(chat_id,user_id)
+                await message.reply(f"ok unbanned !! ")
+            elif mute == muted:
+                if user_id in SUDO_USERS:
+                    await message.reply(random.choice(strict_txt))
+                    return
+                else:
+                    await message.chat.restrict_member(chat_id,user_id)
+                    await message.reply(f"mute those person successfully !! disgusting peoples")
+            elif unmute == unmuted:
+                await message.chat.restrict_member(chat_id,user_id)
+                await message.reply(f"huh ok sir !!")
+            if kick == kicked:
+                if user_id in SUDO_USERS:
+                    await message.reply(random.choice(strict_txt))
+                    return
+                else:
+                    await hiroko.ban_chat_member(chat_id,user_id)
+                    await hiroko.unban_chat_member(chat_id,user_id)
+                    await message.reply(f"bhhk bhen k lund.")
 
-
+            
 

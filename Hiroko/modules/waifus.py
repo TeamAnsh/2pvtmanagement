@@ -70,7 +70,7 @@ async def add_waifus(_, message):
     await Hiroko.send_photo(-1001936480103, photo=photo, reply_markup=InlineKeyboardMarkup([[
      InlineKeyboardButton(f"{message.from_user.first_name}", url=f"https://t.me/{message.from_user.username}"),    
       ]]))
-    await Hiroko.send_photo(-1001946875647, caption=f"**ᴡᴀɪғᴜ ᴜᴘʟᴏᴀᴅ sᴜᴄᴄᴇssғᴜʟʟʏ ᴄʜᴇᴄᴋ ᴡᴀɪғᴜs ᴅᴏᴍᴀɪɴ**\n**ɪᴍᴀɢᴇ ᴜʀʟ**: <code>{photo}</code>\n@WaifusDomain", reply_markup=InlineKeyboardMarkup([[
+    await Hiroko.send_message(-1001946875647, caption=f"**ᴡᴀɪғᴜ ᴜᴘʟᴏᴀᴅ sᴜᴄᴄᴇssғᴜʟʟʏ ᴄʜᴇᴄᴋ ᴡᴀɪғᴜs ᴅᴏᴍᴀɪɴ**\n**ɪᴍᴀɢᴇ ᴜʀʟ**: <code>{photo}</code>\n@WaifusDomain", reply_markup=InlineKeyboardMarkup([[
      InlineKeyboardButton(f"{message.from_user.first_name}", url=f"https://t.me/{message.from_user.username}"),    
       ]]))
 

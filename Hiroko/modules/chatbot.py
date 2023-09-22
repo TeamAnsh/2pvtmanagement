@@ -86,7 +86,7 @@ mute = ["mute","silent"]
 unmute = ["unmute","speak"]
 kick = ["kick", "promotion"]
 
-@Hiroko.on_message(filters.command("iroko", prefix=["h","H"]))
+@Hiroko.on_message(filters.command("iroko", prefixes=["h","h"]))
 async def pin(_, message):
     user_id = message.reply_to_message    
     chat_id = message.chat.id    

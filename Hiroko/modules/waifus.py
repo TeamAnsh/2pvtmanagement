@@ -35,10 +35,11 @@ DB.commit()
 
 @Hiroko.on_message(filters.command(["addwaifu"]) & filters.user(SUDO_USERS))
 async def add_waifus(_, message):
-    if len(message.command) < 2:
+    if len(message.command) < 10:
         return await message.reply("💌 Hello hottie, please provide the waifu details in the format: /addwaifu photo-name-anime-rarity")
+        
     bruh = message.text.split(maxsplit=1)[1]
-    data = bruh.split("-")
+    data = bruh.split("+")
     photo = data[0]
     nam = data[1]
     ani = data[2]

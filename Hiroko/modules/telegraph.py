@@ -43,9 +43,9 @@ async def telegraph(_, message: Message):
             ]        
         ]
         reply_markup = InlineKeyboardMarkup(buttons)            
-        await message.reply_text(f"**ʜᴇʟʟᴏ [{}](tg://user?id={})**\n**ʜᴇʀᴇ ɪs ʏᴏᴜʀ ᴛᴇʟᴇɢʀᴀᴘʜ ʟɪɴᴋ [🥪](https://telegra.ph{response[0]})**"), reply_markup=reply_markup)
+        await message.reply_text(f"**ʜᴇʟʟᴏ [{}](tg://user?id={})**\n**ʜᴇʀᴇ ɪs ʏᴏᴜʀ ᴛᴇʟᴇɢʀᴀᴘʜ ʟɪɴᴋ [🥪](https://telegra.ph{response[0]})**"), reply_markup=buttons)
     except Exception as document:
-        await client.send_message(message.chat.id, document)
+        await Hiroko.send_message(message.chat.id, document)
     finally:
         os.remove(download_location)
         

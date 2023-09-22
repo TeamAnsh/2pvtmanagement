@@ -13,9 +13,21 @@ DICT = {}
 trade_requests = {}
 chat_count = {}
 
+
 cusr.execute("""
     CREATE TABLE IF NOT EXISTS waifus (
         id SERIAL PRIMARY KEY,
+        photo TEXT NOT NULL,
+        name TEXT NOT NULL,
+        anime TEXT NOT NULL,
+        rarity TEXT NOT NULL
+    )
+""")
+DB.commit()
+cusr.execute("""
+    CREATE TABLE IF NOT EXISTS grabbed (
+        id SERIAL PRIMARY KEY,
+        user_id VARCHAR(255) NOT NULL,
         photo TEXT NOT NULL,
         name TEXT NOT NULL,
         anime TEXT NOT NULL,
@@ -124,22 +136,26 @@ async def _watcher(_, message):
 
 @Hiroko.on_message(filters.command("grab", prefixes="/"))
 async def grab_waifus(client, message):
-    if len(message.command) != 2:
-        return await message.reply("Hello sweetheart. Please use /grab waifu_name")
-
+    chat_id = message.chat.id
+    if chat_id not in DICT or not DICT[chat_id]['name']:
+        return await message.reply("No character to grab at the moment. Keep an eye out for the next one!")
     user_id = message.from_user.id
-    waifu_name = message.command[1]
-    waifus_name = await waifu_collection.find({"waifu_name" : waifu_name})
-
-    if waifu_name in waifus_name:
-        user_waifu_data = {
-            "user_id": user_id,
-            "waifu": waifu_name
-        }
-        await waifu_collection.insert_one(user_waifu_data)
-        await message.reply(f"Grabbed {waifu_name} as your waifu!")
+    if not message.text.split(maxsplit=1)[1]:
+        return await message.reply("Usage:- `/grab lund`")
+    guess = message.text.split(maxsplit=1)[1].lower()
+    name = DICT[chat_id]['name'].lower()
+    if guess == name:
+        user_id = str(msg.from_user.id)
+        cusr.execute(
+            "INSERT INTO grabbed (user_id, photo , name , anime , rarity) VALUES (%s, %s, %s, %s, %s)",
+            (user_id, DICT[chat_id]['photo'], DICT[chat_id]['name'], DICT[chat_id]['anime'], DICT[chat_id]['rarity'])
+        )
+        DB.commit()
+        DICT.pop(chat_id)
+        await message.reply("congratulations you caught my Lund")
     else:
-        await message.reply("bsdk k glt hai name . Please choose a valid waifu.")
+        await message.reply("❌ Rip, that's not quite right.")
+
 
 
 

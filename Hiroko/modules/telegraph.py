@@ -8,9 +8,7 @@ from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton
 # ------------------------------------------------------------------------------- #
 
 @Hiroko.on_message(filters.command(["tg", "tgm", "telegraph"], prefixes=["/", "!"]))
-async def telegraph(client: Client, message: Message):
-    get_me = await client.get_me()
-    USERNAME = get_me.username
+async def telegraph(_, message: Message):    
     replied = message.reply_to_message
     if not replied:
         await message.reply_text("reply to a supported media file")
@@ -40,14 +38,12 @@ async def telegraph(client: Client, message: Message):
         response = upload_file(download_location)
         buttons = [        
             [            
-                InlineKeyboardButton("๏ ᴛᴇʟᴇɢʀᴀᴘʜ ʟɪɴᴋ ๏", url=f"https://telegra.ph{response[0]}"), 
-            ],
-            [
-                InlineKeyboardButton("✨ sᴜᴘᴘᴏʀᴛ ✨", url="https://t.me/TheNixaSupport")           
+                InlineKeyboardButton("Telegraph", url=f"https://telegra.ph{response[0]}"),         
+                InlineKeyboardButton("Share", url=f"https://telegram.me/share/url?url=https://telegra.ph{response[0]}")           
             ]        
         ]
         reply_markup = InlineKeyboardMarkup(buttons)            
-        await message.reply_text("**ʜᴇʟʟᴏ [{}](tg://user?id={})**\n**ʜᴇʀᴇ ɪs ʏᴏᴜʀ ᴛᴇʟᴇɢʀᴀᴘʜ ʟɪɴᴋ ᴊᴜsᴛ ᴛᴀᴘ ᴛᴇʟᴇɢʀᴀᴘʜ ʙᴜᴛᴛᴏɴ ʟɪɴᴋ ᴀɴᴅ ᴄᴏᴘʏ**".format(message.from_user.first_name, message.from_user.id), reply_markup=reply_markup)
+        await message.reply_text(f"**ʜᴇʟʟᴏ [{}](tg://user?id={})**\n**ʜᴇʀᴇ ɪs ʏᴏᴜʀ ᴛᴇʟᴇɢʀᴀᴘʜ ʟɪɴᴋ [🥪](https://telegra.ph{response[0]})**"), reply_markup=reply_markup)
     except Exception as document:
         await client.send_message(message.chat.id, document)
     finally:

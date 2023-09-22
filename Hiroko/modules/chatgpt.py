@@ -8,21 +8,6 @@ from Hiroko import Hiroko
 from pyrogram.enums import ChatAction, ParseMode
 
 
-text = (
-"hey please don't disturb me.",
-"who are you",    
-"aap kon ho",
-"aap mere owner to nhi lgte ",
-"hey tum mera name kyu le rhe ho meko sone do",
-"ha bolo kya kaam hai ",
-"dekho abhi mai busy hu ",
-"hey i am busy",
-"aapko smj nhi aata kya ",
-"leave me alone",
-"dude what happend",
-"?",
-"nikl lwde",    
-)
 
 
 openai.api_key = "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"
@@ -49,24 +34,6 @@ async def chat(hiroko :Hiroko, message):
     except Exception as e:
         await message.reply_text(f"**ᴇʀʀᴏʀ**: {e} ")        
 
-
-@Hiroko.on_message(filters.command(["iroko"],  prefixes=["H","h"]))
-async def chat(hiroko :Hiroko, message):
-    
-    try:
-        start_time = time.time()
-        await hiroko.send_chat_action(message.chat.id, ChatAction.TYPING)
-        if len(message.command) < 2:
-            await message.reply_text(random.choice(text))
-        else:
-            a = message.text.split(' ', 1)[1]
-            MODEL = "gpt-3.5-turbo"
-            resp = openai.ChatCompletion.create(model=MODEL,messages=[{"role": "user", "content": a}],
-    temperature=0.2)
-            x=resp['choices'][0]["message"]["content"]
-            await message.reply_text(f"{x}")     
-    except Exception as e:
-        await message.reply_text(f"**ᴇʀʀᴏʀ**: {e} ")        
 
 
 

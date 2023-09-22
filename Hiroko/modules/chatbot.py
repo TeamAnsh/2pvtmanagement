@@ -28,7 +28,7 @@ text = (
 "nikl lwde",    
 )
 
-strict_text = [
+strict_txt = [
 "i can't ban my besties",
 "are you serious i am not my friends"
 "fuck you bsdk k mai apne dosto ko kyu kru"

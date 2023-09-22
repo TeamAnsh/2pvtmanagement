@@ -93,6 +93,9 @@ mute = ["mute","silent"]
 unmute = ["unmute","speak"]
 kick = ["kick", "promotion"]
 
+
+
+"""
 @Hiroko.on_message(filters.command("iroko", prefixes=["h","h"]))
 async def restriction_(hiroko :Hiroko, message):
     user_id = message.reply_to_message    
@@ -141,8 +144,8 @@ async def restriction_(hiroko :Hiroko, message):
                     await hiroko.ban_chat_member(chat_id,user_id)
                     await hiroko.unban_chat_member(chat_id,user_id)
                     await message.reply(f"bhhk bhen k lund.")
-
- """           
+"""
+            
 
 @Hiroko.on_message(filters.command("iroko", prefixes=["h", "H"]))
 async def restriction_(hiroko: Hiroko, message):
@@ -194,7 +197,7 @@ async def restriction_(hiroko: Hiroko, message):
 
 
 
-"""
+
 
 
 

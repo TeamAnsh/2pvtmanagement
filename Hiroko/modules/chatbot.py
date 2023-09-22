@@ -1,5 +1,6 @@
 import requests
 import openai
+import random
 from Hiroko import *
 from pyrogram import * 
 from pyrogram.types import *

@@ -125,7 +125,7 @@ async def _watcher(_, message):
         if DICT[chat_id]['running_count'] == 30:
             try:
                 character = DICT[chat_id]['name']
-                await _.send_message(chat_id, f"**ᴀ sᴇxʏ ᴡᴀɪғᴜ ʜᴀꜱ ʀᴀɴ ᴀᴡᴀʏ!!**\n**ɴᴀᴍᴇ** {character}\n**ᴍᴀᴋᴇ ꜱᴜʀᴇ ᴛᴏ ʀᴇᴍᴇᴍʙᴇʀ ɪᴛ ɴᴇxᴛ ᴛɪᴍᴇ.**")
+                await _.send_message(chat_id, f"**ᴀ sᴇxʏ ᴡᴀɪғᴜ ʜᴀꜱ ʀᴀɴ ᴀᴡᴀʏ!!**\n\n**ɴᴀᴍᴇ** <code>{character}</code>\n**ᴍᴀᴋᴇ ꜱᴜʀᴇ ᴛᴏ ʀᴇᴍᴇᴍʙᴇʀ ɪᴛ ɴᴇxᴛ ᴛɪᴍᴇ.**")
                 DICT.pop(chat_id)
             except errors.FloodWait as e:
                 await asyncio.sleep(e.value)
@@ -141,7 +141,7 @@ async def grab_waifus(client, message):
         return await message.reply("No character to grab at the moment. Keep an eye out for the next one!")
     user_id = message.from_user.id
     if len(message.text) < 6:
-        return await message.reply("Usage:- `/grab lund`")
+        return await message.reply("Usage:- `/grab waifu name`")
     guess = message.text.split(maxsplit=1)[1].lower()
     name = DICT[chat_id]['name'].lower()
     if guess == name:

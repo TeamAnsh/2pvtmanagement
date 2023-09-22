@@ -1,6 +1,7 @@
 import requests
 import openai
 import random
+from config import SUDO_USERS
 from Hiroko import *
 from pyrogram import * 
 from pyrogram.types import *

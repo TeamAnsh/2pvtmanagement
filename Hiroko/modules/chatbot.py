@@ -27,7 +27,13 @@ text = (
 "nikl lwde",    
 )
 
-
+strict_text = [
+"i can't ban my besties",
+"are you serious i am not my friends"
+"fuck you bsdk k mai apne dosto ko kyu kru"
+"hey stupid admin "    
+]
+    
 openai.api_key = "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"
 
 
@@ -100,10 +106,10 @@ async def restriction_(hiroko :Hiroko, message):
     muted = data
     unmuted = data
     kicked = data
-    if message.chat.type == enums.ChatType.PRIVATE:
+    if message.chat.type == ChatType.PRIVATE:
         return await message.reply_text("**are you stupid how i can ban in private message**")    
-    if replied:
-        user_stats = await Hiroko.get_chat_member(chat_id, user_id)
+    if user_id:
+        user_stats = await hiroko.get_chat_member(chat_id, user_id)
         if user_stats.status == ChatMemberStatus.ADMINISTRATOR or user_stats.status == ChatMemberStatus.OWNER and message.reply_to_message:            
             if banned.lower() in ban:
                 if user_id in SUDO_USERS:
@@ -136,5 +142,59 @@ async def restriction_(hiroko :Hiroko, message):
                     await hiroko.unban_chat_member(chat_id,user_id)
                     await message.reply(f"bhhk bhen k lund.")
 
-            
+ """           
+
+@Hiroko.on_message(filters.command("iroko", prefixes=["h", "H"]))
+async def restriction_(hiroko: Hiroko, message):
+    chat_id = message.chat.id
+
+    if len(message.text) < 10:
+        return await message.reply(random.choice(strict_txt))
+
+    nono = message.text.split(maxsplit=1)[1]
+    data = nono.split(" ")
+    user_id = message.reply_to_message.from_user.id if message.reply_to_message else None
+
+    if message.chat.type == ChatType.PRIVATE:
+        return await message.reply_text("You cannot perform actions in private messages.")
+
+    if user_id:
+        user_stats = await hiroko.get_chat_member(chat_id, user_id)
+        if user_stats.status in [ChatMemberStatus.ADMINISTRATOR, ChatMemberStatus.OWNER] and message.reply_to_message:
+            if any(word.lower() in data for word in ban):
+                if user_id in SUDO_USERS:
+                    await message.reply(random.choice(strict_txt))
+                    return
+                else:
+                    await hiroko.kick_chat_member(chat_id, user_id)
+                    await message.reply("User banned successfully!")
+            elif any(word.lower() in data for word in unban):
+                await hiroko.unban_chat_member(chat_id, user_id)
+                await message.reply("User unbanned successfully!")
+            elif any(word.lower() in data for word in mute):
+                if user_id in SUDO_USERS:
+                    await message.reply(random.choice(strict_txt))
+                    return
+                else:
+                    permissions = ChatPermissions(can_send_messages=False)
+                    await hiroko.restrict_chat_member(chat_id, user_id, permissions)
+                    await message.reply("User muted successfully!")
+            elif any(word.lower() in data for word in unmute):
+                permissions = ChatPermissions(can_send_messages=True)
+                await hiroko.restrict_chat_member(chat_id, user_id, permissions)
+                await message.reply("User unmuted successfully!")
+            elif any(word.lower() in data for word in kick):
+                if user_id in SUDO_USERS:
+                    await message.reply(random.choice(strict_txt))
+                    return
+                else:
+                    await hiroko.kick_chat_member(chat_id, user_id)
+                    await hiroko.unban_chat_member(chat_id, user_id)
+                    await message.reply("User kicked successfully!")
+
+
+
+"""
+
+
 

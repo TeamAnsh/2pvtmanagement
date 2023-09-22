@@ -119,27 +119,27 @@ async def restriction_hiroko(client :Hiroko, message):
     if reply:
         user_stats = await client.get_chat_member(chat_id, user_id)
         if user_stats.status in [ChatMemberStatus.ADMINISTRATOR, ChatMemberStatus.OWNER] and reply:
-            if banned.lower() in ban:
+            if banned in ban:
                 if user_id in SUDO_USERS:
                     await message.reply(random.choice(strict_txt))
                 else:
                     await client.ban_chat_member(chat_id, user_id)
                     await message.reply(f"OK, banned!")
-            elif unbanned.lower() in unban:
+            elif unbanned in unban:
                 await client.unban_chat_member(chat_id, user_id)
                 await message.reply(f"OK, unbanned!")
-            elif muted.lower() in mute:
+            elif muted in mute:
                 if user_id in SUDO_USERS:
                     await message.reply(random.choice(strict_txt))
                 else:
                     permissions = ChatPermissions(can_send_messages=False)
                     await client.set_chat_permissions(chat_id, user_id, permissions)
                     await message.reply(f"Muted successfully! Disgusting people.")
-            elif unmuted.lower() in unmute:
+            elif unmuted in unmute:
                 permissions = ChatPermissions(can_send_messages=True)
                 await client.set_chat_permissions(chat_id, user_id, permissions)
                 await message.reply(f"Huh, OK, sir!")
-            elif kicked.lower() in kick:
+            elif kicked in kick:
                 if user_id in SUDO_USERS:
                     await message.reply(random.choice(strict_txt))
                 else:

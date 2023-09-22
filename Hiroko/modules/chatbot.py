@@ -101,8 +101,8 @@ kick = ["kick", "promotion"]
 async def restriction_(hiroko: Hiroko, message):
     reply = message.reply_to_message
     chat_id = message.chat.id
-    chat_id = message.from_user.id
-
+    user_id = message.reply_to_message.from_user.id if message.reply_to_message else None
+    
     if len(message.text) < 10:
         return await message.reply(random.choice(text))
 
@@ -117,7 +117,7 @@ async def restriction_(hiroko: Hiroko, message):
     if message.chat.type == ChatType.PRIVATE:
         return await message.reply_text("**Are you stupid? I can't ban in private messages.**")
 
-    if reply:
+    if user_id:
         user_stats = await hiroko.get_chat_member(chat_id, user_id)
         if user_stats.status == ChatMemberStatus.ADMINISTRATOR or user_stats.status == ChatMemberStatus.OWNER and message.reply_to_message:
             if banned.lower() in ban:

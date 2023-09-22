@@ -187,7 +187,7 @@ async def generate_cover(requested_by, title, views, duration, thumbnail):
 # --------------------------------------------------------------------------------------------------------- #
 
 
-@Hiroko.on_message(filters.command(["yt", "play"], prefixes=["/", "!"]))
+@Hiroko.on_message(filters.command(["yt", "play"], prefixes=["!"]))
 async def play(_, message: Message):
     global que
     global useer
@@ -205,7 +205,7 @@ async def play(_, message: Message):
     if audio:
         if round(audio.duration / 60) > DURATION_LIMIT:
             raise DurationLimitError(
-                f"**» Songs longer than {DURATION_LIMIT} minutes are not allowed to play.**"
+                f"** sᴏɴɢs ʟᴏɴɢᴇʀ ᴛʜᴀɴ {DURATION_LIMIT} ᴍɪɴᴜᴛᴇs ᴀʀᴇ ɴᴏᴛ ᴀʟʟᴏᴡᴇᴅ ᴛᴏ ᴘʟᴀʏ.**"
             )
 
         file_name = get_file_name(audio)
@@ -345,7 +345,7 @@ async def skip(_, message: Message):
     for x in pytgcalls.active_calls:
         ACTV_CALLS.append(int(x.chat_id))
     if chat_id not in ACTV_CALLS:
-        await message.reply_text("**» ᴍᴜsɪᴄ ᴘʟᴀʏᴇʀ ɴᴏᴛʜɪɴɢ ɪs ᴘʟᴀʏɪɴɢ ᴛᴏ sᴋɪᴘ.**")
+        await message.reply_text("**ᴍᴜsɪᴄ ᴘʟᴀʏᴇʀ ɴᴏᴛʜɪɴɢ ɪs ᴘʟᴀʏɪɴɢ ᴛᴏ sᴋɪᴘ.**")
     else:
         rq.task_done(chat_id)
         if rq.is_empty(chat_id):
@@ -359,7 +359,7 @@ async def skip(_, message: Message):
                     ),
                 ),
             )
-        await message.reply_text("**» ᴍᴜsɪᴄ ᴘʟᴀʏᴇʀ sᴋɪᴘᴘᴇᴅ ᴛʜᴇ sᴏɴɢ.**")
+        await message.reply_text("**ᴍᴜsɪᴄ ᴘʟᴀʏᴇʀ sᴋɪᴘᴘᴇᴅ ᴛʜᴇ sᴏɴɢ.**")
 
 
 # --------------------------------------------------------------------------------------------------------- #
@@ -436,9 +436,9 @@ async def pause(_, msg: Message):
     chat_id = msg.chat.id
     if str(chat_id) in str(pytgcalls.active_calls):
         await pytgcalls.pause_stream(chat_id)
-        await msg.reply(f"Music player successfully paused\nPaused by {msg.from_user.mention}")
+        await msg.reply(f"ᴍᴜsɪᴄ ᴘʟᴀʏᴇʀ sᴜᴄᴄᴇssғᴜʟʟʏ ᴘᴀᴜsᴇᴅ\nᴘᴀᴜsᴇᴅ ʙʏ {msg.from_user.mention}")
     else:
-        await msg.reply(f"Sorry {msg.from_user.mention}, I can't pause because there is no music playing on the voice chat.")
+        await msg.reply(f"sᴏʀʀʏ {msg.from_user.mention}, ɪ ᴄᴀɴ'ᴛ ᴘᴀᴜsᴇᴅ ʙᴇᴄᴀᴜsᴇ ᴛʜᴇʀᴇ ɪs ɴᴏ ᴍᴜsɪᴄ ᴘʟᴀʏɪɴɢ ᴏɴ ᴛʜᴇ ᴠᴏɪᴄᴇ ᴄʜᴀᴛ.")
 
 # --------------------------------------------------------------------------------------------------------- #
 
@@ -448,9 +448,9 @@ async def resume(_, msg: Message):
     chat_id = msg.chat.id
     if str(chat_id) in str(pytgcalls.active_calls):
         await pytgcalls.resume_stream(chat_id)
-        await msg.reply(f"Music player successfully resumed\nResumed by {msg.from_user.mention}")
+        await msg.reply(f"ᴍᴜsɪᴄ ᴘʟᴀʏᴇʀ sᴜᴄᴄᴇssғᴜʟʟʏ ʀᴇsᴜᴍᴇ\nʀᴇsᴜᴍᴇᴅ ʙʏ {msg.from_user.mention}")
     else:
-        await msg.reply(f"Sorry {msg.from_user.mention}, I can't resume because there is no music playing on the voice chat.")
+        await msg.reply(f"sᴏʀʀʏ {msg.from_user.mention}, ɪ ᴄᴀɴ'ᴛ ʀᴇsᴜᴍᴇ ʙᴇᴄᴀᴜsᴇ ᴛʜᴇʀᴇ ɪs ɴᴏ ᴍᴜsɪᴄ ᴘʟᴀʏɪɴɢ ᴏɴ ᴛʜᴇ ᴠᴏɪᴄᴇ ᴄʜᴀᴛ.")
 
 
 # --------------------------------------------------------------------------------------------------------- #
@@ -461,9 +461,9 @@ async def stop(_, msg: Message):
     chat_id = msg.chat.id
     if str(chat_id) in str(pytgcalls.active_calls):
         await pytgcalls.leave_group_call(chat_id)
-        await msg.reply(f"Music player successfully ended\nEnded by {msg.from_user.mention}")
+        await msg.reply(f"ᴍᴜsɪᴄ ᴘʟᴀʏᴇʀ sᴜᴄᴄᴇssғᴜʟʟʏ ᴇɴᴅᴇᴅ sᴏɴɢ\nᴇɴᴅᴇᴅ ʙʏ {msg.from_user.mention}")
     else:
-        await msg.reply(f"Sorry {msg.from_user.mention}, I can't end music because there is no music playing on the voice chat.")
+        await msg.reply(f"sᴏʀʀʏ {msg.from_user.mention}, ɪ ᴄᴀɴ'ᴛ ᴇɴᴅ ᴍᴜsɪᴄ ʙᴇᴄᴀᴜsᴇ ɴᴏ ᴍᴜsɪᴄ ᴘʟᴀʏɪɴɢ ᴏɴ ᴛʜᴇ ᴠᴏɪᴄᴇ ᴄʜᴀᴛ.")
 
 
 # --------------------------------------------------------------------------------------------------------- #
@@ -473,7 +473,7 @@ async def stop(_, msg: Message):
 async def leavevc(_, msg: Message):
     chat_id = msg.chat.id
     await pytgcalls.leave_group_call(chat_id)
-    await msg.reply(f"Music player successfully leave\nleaved by {msg.from_user.mention}",)
+    await msg.reply(f"ᴍᴜsɪᴄ ᴘʟᴀʏᴇʀ sᴜᴄᴄᴇssғᴜʟʟʏ ʟᴇᴀᴠᴇ ᴠᴏɪᴄᴇ ᴄʜᴀᴛ\nʟᴇᴀᴠᴇᴅ ʙʏ {msg.from_user.mention}",)
     
 
 # --------------------------------------------------------------------------------------------------------- #
@@ -486,9 +486,9 @@ async def change_volume(client, message):
     if len(args) == 2 and args[1].isdigit():
         volume = int(args[1])
         await pytgcalls.change_volume_call(chat_id, volume)
-        await message.reply(f"Volume set to {volume}%")
+        await message.reply(f"ᴠᴏʟᴜᴍᴇ sᴇᴛ ᴛᴏ {volume}%")
     else:
-        await message.reply("Usage: /volume [0-200]")
+        await message.reply("ᴜsᴀɢᴇ: /volume [0-200]")
 
 
 # --------------------------------------------------------------------------------------------------------- #
@@ -529,9 +529,9 @@ async def callback_pause(_, query : CallbackQuery):
     chat_id = query.message.chat.id
     if str(chat_id) in str(pytgcalls.active_calls):
         await pytgcalls.pause_stream(chat_id)
-        await query.answer("music player successfully paused")
+        await query.answer("ᴍᴜsɪᴄ ᴘʟᴀʏᴇʀ sᴜᴄᴄᴇssғᴜʟʟʏ ᴘᴀᴜsᴇᴅ.")
     else:
-        await query.answer("sorry no music playing on the voice chat.")
+        await query.answer("sᴏʀʀʏ ɴᴏ ᴍᴜsɪᴄ ᴘʟᴀʏɪɴɢ ᴏɴ ᴛʜᴇ ᴠᴏɪᴄᴇ ᴄʜᴀᴛ.")
 
 # --------------------------------------------------------------------------------------------------------- #
 
@@ -541,9 +541,9 @@ async def callback_resume(_, query : CallbackQuery):
     chat_id = query.message.chat.id
     if str(chat_id) in str(pytgcalls.active_calls):
         await pytgcalls.resume_stream(chat_id)
-        await query.answer("music player successfully resumed.")
+        await query.answer("ᴍᴜsɪᴄ ᴘʟᴀʏᴇʀ sᴜᴄᴄᴇssғᴜʟʟʏ ʀᴇsᴜᴍᴇᴅ.")
     else:
-        await query.answer("sorry no music playing on the voice chat.")
+        await query.answer("sᴏʀʀʏ ɴᴏ ᴍᴜsɪᴄ ᴘʟᴀʏɪɴɢ ᴏɴ ᴛʜᴇ ᴠᴏɪᴄᴇ ᴄʜᴀᴛ.")
 
 
 # --------------------------------------------------------------------------------------------------------- #
@@ -554,9 +554,9 @@ async def callback_end(_, query : CallbackQuery):
     chat_id = query.message.chat.id
     if str(chat_id) in str(pytgcalls.active_calls):
         await pytgcalls.leave_group_call(chat_id)
-        await query.answer("music player successfully ended")
+        await query.answer("ᴍᴜsɪᴄ ᴘʟᴀʏᴇʀ sᴜᴄᴄᴇssғᴜʟʟʏ ᴇɴᴅᴇᴅ sᴏɴɢ.")
     else:
-        await query.answer("sorry no music playing on the voice chat.")
+        await query.answer("sᴏʀʀʏ ɴᴏ ᴍᴜsɪᴄ ᴘʟᴀʏɪɴɢ ᴏɴ ᴛʜᴇ ᴠᴏɪᴄᴇ ᴄʜᴀᴛ.")
 
 
 # --------------------------------------------------------------------------------------------------------- #
@@ -576,25 +576,25 @@ async def volume_sec(_, query : CallbackQuery):
 async def volume_50(_, query : CallbackQuery):
     chat_id = query.message.chat.id
     await pytgcalls.change_volume_call(chat_id, 50)
-    await query.answer("successfully volume set to 50%")
+    await query.answer("sᴜᴄᴄᴇssғᴜʟʟʏ ᴠᴏʟᴜᴍᴇ sᴇᴛ ᴛᴏ 50%")
     
 @Hiroko.on_callback_query(filters.regex("volume_100"))
 async def volume_100(_, query : CallbackQuery):
     chat_id = query.message.chat.id
     await pytgcalls.change_volume_call(chat_id, 100)
-    await query.answer("successfully volume set to 100%")
+    await query.answer("sᴜᴄᴄᴇssғᴜʟʟʏ ᴠᴏʟᴜᴍᴇ sᴇᴛ ᴛᴏ 100%")
 
 @Hiroko.on_callback_query(filters.regex("volume_150"))
 async def volume_150(_, query : CallbackQuery):
     chat_id = query.message.chat.id
     await pytgcalls.change_volume_call(chat_id, 150)
-    await query.answer("successfully volume set to 150%")
+    await query.answer("sᴜᴄᴄᴇssғᴜʟʟʏ ᴠᴏʟᴜᴍᴇ sᴇᴛ ᴛᴏ 150%")
 
 @Hiroko.on_callback_query(filters.regex("volume_200"))
 async def volume_200(_, query : CallbackQuery):
     chat_id = query.message.chat.id
     await pytgcalls.change_volume_call(chat_id, 200)
-    await query.answer("successfully volume set to 200%")
+    await query.answer("sᴜᴄᴄᴇssғᴜʟʟʏ ᴠᴏʟᴜᴍᴇ sᴇᴛ ᴛᴏ 200%")
 
 
 # --------------------------------------------------------------------------------------------------------- #

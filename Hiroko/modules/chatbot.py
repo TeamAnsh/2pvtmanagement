@@ -123,7 +123,7 @@ async def restriction_hiroko(client, message):
                 await message.reply(random.choice(strict_txt))
             else:
                 await hiroko.ban_chat_member(chat_id, user_id)
-                    await message.reply("OK, banned!")
+                await message.reply("OK, banned!")
         elif data[0] == unban:
             await hiroko.unban_chat_member(chat_id, user_id)
             await message.reply(f"OK, unbanned!")        

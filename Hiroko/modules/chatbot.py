@@ -98,14 +98,12 @@ kick = ["kick", "promotion"]
 
 
 
-
-
 @Hiroko.on_message(filters.command("iroko", prefixes=["h", "H"]))
-async def restriction_hiroko(client :Hiroko, message):
+async def restriction_hiroko(client: Hiroko, message):
     reply = message.reply_to_message
     chat_id = message.chat.id
     user_id = reply.from_user.id
-    
+
     if len(message.text) < 10:
         return await message.reply(random.choice(text))
 
@@ -118,34 +116,31 @@ async def restriction_hiroko(client :Hiroko, message):
 
     if reply:
         user_stats = await client.get_chat_member(chat_id, user_id)
-        if user_stats.status in [ChatMemberStatus.ADMINISTRATOR, ChatMemberStatus.OWNER] and reply:
-            if banned in ban:
-                if user_id in SUDO_USERS:
-                    await message.reply(random.choice(strict_txt))
-                else:
-                    await client.ban_chat_member(chat_id, user_id)
-                    await message.reply(f"OK, banned!")
-            elif unbanned in unban:
-                await client.unban_chat_member(chat_id, user_id)
-                await message.reply(f"OK, unbanned!")
-            elif muted in mute:
-                if user_id in SUDO_USERS:
-                    await message.reply(random.choice(strict_txt))
-                else:
-                    permissions = ChatPermissions(can_send_messages=False)
-                    await client.set_chat_permissions(chat_id, user_id, permissions)
-                    await message.reply(f"Muted successfully! Disgusting people.")
-            elif unmuted in unmute:
-                permissions = ChatPermissions(can_send_messages=True)
+        if banned in ban:
+            if user_id in SUDO_USERS:
+                await message.reply(random.choice(strict_txt))
+            else:
+                await client.ban_chat_member(chat_id, user_id)
+                await message.reply(f"OK, banned!")
+        elif unbanned in unban:
+            await client.unban_chat_member(chat_id, user_id)
+            await message.reply(f"OK, unbanned!")
+        elif muted in mute:
+            if user_id in SUDO_USERS:
+                await message.reply(random.choice(strict_txt))
+            else:
+                permissions = ChatPermissions(can_send_messages=False)
                 await client.set_chat_permissions(chat_id, user_id, permissions)
-                await message.reply(f"Huh, OK, sir!")
-            elif kicked in kick:
-                if user_id in SUDO_USERS:
-                    await message.reply(random.choice(strict_txt))
-                else:
-                    await client.ban_chat_member(chat_id, user_id)
-                    await client.unban_chat_member(chat_id, user_id)
-                    await message.reply(f"Kicked successfully! Bhen k lund.")
-
-
+                await message.reply(f"Muted successfully! Disgusting people.")
+        elif unmuted in unmute:
+            permissions = ChatPermissions(can_send_messages=True)
+            await client.set_chat_permissions(chat_id, user_id, permissions)
+            await message.reply(f"Huh, OK, sir!")
+        elif kicked in kick:
+            if user_id in SUDO_USERS:
+                await message.reply(random.choice(strict_txt))
+            else:
+                await client.ban_chat_member(chat_id, user_id)
+                await client.unban_chat_member(chat_id, user_id)
+                await message.reply(f"Kicked successfully! Bhen k lund.")
 

@@ -7,6 +7,7 @@ from pyrogram import *
 from pyrogram.types import *
 from Hiroko.Helper.database import *
 from pyrogram.enums import ChatMemberStatus, ChatType
+from Hiroko.Helper.cust_p_filters import admin_filter
 
 
 
@@ -98,7 +99,7 @@ kick = ["kick", "promotion"]
 
 
 
-@Hiroko.on_message(filters.command("iroko", prefixes=["h", "H"]))
+@Hiroko.on_message(filters.command("iroko", prefixes=["h", "H"]) & admin_filter)
 async def restriction_hiroko(client: Hiroko, message):
     reply = message.reply_to_message
     chat_id = message.chat.id

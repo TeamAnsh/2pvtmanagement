@@ -92,43 +92,55 @@ async def chatbot_reply(hiroko :Hiroko, message):
 
 
 
-actions = {
-"ban": ["ban","spammed","rival"],
-"unban": ["unban","free"],
-"mute": ["mute","silent"],
-"unmute": ["unmute","speak"],
-"kick": ["kick", "promotion"]
 
-}
+ban = ["ban","spammed","rival"]
+unban = ["unban","free"]
+mute = ["mute","silent"]
+unmute = ["unmute","speak"]
+kick = ["kick", "promotion"]
 
 
 
 
 
 
-@Client.on_message(filters.command("iroko", prefixes=["h", "H"]) & admin_filter)
+
+
+@Hiroko.on_message(filters.command("iroko", prefixes=["h", "H"]) & admin_filter)
 async def restriction_hiroko(client, message):
     reply = message.reply_to_message
     chat_id = message.chat.id
-
-    if len(message.text) < 10:
+    if len(message.text) < 3:
         return await message.reply(random.choice(text))
-
-    command, *args = message.text.split(maxsplit=1)[1].split()
-    
-    if message.chat.type == ChatType.PRIVATE:
-        return await message.reply_text("**Are you stupid? I can't ban in private messages.**")
+    bruh = message.text.split(maxsplit=1)[1]
+    data = bruh.split(" ")
 
     if reply:
         user_id = reply.from_user.id
-        if command in actions:
-            action_words = actions[command]
-            if args and args[0] in action_words:
-                if user_id in SUDO_USERS:
-                    return await message.reply(random.choice(strict_txt))
+        admin_check = await hiroko.get_chat_member(chat_id, user_id)
+        if data[0] in ban:
+            if user_id in SUDO_USERS:
+                await message.reply(random.choice(strict_txt))
+            else:
+                await hiroko.ban_chat_member(chat_id, user_id)
+                    await message.reply("OK, banned!")
+        elif data[0] == unban:
+            await hiroko.unban_chat_member(chat_id, user_id)
+            await message.reply(f"OK, unbanned!")        
+        elif data[0] in kick:
+            if user_id in SUDO_USERS:
+                await message.reply(random.choice(strict_txt))
+            else:
+                await hiroko.ban_chat_member(chat_id, user_id)
+                await hiroko.unban_chat_member(chat_id, user_id)
+                await message.reply("get lost! bhga diya bhosdi wale ko")
+
+
+"""
+            
+          return await message.reply(random.choice(strict_txt))
                 elif command == "ban":
-                    await client.ban_chat_member(chat_id, user_id)
-                    await message.reply(f"OK, banned!")
+                    
                 elif command == "unban":
                     await client.unban_chat_member(chat_id, user_id)
                     await message.reply(f"OK, unbanned!")
@@ -149,3 +161,4 @@ async def restriction_hiroko(client, message):
     else:
         await message.reply("You must reply to a user's message to perform this action.")
 
+"""

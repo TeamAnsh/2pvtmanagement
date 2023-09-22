@@ -51,7 +51,7 @@ async def add_waifus(_, message):
         )
         DB.commit()
     except Exception as e:
-        await app.send_message(-1001946875647 , str(e))
+        await Hiroko.send_message(-1001946875647 , str(e))
         return await message.reply("Falied Check Format Again")
     await message.reply_photo(photo=photo,caption="🌟 Waifu added successfully! 🌟")
     

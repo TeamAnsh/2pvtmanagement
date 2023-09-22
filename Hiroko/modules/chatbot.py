@@ -6,7 +6,27 @@ from pyrogram.types import *
 from Hiroko.Helper.database import *
 
 
+text = (
+"hey please don't disturb me.",
+"who are you",    
+"aap kon ho",
+"aap mere owner to nhi lgte ",
+"hey tum mera name kyu le rhe ho meko sone do",
+"ha bolo kya kaam hai ",
+"dekho abhi mai busy hu ",
+"hey i am busy",
+"aapko smj nhi aata kya ",
+"leave me alone",
+"dude what happend",
+"?",
+"nikl lwde",    
+)
+
+
 openai.api_key = "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"
+
+
+
 
 completion = openai.Completion()
 

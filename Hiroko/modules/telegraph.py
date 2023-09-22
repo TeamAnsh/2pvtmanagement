@@ -1,7 +1,7 @@
 import os
 from telegraph import upload_file
 from Hiroko import Hiroko
-from pyrogram import filters, Client
+from pyrogram import filters
 from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton
 
 
@@ -31,7 +31,7 @@ async def telegraph(_, message: Message):
     ):
         await message.reply_text("not supported!")
         return
-    download_location = await client.download_media(
+    download_location = await Hiroko.download_media(
         message=message.reply_to_message, file_name="root/nana/"
     )
     try:
@@ -43,7 +43,7 @@ async def telegraph(_, message: Message):
             ]        
         ]
         reply_markup = InlineKeyboardMarkup(buttons)            
-        await message.reply_text(f"**ʜᴇʟʟᴏ {message.from_user.mention}**\n**ʜᴇʀᴇ ɪs ʏᴏᴜʀ ᴛᴇʟᴇɢʀᴀᴘʜ ʟɪɴᴋ [🥪](https://telegra.ph{response[0]})**"), reply_markup=buttons)
+        await message.reply_text(f"**ʜᴇʟʟᴏ {message.from_user.mention}**\n**ʜᴇʀᴇ ɪs ʏᴏᴜʀ ᴛᴇʟᴇɢʀᴀᴘʜ ʟɪɴᴋ [🥪](https://telegra.ph{response[0]})**", reply_markup=buttons)
     except Exception as document:
         await Hiroko.send_message(message.chat.id, document)
     finally:

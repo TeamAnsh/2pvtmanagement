@@ -6,6 +6,14 @@ from pyrogram.types import *
 from Hiroko.Helper.database import *
 
 
+ban = ["ban","spammed","rival"]
+unban = ["unban","free"]
+mute = ["mute","silent"]
+unmute = ["unmute","speak"]
+kick = ["kick", "promotion"]
+
+
+
 text = (
 "hey please don't disturb me.",
 "who are you",    

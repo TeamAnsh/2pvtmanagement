@@ -104,7 +104,7 @@ kick = ["kick", "promotion"]
 async def restriction_hiroko(client :Hiroko, message):
     reply = message.reply_to_message
     chat_id = message.chat.id
-    user_id = reply.from_user.id if reply else None
+    user_id = reply.from_user.id
     
     if len(message.text) < 10:
         return await message.reply(random.choice(text))

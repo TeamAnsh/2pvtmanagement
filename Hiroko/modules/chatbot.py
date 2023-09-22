@@ -112,7 +112,7 @@ async def pin(_, message):
                     await message.reply(random.choice(strict_txt))
                     return
                 else:
-                    await message.chat.restrict_member(chat_id,user_id)
+                    await hiroko.set_chat_permissions(chat_id, permissions)
                     await message.reply(f"mute those person successfully !! disgusting peoples")
             elif unmute == unmuted:
                 await message.chat.restrict_member(chat_id,user_id)

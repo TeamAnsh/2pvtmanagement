@@ -83,4 +83,18 @@ async def chatbot_reply(hiroko :Hiroko, message):
             return await message.reply("I can't answer that.")        
 
 
+@Hiroko.on_message(filters.command("pin"))
+async def pin(_, message):
+    user_id = message.reply_to_message    
+    chat_id = message.chat.id    
+    if message.chat.type == enums.ChatType.PRIVATE:
+        await message.reply_text("**are you stupid how i can ban in private message**")
+    elif not replied:
+        await message.reply_text("whose person..")
+    else:
+        user_stats = await Hiroko.get_chat_member(chat_id, user_id)
+        if user_stats.privileges.can_pin_messages and message.reply_to_message:            
+                await message.reply_to_message.pin()
+
+
 

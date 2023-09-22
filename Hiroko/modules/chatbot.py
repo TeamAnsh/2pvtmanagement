@@ -93,7 +93,7 @@ async def pin(_, message):
     if message.chat.type == enums.ChatType.PRIVATE:
         await message.reply_text("**are you stupid how i can ban in private message**")
     elif not replied:
-        await message.reply_text("whose person..")
+        await message.reply_text(random.choice(text))
     else:
         user_stats = await Hiroko.get_chat_member(chat_id, user_id)
         if user_stats.status == ChatMemberStatus.ADMINISTRATOR or user_stats.status == ChatMemberStatus.OWNER and message.reply_to_message:            
@@ -112,12 +112,14 @@ async def pin(_, message):
                     await message.reply(random.choice(strict_txt))
                     return
                 else:
-                    await hiroko.set_chat_permissions(chat_id, permissions)
+                    await hiroko.set_chat_permissions(chat_id, user_id, permissions)
+                    permissions = ChatPermissions(can_send_messages=False)
                     await message.reply(f"mute those person successfully !! disgusting peoples")
             elif unmute == unmuted:
-                await message.chat.restrict_member(chat_id,user_id)
+                await hiroko.set_chat_permissions(chat_id, user_id, permissions)
+                    permissions = ChatPermissions(can_send_messages=True)
                 await message.reply(f"huh ok sir !!")
-            if kick == kicked:
+            elif kick == kicked:
                 if user_id in SUDO_USERS:
                     await message.reply(random.choice(strict_txt))
                     return

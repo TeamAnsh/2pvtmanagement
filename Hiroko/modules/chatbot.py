@@ -88,7 +88,7 @@ unmute = ["unmute","speak"]
 kick = ["kick", "promotion"]
 
 @Hiroko.on_message(filters.command("iroko", prefixes=["h","h"]))
-async def pin(_, message):
+async def restriction_(hiroko :Hiroko, message):
     user_id = message.reply_to_message    
     chat_id = message.chat.id
     if len(message.text) < 10:

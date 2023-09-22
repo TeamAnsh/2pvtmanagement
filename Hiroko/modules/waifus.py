@@ -31,13 +31,13 @@ DB.commit()
 
 
 
-button = InlineKeyboardMarkup([
-     InlineKeyboardButton(f"{message.from_user.mention}",url=f"https://t.me/{message.from_user.username}"),    
-])
+button = InlineKeyboardMarkup([[
+     InlineKeyboardButton(f"{message.from_user.mention}", url=f"https://t.me/{message.from_user.username}"),    
+]])
 # ==================================================================== #
 
 @Hiroko.on_message(filters.command(["addwaifu"]) & filters.user(SUDO_USERS))
-async def add_waifus(_, message):
+async def add_waifus(_, message :Message):
     if len(message.text) < 10:
         return await message.reply("💌 Hello hottie, please provide the waifu details in the format: /addwaifu photo+name-anime+rarity")
     if not message.text.split(maxsplit=1)[1]:

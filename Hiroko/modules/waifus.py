@@ -31,13 +31,11 @@ DB.commit()
 
 
 
-button = InlineKeyboardMarkup([[
-     InlineKeyboardButton(f"{message.from_user.mention}", url=f"https://t.me/{message.from_user.username}"),    
-]])
+
 # ==================================================================== #
 
 @Hiroko.on_message(filters.command(["addwaifu"]) & filters.user(SUDO_USERS))
-async def add_waifus(_, message :Message):
+async def add_waifus(_, message):
     if len(message.text) < 10:
         return await message.reply("💌 Hello hottie, please provide the waifu details in the format: /addwaifu photo+name-anime+rarity")
     if not message.text.split(maxsplit=1)[1]:
@@ -73,8 +71,12 @@ async def add_waifus(_, message :Message):
         print(f"Error {e}")
         return await message.reply("ғᴀʟɪᴇᴅ ᴄʜᴇᴄᴋ ғᴏʀᴍᴀᴛ ᴀɢᴀɪɴ.")
     await message.reply_photo(photo=photo,caption="ᴡᴀɪғᴜ ᴀᴅᴅ sᴜᴄᴄᴇssғᴜʟʟʏ ɪɴ ʏᴏᴜʀ ᴡᴀɪғᴜs ᴅᴀᴛᴀʙᴀsᴇ.")
-    await Hiroko.send_photo(-1001936480103, photo=photo, reply_markup=button)
-    await Hiroko.send_photo(-1001946875647, caption=f"ᴡᴀɪғᴜ ᴜᴘʟᴏᴀᴅ sᴜᴄᴄᴇssғᴜʟʟʏ ᴄʜᴇᴄᴋ ᴡᴀɪғᴜs ᴅᴏᴍᴀɪɴ\nɪᴍᴀɢᴇ ᴜʀʟ: {photo}\n@WaifusDomain", reply_markup=button)
+    await Hiroko.send_photo(-1001936480103, photo=photo, reply_markup=InlineKeyboardMarkup([[
+     InlineKeyboardButton(f"{message.from_user.mention}", url=f"https://t.me/{message.from_user.username}"),    
+      ]])
+    await Hiroko.send_photo(-1001946875647, caption=f"ᴡᴀɪғᴜ ᴜᴘʟᴏᴀᴅ sᴜᴄᴄᴇssғᴜʟʟʏ ᴄʜᴇᴄᴋ ᴡᴀɪғᴜs ᴅᴏᴍᴀɪɴ\nɪᴍᴀɢᴇ ᴜʀʟ: {photo}\n@WaifusDomain", reply_markup=InlineKeyboardMarkup([[
+     InlineKeyboardButton(f"{message.from_user.mention}", url=f"https://t.me/{message.from_user.username}"),    
+      ]])
 
     
     

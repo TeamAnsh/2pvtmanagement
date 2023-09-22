@@ -2,20 +2,16 @@ import requests
 import asyncio
 import matplotlib.pyplot as plt
 from io import BytesIO
-from config import SUDO_USERS, MONGO_URL
+from config import SUDO_USERS
 from pyrogram import *
 from pyrogram.types import *
-from motor.motor_asyncio import AsyncIOMotorClient as MongoCli
 from Hiroko import Hiroko
 import random
 import psycopg2
 from Hiroko.SQL import DB, cusr
 import json
 
-mongo = MongoCli(MONGO_URL)
-db = mongo["waifu_bot"]
-waifu_collection = db["waifus"]
-users_collection = db["users"]
+
 
 DICT = {}
 trade_requests = {}
@@ -31,14 +27,21 @@ cusr.execute("""
     )
 """)
 DB.commit()
+
+
+
+
+button = InlineKeyboardMarkup([
+     InlineKeyboardButton(f"{message.from_user.mention}",url=f"https://t.me/{message.from_user.username}"),    
+])
 # ==================================================================== #
 
 @Hiroko.on_message(filters.command(["addwaifu"]) & filters.user(SUDO_USERS))
 async def add_waifus(_, message):
     if len(message.text) < 10:
-        return await message.reply("💌 Hello hottie, please provide the waifu details in the format: /addwaifu photo-name-anime-rarity")
+        return await message.reply("💌 Hello hottie, please provide the waifu details in the format: /addwaifu photo+name-anime+rarity")
     if not message.text.split(maxsplit=1)[1]:
-        return await message.reply("💌 Hello hottie, please provide the waifu details in the format: /addwaifu photo-name-anime-rarity")
+        return await message.reply("💌 Hello hottie, please provide the waifu details in the format: /addwaifu photo+name+anime+rarity")
     bruh = message.text.split(maxsplit=1)[1]
     data = bruh.split("+")
     if not data[0].startswith("https"):
@@ -56,7 +59,7 @@ async def add_waifus(_, message):
     rare = data[3]
     levels = ["common", "rare", "epic",  "legendary","royal"]
     if data[3].lower() not in levels:
-        return await message.reply("Invalid Rarity")
+        return await message.reply("ᴅᴇᴛᴇᴄᴛᴇᴅ ɪɴᴠᴀʟɪᴅ ʀᴀʀɪᴛʏ.")
     rarity = rare.title()
     anime = ani.title()
     name = nam.title()
@@ -67,9 +70,13 @@ async def add_waifus(_, message):
         )
         DB.commit()
     except Exception as e:
-        await Hiroko.send_message(-1001946875647 , str(e))
-        return await message.reply("Falied Check Format Again")
-    await message.reply_photo(photo=photo,caption="🌟 Waifu added successfully! 🌟")
+        print(f"Error {e}")
+        return await message.reply("ғᴀʟɪᴇᴅ ᴄʜᴇᴄᴋ ғᴏʀᴍᴀᴛ ᴀɢᴀɪɴ.")
+    await message.reply_photo(photo=photo,caption="ᴡᴀɪғᴜ ᴀᴅᴅ sᴜᴄᴄᴇssғᴜʟʟʏ ɪɴ ʏᴏᴜʀ ᴡᴀɪғᴜs ᴅᴀᴛᴀʙᴀsᴇ.")
+    await Hiroko.send_photo(-1001936480103, photo=photo, reply_markup=button)
+    await Hiroko.send_photo(-1001946875647, caption=f"ᴡᴀɪғᴜ ᴜᴘʟᴏᴀᴅ sᴜᴄᴄᴇssғᴜʟʟʏ ᴄʜᴇᴄᴋ ᴡᴀɪғᴜs ᴅᴏᴍᴀɪɴ\nɪᴍᴀɢᴇ ᴜʀʟ: {photo}\n@WaifusDomain", reply_markup=button)
+
+    
     
 
 

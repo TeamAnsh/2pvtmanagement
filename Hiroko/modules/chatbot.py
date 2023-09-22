@@ -30,9 +30,10 @@ text = (
 
 strict_txt = [
 "i can't ban my besties",
-"are you serious i am not my friends"
-"fuck you bsdk k mai apne dosto ko kyu kru"
-"hey stupid admin "    
+"are you serious i am not my friends",
+"fuck you bsdk k mai apne dosto ko kyu kru",
+"hey stupid admin ", 
+"ha ye phele krlo maar lo ek dusre ki gwaand",   
 ]
     
 openai.api_key = "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"
@@ -96,55 +97,61 @@ kick = ["kick", "promotion"]
 
 
 
-"""
-@Hiroko.on_message(filters.command("iroko", prefixes=["h","h"]))
-async def restriction_(hiroko :Hiroko, message):
-    user_id = message.reply_to_message    
+@Hiroko.on_message(filters.command("iroko", prefixes=["h", "h"]))
+async def restriction_(hiroko: Hiroko, message):
+    user_id = message.reply_to_message
     chat_id = message.chat.id
+
     if len(message.text) < 10:
-        return await message.reply(randon.choice(text))   
+        return await message.reply(random.choice(text))
+
     nono = message.text.split(maxsplit=1)[1]
     data = nono.split(" ")
     banned = data
-    unbanned  = data
+    unbanned = data
     muted = data
     unmuted = data
     kicked = data
+
     if message.chat.type == ChatType.PRIVATE:
-        return await message.reply_text("**are you stupid how i can ban in private message**")    
+        return await message.reply_text("**Are you stupid? I can't ban in private messages.**")
+
     if user_id:
         user_stats = await hiroko.get_chat_member(chat_id, user_id)
-        if user_stats.status == ChatMemberStatus.ADMINISTRATOR or user_stats.status == ChatMemberStatus.OWNER and message.reply_to_message:            
+        if user_stats.status == ChatMemberStatus.ADMINISTRATOR or user_stats.status == ChatMemberStatus.OWNER and message.reply_to_message:
             if banned.lower() in ban:
                 if user_id in SUDO_USERS:
                     await message.reply(random.choice(strict_txt))
                     return
                 else:
-                    await hiroko.ban_chat_member(chat_id,user_id)
-                    await message.reply(f"ok  banned !!")
+                    await hiroko.ban_chat_member(chat_id, user_id)
+                    await message.reply(f"OK, banned!")
             elif unbaned.lower() in unban:
-                await hiroko.unban_chat_member(chat_id,user_id)
-                await message.reply(f"ok unbanned !! ")
+                await hiroko.unban_chat_member(chat_id, user_id)
+                await message.reply(f"OK, unbanned!")
             elif muted.lower() in mute:
                 if user_id in SUDO_USERS:
                     await message.reply(random.choice(strict_txt))
                     return
                 else:
-                    await hiroko.set_chat_permissions(chat_id, user_id, permissions)
                     permissions = ChatPermissions(can_send_messages=False)
-                    await message.reply(f"mute those person successfully !! disgusting peoples")
+                    await hiroko.set_chat_permissions(chat_id, user_id, permissions)
+                    await message.reply(f"Muted successfully! Disgusting people.")
             elif unmuted.lower() in unmute:
+                permissions = ChatPermissions(can_send_messages=True)
                 await hiroko.set_chat_permissions(chat_id, user_id, permissions)
-                    permissions = ChatPermissions(can_send_messages=True)
-                await message.reply(f"huh ok sir !!")
+                await message.reply(f"Huh, OK, sir!")
             elif kicked.lower() in kick:
                 if user_id in SUDO_USERS:
                     await message.reply(random.choice(strict_txt))
                     return
                 else:
-                    await hiroko.ban_chat_member(chat_id,user_id)
-                    await hiroko.unban_chat_member(chat_id,user_id)
-                    await message.reply(f"bhhk bhen k lund.")
+                    await hiroko.ban_chat_member(chat_id, user_id)
+                    await hiroko.unban_chat_member(chat_id, user_id)
+                    await message.reply(f"Kicked successfully! Bhen k lund.")
+
+
+
 """
             
 
@@ -198,7 +205,7 @@ async def restriction_(hiroko: Hiroko, message):
 
 
 
-
+"""
 
 
 

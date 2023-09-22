@@ -101,7 +101,7 @@ async def _watcher(_, message):
         anime = waifu[3]
         rarity = waifu[4]
         try:
-            msg = await _.send_photo(chat_id, photo=photo, caption="lauda appear ho gya yay!!!")
+            msg = await _.send_photo(chat_id, photo=photo, caption="ᴡᴇᴡ ᴀ sᴇxʏ ᴡᴀɪғᴜ ᴀᴘᴘᴇᴀʀᴅᴇᴅ ᴀᴅᴅ ʜᴇʀ ᴛᴏ ʏᴏᴜʀ ᴡᴀɪғᴜ ʟɪsᴛ ʙʏ sᴇɴᴅɪɴɢ: /grab ᴡᴀɪғᴜ ɴᴀᴍᴇ")
             DICT[chat_id]['photo'] = photo
             DICT[chat_id]['name'] = name
             DICT[chat_id]['anime'] = anime
@@ -115,7 +115,7 @@ async def _watcher(_, message):
         if DICT[chat_id]['running_count'] == 30:
             try:
                 character = DICT[chat_id]['name']
-                await _.send_message(chat_id, f"{character} bhag gyi lauda catch nhi kr paya")
+                await _.send_message(chat_id, f"ɴᴀᴍᴇ {character}")
                 DICT.pop(chat_id)
             except errors.FloodWait as e:
                 await asyncio.sleep(e.value)

@@ -1,15 +1,12 @@
-import requests
-import asyncio
+import requests, asyncio, random, psycopg2, json
 import matplotlib.pyplot as plt
 from io import BytesIO
 from config import SUDO_USERS
 from pyrogram import *
 from pyrogram.types import *
 from Hiroko import Hiroko
-import random
-import psycopg2
-from Hiroko.SQL import DB, cusr
-import json
+ from Hiroko.SQL import DB, cusr
+
 
 
 

@@ -140,12 +140,12 @@ async def grab_waifus(client, message):
     if chat_id not in DICT or not DICT[chat_id]['name']:
         return await message.reply("No character to grab at the moment. Keep an eye out for the next one!")
     user_id = message.from_user.id
-    if not message.text.split(maxsplit=1)[1]:
+    if len(message.text) < 6:
         return await message.reply("Usage:- `/grab lund`")
     guess = message.text.split(maxsplit=1)[1].lower()
     name = DICT[chat_id]['name'].lower()
     if guess == name:
-        user_id = str(msg.from_user.id)
+        user_id = str(message.from_user.id)
         cusr.execute(
             "INSERT INTO grabbed (user_id, photo , name , anime , rarity) VALUES (%s, %s, %s, %s, %s)",
             (user_id, DICT[chat_id]['photo'], DICT[chat_id]['name'], DICT[chat_id]['anime'], DICT[chat_id]['rarity'])

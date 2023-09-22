@@ -76,25 +76,46 @@ async def add_waifus(_, message):
 # ======================================================================= #
 
 
-@Hiroko.on_message(filters.group, group=69)
-async def waifu_sender(_, message):
+@Hiroko.on_message(filters.group, group=11)
+async def _watcher(_, message):
     chat_id = message.chat.id
-    user_id = message.from_user.id
-    
-    if chat_id not in chat_count:
-        chat_count[chat_id] = {'count': 0}
-    chat_count[chat_id]['count'] += 1
-    
-    if chat_count[chat_id]['count'] == 10:
-        
-        photo = await waifu_collection.find({"waifu_photo" : waifu_photo})         
-        image = random.choice(photo)
-        await Hiroko.send_photo(
-            message.chat.id,
-            photo=image,
-            caption=f"Wew sexy Waifu Appeared !!!\n\nGuess Her Name And Make Her Your waifu By Using Spell /grab [Her Name]!"
-        )
-        chat_count.pop(chat_id)
+    if not message.from_user:
+        return
+    if chat_id not in DICT:
+        DICT[chat_id] = {'count': 0, 'running_count': 0, 'photo': None, 'name': None, 'anime': None, 'rarity': None}
+    DICT[chat_id]['count'] += 1
+
+    if DICT[chat_id]['count'] == 10:
+        cusr.execute("SELECT * FROM waifus")
+        result = cusr.fetchall()
+        run = []
+        for yos in result:         
+            run.append(yos)
+        waifu = random.choice(run)
+        photo = waifu[1]
+        name = waifu[2]
+        anime = waifu[3]
+        rarity = waifu[4]
+        try:
+            msg = await _.send_photo(chat_id, photo=photo, caption="lauda appear ho gya yay!!!")
+            DICT[chat_id]['photo'] = photo
+            DICT[chat_id]['name'] = name
+            DICT[chat_id]['anime'] = anime
+            DICT[chat_id]['rarity'] = rarity
+            run.clear()
+        except errors.FloodWait as e:
+            await asyncio.sleep(e.value)
+
+    if DICT[chat_id]['name']:
+        DICT[chat_id]['running_count'] += 1
+        if DICT[chat_id]['running_count'] == 30:
+            try:
+                character = DICT[chat_id]['name']
+                await _.send_message(chat_id, f"{character} bhag gyi lauda catch nhi kr paya")
+                DICT.pop(chat_id)
+            except errors.FloodWait as e:
+                await asyncio.sleep(e.value)
+
 
 
 # ==================================================================== #

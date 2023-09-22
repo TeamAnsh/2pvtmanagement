@@ -117,7 +117,6 @@ async def restriction_hiroko(hiroko :Hiroko, message):
 
     if reply:
         user_id = reply.from_user.id
-        admin_check = await hiroko.get_chat_member(chat_id, user_id)
         if data[0] in ban:
             if user_id in SUDO_USERS:
                 await message.reply(random.choice(strict_txt))

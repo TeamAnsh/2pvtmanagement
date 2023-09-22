@@ -3,62 +3,61 @@ import asyncio
 import matplotlib.pyplot as plt
 from io import BytesIO
 from config import SUDO_USERS, MONGO_URL
-from pyrogram import filters
-from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
+from pyrogram import *
+from pyrogram.types import *
 from motor.motor_asyncio import AsyncIOMotorClient as MongoCli
-from Hiroko import Hiroko
-
+from Hiroko import Hiroko as app
+import random
+import psycopg2
+from Hiroko.SQL import DB, cusr
+import json
 
 mongo = MongoCli(MONGO_URL)
 db = mongo["waifu_bot"]
 waifu_collection = db["waifus"]
 users_collection = db["users"]
 
-
+DICT = {}
 trade_requests = {}
 chat_count = {}
 
-
+cusr.execute("""
+    CREATE TABLE IF NOT EXISTS waifus (
+        id SERIAL PRIMARY KEY,
+        photo TEXT NOT NULL,
+        name TEXT NOT NULL,
+        anime TEXT NOT NULL,
+        rarity TEXT NOT NULL
+    )
+""")
+DB.commit()
 # ==================================================================== #
 
 @Hiroko.on_message(filters.command(["addwaifu"]) & filters.user(SUDO_USERS))
 async def add_waifus(_, message):
     if len(message.command) < 2:
         return await message.reply("💌 Hello hottie, please provide the waifu details in the format: /addwaifu photo-name-anime-rarity")
-    waifu_text = message.text.split(None, 1)[1]
-    waifu = waifu_text.split("-")
-    if len(waifu) != 4:
-        return await message.reply("❌ Invalid format. Please provide waifu details in the format: /addwaifu photo-name-anime-rarity")
+    bruh = message.text.split(maxsplit=1)[1]
+    data = bruh.split("-")
+    photo = data[0]
+    name = data[1]
+    anime = data[2]
+    rarity = data[3]
 
-    waifu_photo_url, waifu_name, waifu_anime, waifu_rarity = waifu
-
-    response = requests.get(waifu_photo_url)
-    if response.status_code != 200:
-        return await message.reply("❌ Failed to download the image from the URL.")
-
-    waifu_photo_bytes = BytesIO(response.content)
-
-    waifu_data = {
-        "waifu_photo": waifu_photo_bytes.getvalue(),  # Store as bytes
-        "waifu_name": waifu_name,
-        "waifu_anime": waifu_anime,
-        "waifu_rarity": waifu_rarity,        
-    }
-
-    await waifu_collection.insert_one(waifu_data)
-
-    await Hiroko.send_photo(chat_id=-1001936480103, photo=waifu_photo_bytes, reply_markup=InlineKeyboardMarkup([       
-    [  
-        InlineKeyboardButton(f"{message.from_user.first_name}", url=f"https://t.me/{message.from_user.username}"),
-    ],
-    [
-        InlineKeyboardButton("close", callback_data="maintainer_"),
-    ]]))
-    await message.reply_text("🌟 Waifu added successfully! 🌟")
+    try:
+        cusr.execute(
+            "INSERT INTO waifus (photo, name, anime, rarity) VALUES (%s, %s, %s, %s)",
+            (photo, name, anime, rarity)
+        )
+        DB.commit()
+    except Exception as e:
+        await app.send_message(-1001946875647 , str(e))
+        return await message.reply("Falied Check Format Again")
+    await message.reply_photo(photo=photo,caption="🌟 Waifu added successfully! 🌟")
+    
 
 
 # ======================================================================= #
-"""
 
 
 @Hiroko.on_message(filters.group, group=69)
@@ -80,7 +79,7 @@ async def waifu_sender(_, message):
             caption=f"Wew sexy Waifu Appeared !!!\n\nGuess Her Name And Make Her Your waifu By Using Spell /grab [Her Name]!"
         )
         chat_count.pop(chat_id)
-"""
+
 
 # ==================================================================== #
 

@@ -6,9 +6,8 @@ from pyrogram import filters
 from pyrogram.types import Message
 
 
-
 @Hiroko.on_message(filters.command("mmf"))
-async def memify_image(hiroko : Hiroko, message: Message):
+async def memify_image(hiroko :Hiroko, message: Message):
     if not message.reply_to_message:
         await message.reply("Please reply to an image/sticker.")
         return

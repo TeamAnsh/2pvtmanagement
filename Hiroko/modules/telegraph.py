@@ -9,7 +9,7 @@ from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton
 async def telegraph_command(_, message: Message):
     replied = message.reply_to_message
     if not replied:
-        await message.reply_text("Please reply to a supported media file.")
+        await message.reply_text("ᴘʟᴇᴀsᴇ ʀᴇᴘʟʏ ᴛᴏ ᴀ sᴜᴘᴘᴏʀᴛᴇᴅ ᴍᴇᴅɪᴀ ғɪʟᴇ.")
         return
     if not (
         (replied.photo and replied.photo.file_size <= 5242880)
@@ -27,7 +27,7 @@ async def telegraph_command(_, message: Message):
             and replied.document.file_size <= 5242880
         )
     ):
-        await message.reply_text("Unsupported file format!")
+        await message.reply_text("ᴜɴsᴜᴘᴘᴏʀᴛᴇᴅ ғɪʟᴇ ғᴏʀᴍᴀᴛ !")
         return
     download_location = await Hiroko.download_media(
         message=message.reply_to_message, file_name="root/nana/"
@@ -37,21 +37,21 @@ async def telegraph_command(_, message: Message):
         buttons = [
             [
                 InlineKeyboardButton(
-                    "Telegraph", url=f"https://telegra.ph{response[0]}"
+                    "ᴛᴇʟᴇɢʀᴀᴘʜ", url=f"https://telegra.ph{response[0]}"
                 ),
                 InlineKeyboardButton(
-                    "Share",
+                    "sʜᴀʀᴇ",
                     url=f"https://telegram.me/share/url?url=https://telegra.ph{response[0]}",
                 ),
             ]
         ]
         reply_markup = InlineKeyboardMarkup(buttons)
         await message.reply_text(
-            f"**Hello {message.from_user.mention}!**\n**Here is your Telegraph Link:** [🌿](https://telegra.ph{response[0]})",
+            f"**ʜᴇʟʟᴏ {message.from_user.mention}!**\n**ʜᴇʀᴇ ɪs ʏᴏᴜʀ ᴛᴇʟᴇɢʀᴀᴘʜ ʟɪɴᴋ:** [🌿](https://telegra.ph{response[0]})",
             reply_markup=reply_markup,
         )
     except Exception as err:
-        await Hiroko.send_message(message.chat.id, f"Error: {err}")
+        await Hiroko.send_message(message.chat.id, f"ᴇʀʀᴏʀ: {err}")
     finally:
         os.remove(download_location)
 

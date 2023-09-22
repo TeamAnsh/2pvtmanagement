@@ -6,7 +6,7 @@ from config import SUDO_USERS, MONGO_URL
 from pyrogram import *
 from pyrogram.types import *
 from motor.motor_asyncio import AsyncIOMotorClient as MongoCli
-from Hiroko import Hiroko as app
+from Hiroko import Hiroko
 import random
 import psycopg2
 from Hiroko.SQL import DB, cusr

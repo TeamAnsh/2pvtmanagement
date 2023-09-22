@@ -40,10 +40,17 @@ async def add_waifus(_, message):
     bruh = message.text.split(maxsplit=1)[1]
     data = bruh.split("-")
     photo = data[0]
-    name = data[1]
-    anime = data[2]
-    rarity = data[3]
-
+    nam = data[1]
+    ani = data[2]
+    rare = data[3]
+    levels = ["common", "rare", "epic",  "legendary","royal"]
+    if not photo.startswith("https"):
+        return await message.reply("link de bhai pic ka")
+    if rare.lower() not in levels:
+        return await message.reply("Invalid Rarity")
+    rarity = rare.title()
+    anime = ani.title()
+    name = nam.title()
     try:
         cusr.execute(
             "INSERT INTO waifus (photo, name, anime, rarity) VALUES (%s, %s, %s, %s)",

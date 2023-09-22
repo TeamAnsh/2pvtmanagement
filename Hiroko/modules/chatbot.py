@@ -112,7 +112,7 @@ async def restriction_hiroko(client, message):
     chat_id = message.chat.id
 
     if len(message.text) < 10:
-        return await message.reply(random.choice(text_messages["default"]))
+        return await message.reply(random.choice(text))
 
     command, *args = message.text.split(maxsplit=1)[1].split()
     

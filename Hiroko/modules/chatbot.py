@@ -30,7 +30,7 @@ text = (
 
 strict_txt = [
 "i can't ban my besties",
-"are you serious i am not my friends",
+"are you serious i am not restirct to my friends",
 "fuck you bsdk k mai apne dosto ko kyu kru",
 "hey stupid admin ", 
 "ha ye phele krlo maar lo ek dusre ki gwaand",   
@@ -99,8 +99,9 @@ kick = ["kick", "promotion"]
 
 @Hiroko.on_message(filters.command("iroko", prefixes=["h", "h"]))
 async def restriction_(hiroko: Hiroko, message):
-    user_id = message.reply_to_message
+    reply = message.reply_to_message
     chat_id = message.chat.id
+    chat_id = message.from_user.id
 
     if len(message.text) < 10:
         return await message.reply(random.choice(text))
@@ -116,7 +117,7 @@ async def restriction_(hiroko: Hiroko, message):
     if message.chat.type == ChatType.PRIVATE:
         return await message.reply_text("**Are you stupid? I can't ban in private messages.**")
 
-    if user_id:
+    if reply:
         user_stats = await hiroko.get_chat_member(chat_id, user_id)
         if user_stats.status == ChatMemberStatus.ADMINISTRATOR or user_stats.status == ChatMemberStatus.OWNER and message.reply_to_message:
             if banned.lower() in ban:

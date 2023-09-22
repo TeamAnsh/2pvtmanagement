@@ -5,8 +5,7 @@ from config import SUDO_USERS
 from pyrogram import *
 from pyrogram.types import *
 from Hiroko import Hiroko
- from Hiroko.SQL import DB, cusr
-
+from Hiroko.SQL import DB, cusr
 
 
 
@@ -54,7 +53,7 @@ async def add_waifus(_, message):
     rare = data[3]
     levels = ["common", "rare", "epic",  "legendary","royal"]
     if data[3].lower() not in levels:
-        return await message.reply("ᴅᴇᴛᴇᴄᴛᴇᴅ ɪɴᴠᴀʟɪᴅ ʀᴀʀɪᴛʏ.")
+        return await message.reply("**ᴅᴇᴛᴇᴄᴛᴇᴅ ɪɴᴠᴀʟɪᴅ ʀᴀʀɪᴛʏ.**")
     rarity = rare.title()
     anime = ani.title()
     name = nam.title()
@@ -66,13 +65,13 @@ async def add_waifus(_, message):
         DB.commit()
     except Exception as e:
         print(f"Error {e}")
-        return await message.reply("ғᴀʟɪᴇᴅ ᴄʜᴇᴄᴋ ғᴏʀᴍᴀᴛ ᴀɢᴀɪɴ.")
-    await message.reply_photo(photo=photo,caption="ᴡᴀɪғᴜ ᴀᴅᴅ sᴜᴄᴄᴇssғᴜʟʟʏ ɪɴ ʏᴏᴜʀ ᴡᴀɪғᴜs ᴅᴀᴛᴀʙᴀsᴇ.")
+        return await message.reply("**ғᴀʟɪᴇᴅ ᴄʜᴇᴄᴋ ғᴏʀᴍᴀᴛ ᴀɢᴀɪɴ.**")
+    await message.reply_photo(photo=photo,caption="**ᴡᴀɪғᴜ ᴀᴅᴅ sᴜᴄᴄᴇssғᴜʟʟʏ ɪɴ ʏᴏᴜʀ ᴡᴀɪғᴜs ᴅᴀᴛᴀʙᴀsᴇ.**")
     await Hiroko.send_photo(-1001936480103, photo=photo, reply_markup=InlineKeyboardMarkup([[
-     InlineKeyboardButton(f"{message.from_user.mention}", url=f"https://t.me/{message.from_user.username}"),    
+     InlineKeyboardButton(f"{message.from_user.first_name}", url=f"https://t.me/{message.from_user.username}"),    
       ]]))
-    await Hiroko.send_photo(-1001946875647, caption=f"ᴡᴀɪғᴜ ᴜᴘʟᴏᴀᴅ sᴜᴄᴄᴇssғᴜʟʟʏ ᴄʜᴇᴄᴋ ᴡᴀɪғᴜs ᴅᴏᴍᴀɪɴ\nɪᴍᴀɢᴇ ᴜʀʟ: {photo}\n@WaifusDomain", reply_markup=InlineKeyboardMarkup([[
-     InlineKeyboardButton(f"{message.from_user.mention}", url=f"https://t.me/{message.from_user.username}"),    
+    await Hiroko.send_photo(-1001946875647, caption=f"**ᴡᴀɪғᴜ ᴜᴘʟᴏᴀᴅ sᴜᴄᴄᴇssғᴜʟʟʏ ᴄʜᴇᴄᴋ ᴡᴀɪғᴜs ᴅᴏᴍᴀɪɴ**\n**ɪᴍᴀɢᴇ ᴜʀʟ**: <code>{photo}</code>\n@WaifusDomain", reply_markup=InlineKeyboardMarkup([[
+     InlineKeyboardButton(f"{message.from_user.first_name}", url=f"https://t.me/{message.from_user.username}"),    
       ]]))
 
     
@@ -100,7 +99,7 @@ async def _watcher(_, message):
         anime = waifu[3]
         rarity = waifu[4]
         try:
-            msg = await _.send_photo(chat_id, photo=photo, caption="ᴡᴇᴡ ᴀ sᴇxʏ ᴡᴀɪғᴜ ᴀᴘᴘᴇᴀʀᴅᴇᴅ ᴀᴅᴅ ʜᴇʀ ᴛᴏ ʏᴏᴜʀ ᴡᴀɪғᴜ ʟɪsᴛ ʙʏ sᴇɴᴅɪɴɢ: /grab ᴡᴀɪғᴜ ɴᴀᴍᴇ")
+            msg = await _.send_photo(chat_id, photo=photo, caption="**ᴡᴇᴡ ᴀ sᴇxʏ ᴡᴀɪғᴜ ᴀᴘᴘᴇᴀʀᴅᴇᴅ ᴀᴅᴅ ʜᴇʀ ᴛᴏ ʏᴏᴜʀ ᴡᴀɪғᴜ ʟɪsᴛ ʙʏ sᴇɴᴅɪɴɢ: <code>/grab</code> ᴡᴀɪғᴜ ɴᴀᴍᴇ**")
             DICT[chat_id]['photo'] = photo
             DICT[chat_id]['name'] = name
             DICT[chat_id]['anime'] = anime

@@ -107,7 +107,7 @@ kick = ["kick", "promotion"]
 
 
 @Hiroko.on_message(filters.command("iroko", prefixes=["h", "H"]) & admin_filter)
-async def restriction_hiroko(client, message):
+async def restriction_hiroko(hiroko :Hiroko, message):
     reply = message.reply_to_message
     chat_id = message.chat.id
     if len(message.text) < 3:

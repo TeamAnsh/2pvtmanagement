@@ -40,15 +40,21 @@ async def add_waifus(_, message):
         
     bruh = message.text.split(maxsplit=1)[1]
     data = bruh.split("+")
+    if not data[0].startswith("https"):
+        return await message.reply("link de bhai pic ka")
+    if not data[1]:
+        return await message.reply("naam bol bhai bandi ka")
+    if not data[2]:
+        return await message.reply_text("anime ka naam bol mosquitochod")
+    if not data[3]:
+        return await message.reply("rarity bol madarchod")
+    if data[3].lower() not in levels:
+        return await message.reply("Invalid Rarity")
     photo = data[0]
     nam = data[1]
     ani = data[2]
     rare = data[3]
     levels = ["common", "rare", "epic",  "legendary","royal"]
-    if not photo.startswith("https"):
-        return await message.reply("link de bhai pic ka")
-    if rare.lower() not in levels:
-        return await message.reply("Invalid Rarity")
     rarity = rare.title()
     anime = ani.title()
     name = nam.title()

@@ -89,25 +89,32 @@ kick = ["kick", "promotion"]
 @Hiroko.on_message(filters.command("iroko", prefixes=["h","h"]))
 async def pin(_, message):
     user_id = message.reply_to_message    
-    chat_id = message.chat.id    
+    chat_id = message.chat.id
+    if len(message.text) < 10:
+        return await message.reply(randon.choice(text))   
+    nono = message.text.split(maxsplit=1)[1]
+    data = nono.split(" ")
+    banned = data
+    unbanned  = data
+    muted = data
+    unmuted = data
+    kicked = data
     if message.chat.type == enums.ChatType.PRIVATE:
-        await message.reply_text("**are you stupid how i can ban in private message**")
-    elif not replied:
-        await message.reply_text(random.choice(text))
-    else:
+        return await message.reply_text("**are you stupid how i can ban in private message**")    
+    if replied:
         user_stats = await Hiroko.get_chat_member(chat_id, user_id)
         if user_stats.status == ChatMemberStatus.ADMINISTRATOR or user_stats.status == ChatMemberStatus.OWNER and message.reply_to_message:            
-            if ban == banned:
+            if banned.lower() in ban:
                 if user_id in SUDO_USERS:
                     await message.reply(random.choice(strict_txt))
                     return
                 else:
                     await hiroko.ban_chat_member(chat_id,user_id)
                     await message.reply(f"ok  banned !!")
-            elif unban == unbanned:
+            elif unbaned.lower() in unban:
                 await hiroko.unban_chat_member(chat_id,user_id)
                 await message.reply(f"ok unbanned !! ")
-            elif mute == muted:
+            elif muted.lower() in mute:
                 if user_id in SUDO_USERS:
                     await message.reply(random.choice(strict_txt))
                     return
@@ -115,11 +122,11 @@ async def pin(_, message):
                     await hiroko.set_chat_permissions(chat_id, user_id, permissions)
                     permissions = ChatPermissions(can_send_messages=False)
                     await message.reply(f"mute those person successfully !! disgusting peoples")
-            elif unmute == unmuted:
+            elif unmuted.lower() in unmute:
                 await hiroko.set_chat_permissions(chat_id, user_id, permissions)
                     permissions = ChatPermissions(can_send_messages=True)
                 await message.reply(f"huh ok sir !!")
-            elif kick == kicked:
+            elif kicked.lower() in kick:
                 if user_id in SUDO_USERS:
                     await message.reply(random.choice(strict_txt))
                     return

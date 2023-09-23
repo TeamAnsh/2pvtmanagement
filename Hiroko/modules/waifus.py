@@ -144,6 +144,7 @@ async def grab_waifus(client, message):
         return await message.reply("Usage:- `/grab waifu name`")
     guess = message.text.split(maxsplit=1)[1].lower()
     name = DICT[chat_id]['name'].lower()
+    wname = DICT[chat_id]['name']
     if guess == name:
         user_id = str(message.from_user.id)
         cusr.execute(
@@ -152,7 +153,7 @@ async def grab_waifus(client, message):
         )
         DB.commit()
         DICT.pop(chat_id)
-        await message.reply("congratulations you caught my Lund")
+        await message.reply(f"**ᴄᴏɴɢʀᴀᴛᴜʟᴀᴛɪᴏɴꜱ**| {message.from_user.mention} 🎉\n**ʏᴏᴜ ʜᴀᴠᴇ ꜱᴜᴄᴄᴇꜱꜱꜰᴜʟʟʏ ᴄᴏʟʟᴇᴄᴛᴇᴅ ᴛʜᴇ ᴄʜᴀʀᴀᴄᴛᴇʀ**\n**ɴᴀᴍᴇ**: <code>{wname}</code>")
     else:
         await message.reply("❌ Rip, that's not quite right.")
 

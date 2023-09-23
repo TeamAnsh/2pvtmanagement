@@ -8,6 +8,10 @@ from pyrogram.types import *
 from Hiroko.Helper.database import *
 from pyrogram.enums import ChatMemberStatus, ChatType
 from Hiroko.Helper.cust_p_filters import admin_filter
+from lexica import Client
+
+
+
 
 
 
@@ -74,7 +78,13 @@ def append_interaction_to_chat_log(question, answer, chat_log=None):
         chat_log = session_prompt
     return f'{chat_log}{restart_sequence} {question}{start_sequence}{answer}'
 
-      
+
+
+def main(prompt: str) -> dict:
+    client = Client()
+    response = client.palm(prompt)
+    return response
+
 
 @Hiroko.on_message(filters.text, group=200)
 async def chatbot_reply(hiroko :Hiroko, message):
@@ -88,7 +98,8 @@ async def chatbot_reply(hiroko :Hiroko, message):
             session['chat_log'] = append_interaction_to_chat_log(Message, answer, chat_log)
             await message.reply(f"{str(answer)}", quote=True)
         except Exception as e:
-            return await message.reply("I can't answer that.")        
+            ans = main(q)
+            return await message.reply(ans)        
 
 
 

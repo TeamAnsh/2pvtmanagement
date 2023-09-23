@@ -150,7 +150,7 @@ async def restriction_hiroko(hiroko :Hiroko, message):
 
         
         elif data[0] in promote:
-            if not bot.privileges.can_promote_members:
+            if not hiroko.privileges.can_promote_members:
                 return await message.reply("I don't have enough permissions") 
             else:                            
                 await hiroko.promote_chat_member(chat_id,user_id,

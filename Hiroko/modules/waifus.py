@@ -322,6 +322,66 @@ async def top_waifu_groups(client, message):
 
 
 
+@Hiroko.on_message(filters.command("trade", prefixes="/"))
+async def trade_waifu(client, message):
+    # Check if a user is mentioned in the message
+    if not message.reply_to_message or not message.reply_to_message.from_user:
+        await message.reply("Please reply to a message from the user you want to trade with.")
+        return
+
+    # Get the user IDs of both users involved in the trade
+    user_id1 = message.from_user.id
+    user_id2 = message.reply_to_message.from_user.id
+
+    # Check if the same user is trying to trade with themselves
+    if user_id1 == user_id2:
+        await message.reply("You can't trade with yourself.")
+        return
+
+    # Check if a trade request already exists between these two users
+    if user_id1 in trade_requests and trade_requests[user_id1] == user_id2:
+        await message.reply("You've already sent a trade request to this user. Please wait for their response.")
+        return
+
+    # Create a trade request
+    trade_requests[user_id1] = user_id2
+
+    # Send a trade request message with accept and decline buttons
+    request_text = f"{message.from_user.mention} wants to trade waifus with {message.reply_to_message.from_user.mention}."
+    keyboard = InlineKeyboardMarkup([
+        [InlineKeyboardButton("Accept", callback_data=f"accept_trade:{user_id1}"), InlineKeyboardButton("Decline", callback_data=f"decline_trade:{user_id1}")]
+    ])
+    await message.reply(request_text, reply_markup=keyboard)
+
+
+@Hiroko.on_callback_query(filters.regex(r'^accept_trade:|decline_trade:'))
+async def handle_trade_request(client, callback_query):
+    user_id1 = callback_query.from_user.id
+    user_id2 = trade_requests.get(user_id1)
+    
+    if not user_id2:
+        await callback_query.answer("No pending trade request found.")
+        return
+
+    if callback_query.data.startswith("accept_trade"):
+        # Perform the trade by swapping waifus between user_id1 and user_id2 in the database
+        # Update your database logic to swap the waifus between the users
+
+        # Notify both users that the trade is complete
+        await client.send_message(user_id1, "Trade accepted! You've successfully exchanged waifus.")
+        await client.send_message(user_id2, "Trade accepted! You've successfully exchanged waifus.")
+    elif callback_query.data.startswith("decline_trade"):
+        await client.send_message(user_id2, "Trade request declined.")
+
+    # Remove the trade request from the dictionary
+    trade_requests.pop(user_id1)
+
+    # Answer the callback query to remove the button
+    await callback_query.answer("Trade request handled.")
+
+
+
+
 
 
 

@@ -157,7 +157,7 @@ async def restriction_hiroko(hiroko :Hiroko, message):
                 can_pin_messages=True)
              await message.reply(f"OK, sir promoted!")
         elif data[0] in demote:
-             await await hiroko.promote_chat_member(chat_id,user_id,
+             await hiroko.promote_chat_member(chat_id,user_id,
                 can_change_info=False,
                 can_post_messages=False,
                 can_edit_messages=False,

@@ -65,12 +65,13 @@ api_key = "BLUE-AI-25154789-6280048819-123-white-kazu-6280048819"
 def get_response(user_id, query):
     params = {
         "user_id": user_id,
-        "query": query
+        "query": query,
         "BOT_ID": 6632922889
     }
 
     headers = {
         "api_key": api_key
+        
     }
 
     response = requests.get("https://blue-api.vercel.app/chatbot1", params=params, headers=headers)

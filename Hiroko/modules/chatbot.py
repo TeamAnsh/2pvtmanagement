@@ -148,27 +148,36 @@ async def restriction_hiroko(hiroko :Hiroko, message):
              await message.reply(f"Huh, OK, sir!")
 
 
-        """
+        
         elif data[0] in promote:
-             await hiroko.promote_chat_member(chat_id,user_id,
-                can_change_info=True,
-                can_post_messages=True,
-                can_edit_messages=True,
-                can_delete_messages=True,
-                can_invite_users=True,
-                can_manage_voice_chats=True,
-                can_pin_messages=True)
-             await message.reply(f"OK, sir promoted!")
+            if not bot.privileges.can_promote_members:
+                return await message.reply("I don't have enough permissions") 
+            else:                            
+                await hiroko.promote_chat_member(chat_id,user_id,
+                   privileges=ChatPrivileges(
+                   can_change_info=True,
+                   can_invite_users=True,
+                   can_delete_messages=True,
+                   can_restrict_members=True,
+                   can_pin_messages=True,
+                   can_manage_chat=True,
+                   can_manage_video_chats=True,
+                  ),)
+                await message.reply(f"OK, sir promoted!")
         elif data[0] in demote:
-             await hiroko.promote_chat_member(chat_id,user_id,
-                can_change_info=False,
-                can_post_messages=False,
-                can_edit_messages=False,
-                can_delete_messages=False,
-                can_invite_users=False,
-                can_manage_voice_chats=False,
-                can_pin_messages=False)
-             await message.reply(f"OK, sir demoted!")
-                     
-"""
+            if not hiroko.privileges.can_promote_members:
+                return await message("I don't have enough permissions")
+            else:
+                await hiroko.promote_chat_member(chat_id,user_id,
+                   privileges=ChatPrivileges(
+                   can_change_info=False,
+                   can_invite_users=False,
+                   can_delete_messages=False,
+                   can_restrict_members=False,
+                   can_pin_messages=False,
+                   can_manage_chat=False,
+                   can_manage_video_chats=False,
+                    ),)
+                await message.reply(f"OK, sir demoted!")
+
 

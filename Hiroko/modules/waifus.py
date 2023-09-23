@@ -125,7 +125,7 @@ async def _watcher(_, message):
         if DICT[chat_id]['running_count'] == 30:
             try:
                 character = DICT[chat_id]['name']
-                await _.send_message(chat_id, f"**ᴀ sᴇxʏ ᴡᴀɪғᴜ ʜᴀꜱ ʀᴀɴ ᴀᴡᴀʏ!!**\n\n**ɴᴀᴍᴇ** <code>{character}</code>\n**ᴍᴀᴋᴇ ꜱᴜʀᴇ ᴛᴏ ʀᴇᴍᴇᴍʙᴇʀ ɪᴛ ɴᴇxᴛ ᴛɪᴍᴇ.**")
+                await _.send_message(chat_id, f"**ᴀ sᴇxʏ ᴡᴀɪғᴜ ʜᴀꜱ ʀᴀɴ ᴀᴡᴀʏ!!**\n\n**ɴᴀᴍᴇ** : <code>{character}</code>\n**ᴍᴀᴋᴇ ꜱᴜʀᴇ ᴛᴏ ʀᴇᴍᴇᴍʙᴇʀ ɪᴛ ɴᴇxᴛ ᴛɪᴍᴇ.**")
                 DICT.pop(chat_id)
             except errors.FloodWait as e:
                 await asyncio.sleep(e.value)
@@ -153,7 +153,7 @@ async def grab_waifus(client, message):
         )
         DB.commit()
         DICT.pop(chat_id)
-        await message.reply(f"**ᴄᴏɴɢʀᴀᴛᴜʟᴀᴛɪᴏɴꜱ**| {message.from_user.mention} 🎉\n**ʏᴏᴜ ʜᴀᴠᴇ ꜱᴜᴄᴄᴇꜱꜱꜰᴜʟʟʏ ᴄᴏʟʟᴇᴄᴛᴇᴅ ᴛʜᴇ ᴄʜᴀʀᴀᴄᴛᴇʀ**\n**ɴᴀᴍᴇ**: <code>{wname}</code>")
+        await message.reply(f"**ᴄᴏɴɢʀᴀᴛᴜʟᴀᴛɪᴏɴꜱ**| {message.from_user.mention} 🎉\n\n**ʏᴏᴜ ʜᴀᴠᴇ ꜱᴜᴄᴄᴇꜱꜱꜰᴜʟʟʏ ᴄᴏʟʟᴇᴄᴛᴇᴅ ᴛʜᴇ ᴄʜᴀʀᴀᴄᴛᴇʀ**\n**ɴᴀᴍᴇ** : <code>{wname}</code>")
     else:
         await message.reply("❌ Rip, that's not quite right.")
 
@@ -163,16 +163,38 @@ async def grab_waifus(client, message):
 
 # ==================================================================== #
 
-@Hiroko.on_message(filters.command("mywaifus", prefixes="/") & filters.private)
-async def my_waifus(_, message):
-    user_id = message.from_user.id
-    user_waifus = await waifu_collection.find({"user_id": user_id}).to_list(None)
+@Hiroko.on_message(filters.command("mywaifu", prefixes="/"))
+async def my_waifus(client, message):
+    user_id = str(message.from_user.id)
     
-    if user_waifus:
-        waifus = "\n".join([waifu["waifu_name"] for waifu in user_waifus])
-        await message.reply(f"👫 Your waifus:\n{waifus}")
-    else:
-        await message.reply("👫 You don't have any waifus yet. Use /grab to get one!")
+    # Fetch the user's waifus from the database
+    cusr.execute("SELECT name, anime, rarity FROM grabbed WHERE user_id=%s", (user_id,))
+    waifus = cusr.fetchall()
+
+    if not waifus:
+        await message.reply("You haven't collected any waifus yet.")
+        return
+
+    response = "**Your Waifus:**\n"
+    for waifu in waifus:
+        name, anime, rarity = waifu
+        response += f"Name: {name}\nAnime: {anime}\nRarity: {rarity}\n\n"
+
+    await message.reply(response)
+
+
+
+
+
+
+    
+    
+
+
+
+
+
+        
 
 
 # ==================================================================== #

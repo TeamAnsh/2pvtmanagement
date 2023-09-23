@@ -146,6 +146,9 @@ async def restriction_hiroko(hiroko :Hiroko, message):
              permissions = ChatPermissions(can_send_messages=True)
              await hiroko.set_chat_permissions(chat_id, user_id, permissions)
              await message.reply(f"Huh, OK, sir!")
+
+
+        """
         elif data[0] in promote:
              await hiroko.promote_chat_member(chat_id,user_id,
                 can_change_info=True,
@@ -167,5 +170,5 @@ async def restriction_hiroko(hiroko :Hiroko, message):
                 can_pin_messages=False)
              await message.reply(f"OK, sir demoted!")
                      
-
+"""
 

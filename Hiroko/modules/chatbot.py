@@ -112,7 +112,7 @@ demote = ["demote"]
 async def restriction_hiroko(hiroko :Hiroko, message):
     reply = message.reply_to_message
     chat_id = message.chat.id
-    if len(message.text) < 3:
+    if len(message.text) < 2:
         return await message.reply(random.choice(text))
     bruh = message.text.split(maxsplit=1)[1]
     data = bruh.split(" ")

@@ -164,7 +164,7 @@ async def grab_waifus(client, message):
 
 # ==================================================================== #
 
-@Hiroko.on_message(filters.command("mywaifu", prefixes="/"))
+@Hiroko.on_message(filters.command(["mywaifus","myharem"], prefixes="/"))
 async def my_waifus(client, message):
     user_id = str(message.from_user.id)
     
@@ -230,7 +230,7 @@ async def gift_waifu(client, message):
     
 
 
-@Hiroko.on_message(filters.command("topwaifugrabs", prefixes="/"))
+@Hiroko.on_message(filters.command("topwaifugrabbers", prefixes="/"))
 async def top_waifu_grabs(client, message):
     try:
         # Fetch the top 10 waifu collectors

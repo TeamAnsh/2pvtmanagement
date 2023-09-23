@@ -44,7 +44,9 @@ HELP_TEXT = """**
 » ˹ʜɪꝛᴏᴋᴏ ꝛᴏʙᴏᴛ˼ ᴄᴏᴏʟ ᴏʀ ᴇxᴄʟᴜsɪᴠᴇ ғᴇᴀᴛᴜʀᴇs 
 """
 
-
+DEVS_SECTION = """
+** ˹ʜɪꝛᴏᴋᴏ ꝛᴏʙᴏᴛ˼ ᴅᴇᴠs ᴏʀ ᴍᴀɪɴᴛᴀɪɴᴇʀ sᴇᴄᴛɪᴏɴ**
+"""
 
 # ------------------------------------------------------------------------------- #
 
@@ -85,6 +87,21 @@ back_buttons  = [[
                     InlineKeyboardButton("⟲ ʙᴀᴄᴋ ⟳", callback_data="help_"),                    
                 ]]
 
+
+devs_buttons  = [[
+                    InlineKeyboardButton("ᴋɪᴛᴏ", url="https://t.me/KIRITO1240"),
+                    InlineKeyboardButton("ɪᴍᴏʀᴛᴀʟ", url="https://t.me/ImmortalsKingX"),                    
+                ],
+                [
+                    InlineKeyboardButton("ɪsʜɪᴋᴋɪ", url="https://t.me/ishikki_Akabane"),
+                    InlineKeyboardButton("ʟᴇᴠɪ", url="https://t.me/LeviAckerman1709"), 
+                ],
+                [
+              
+                    InlineKeyboardButton("⟲ ʙᴀᴄᴋ ⟳", callback_data="home_"),                    
+                ]  
+                ]
+
 # ------------------------------------------------------------------------------- #
 
 
@@ -96,7 +113,7 @@ async def start(client: Client, message: Message):
             ],
             [
                 InlineKeyboardButton("✨ sᴜᴘᴘᴏʀᴛ ✨", url="https://t.me/DevsOops"),
-                InlineKeyboardButton("🎓 ᴍᴀɪɴᴛᴀɪɴᴇʀ", url=f"https://t.me/AnonDeveloper"),
+                InlineKeyboardButton("🎓 ᴍᴀɪɴᴛᴀɪɴᴇʀ", callback_data="devs_"),
             ],
             [
                 InlineKeyboardButton("📚 ʜᴇʟᴘ ᴀɴᴅ ᴄᴏᴍᴍᴀɴᴅs 📚", callback_data="help_")
@@ -131,7 +148,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
             ],
             [
                 InlineKeyboardButton("✨ sᴜᴘᴘᴏʀᴛ ✨", url="https://t.me/TheNixaSupport"),
-                InlineKeyboardButton("🎓 ᴍᴀɪɴᴛᴀɪɴᴇʀ", url=f"https://t.me/AnonDeveloper"),
+                InlineKeyboardButton("🎓 ᴍᴀɪɴᴛᴀɪɴᴇʀ", callback_data="devs_"),
             ],
             [
                 InlineKeyboardButton("📚 ʜᴇʟᴘ ᴀɴᴅ ᴄᴏᴍᴍᴀɴᴅs 📚", callback_data="help_")
@@ -159,7 +176,18 @@ async def cb_handler(client: Client, query: CallbackQuery):
         except MessageNotModified:
             pass
 
-    
+
+
+    elif query.data=="devs_":        
+        reply_markup = InlineKeyboardMarkup(devs_buttons)
+        try:
+            await query.edit_message_text(
+                DEVS_SECTION.format(query.from_user.first_name, query.from_user.id),
+                reply_markup=reply_markup
+            )
+        except MessageNotModified:
+            pass
+  
 # ------------------------------------------------------------------------------- #
 
     elif query.data=="maintainer_":

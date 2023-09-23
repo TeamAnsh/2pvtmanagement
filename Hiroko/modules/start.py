@@ -113,7 +113,7 @@ async def start(client: Client, message: Message):
             ],
             [
                 InlineKeyboardButton("✨ sᴜᴘᴘᴏʀᴛ ✨", url="https://t.me/DevsOops"),
-                InlineKeyboardButton("🎓 ᴍᴀɪɴᴛᴀɪɴᴇʀ", callback_data="developers_"),
+                InlineKeyboardButton("🎓 ᴍᴀɪɴᴛᴀɪɴᴇʀ", callback_data="hiroko_devs"),
             ],
             [
                 InlineKeyboardButton("📚 ʜᴇʟᴘ ᴀɴᴅ ᴄᴏᴍᴍᴀɴᴅs 📚", callback_data="help_")
@@ -148,7 +148,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
             ],
             [
                 InlineKeyboardButton("✨ sᴜᴘᴘᴏʀᴛ ✨", url="https://t.me/TheNixaSupport"),
-                InlineKeyboardButton("🎓 ᴍᴀɪɴᴛᴀɪɴᴇʀ", callback_data="developers_"),
+                InlineKeyboardButton("🎓 ᴍᴀɪɴᴛᴀɪɴᴇʀ", callback_data="hiroko_devs"),
             ],
             [
                 InlineKeyboardButton("📚 ʜᴇʟᴘ ᴀɴᴅ ᴄᴏᴍᴍᴀɴᴅs 📚", callback_data="help_")
@@ -178,7 +178,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
 
 
 
-    elif query.data=="developers_":        
+    elif query.data=="hiroko_devs":        
         reply_markup = InlineKeyboardMarkup(devs_buttons)
         try:
             await query.edit_message_text(

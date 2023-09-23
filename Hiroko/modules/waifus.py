@@ -278,6 +278,51 @@ async def top_waifu_grabs(client, message):
 
 
 
+@Hiroko.on_message(filters.command("topwaifugroups", prefixes="/"))
+async def top_waifu_groups(client, message):
+    try:
+        # Fetch the top 5 waifu collector groups
+        cusr.execute("SELECT chat_id, COUNT(*) as waifu_count FROM grabbed GROUP BY chat_id ORDER BY waifu_count DESC LIMIT 5")
+        top_groups = cusr.fetchall()
+
+        if not top_groups:
+            await message.reply("No waifu collector groups found.")
+            return
+
+        # Extract chat_ids and waifu counts
+        chat_ids = [str(group[0]) for group in top_groups]
+        waifu_counts = [group[1] for group in top_groups]
+
+        # Get group names for display
+        group_names = []
+        for chat_id in chat_ids:
+            chat_info = await client.get_chat(chat_id)
+            group_names.append(chat_info.title)
+
+        # Create a 3D pie chart to display group percentages
+        fig = plt.figure(figsize=(8, 8))
+        ax = fig.add_subplot(111, projection='3d')
+        ax.pie(waifu_counts, labels=group_names, autopct='%1.1f%%', startangle=90)
+
+        ax.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
+        plt.title('Top 5 Waifu Collector Groups')
+
+        # Save the graph as an image
+        graph_filename = 'top_waifu_groups.png'
+        plt.savefig(graph_filename, bbox_inches='tight', format='png')
+        plt.close()
+
+        # Send the graph as a photo
+        await message.reply_photo(photo=graph_filename, caption="Top 5 Waifu Collector Groups")
+
+    except Exception as e:
+        print(f"Error: {e}")
+        await message.reply("An error occurred while fetching top groups.")
+
+
+
+
+
 
 
         

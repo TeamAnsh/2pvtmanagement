@@ -100,8 +100,8 @@ unban = ["unban","free"]
 mute = ["mute","silent"]
 unmute = ["unmute","speak"]
 kick = ["kick", "promotion"]
-
-
+promote = ["promote","update"]
+demote = ["demote"]
 
 
 
@@ -147,12 +147,25 @@ async def restriction_hiroko(hiroko :Hiroko, message):
              await hiroko.set_chat_permissions(chat_id, user_id, permissions)
              await message.reply(f"Huh, OK, sir!")
         elif data[0] in promote:
-             permissions = ChatPermissions(can_send_messages=True)
-             await hiroko.promote_chat_member(chat_id, user_id, permissions)
+             await hiroko.promote_chat_member(chat_id,user_id,
+                can_change_info=True,
+                can_post_messages=True,
+                can_edit_messages=True,
+                can_delete_messages=True,
+                can_invite_users=True,
+                can_manage_voice_chats=True,
+                can_pin_messages=True)
              await message.reply(f"OK, sir promoted!")
         elif data[0] in demote:
-             permissions = ChatPermissions(can_send_messages=True)
-             await hiroko.promote_chat_member(chat_id, user_id, permissions)
+             await await hiroko.promote_chat_member(chat_id,user_id,
+                can_change_info=False,
+                can_post_messages=False,
+                can_edit_messages=False,
+                can_delete_messages=False,
+                can_invite_users=False,
+                can_manage_voice_chats=False,
+                can_pin_messages=False)
              await message.reply(f"OK, sir demoted!")
                      
-          
+
+

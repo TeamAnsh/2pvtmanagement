@@ -154,17 +154,18 @@ async def restriction_hiroko(hiroko :Hiroko, message):
         
             if not admin_check.privileges.can_promote_members:
                 return await message.reply("I don't have enough permissions") 
-            else:                            
-                await message.chat.promote_member(user.id, privileges=ChatPrivileges(
-                    can_change_info=True,
-                    can_invite_users=True,
-                    can_delete_messages=True,
-                    can_restrict_members=True,
-                    can_pin_messages=True,
-                    can_promote_members=False,
-                    can_manage_chat=True,
-                    can_manage_video_chats=True,
-                ))
+            else:
+                if admin_check.can_promote_members:
+                    await message.chat.promote_member(user.id, privileges=ChatPrivileges(
+                      can_change_info=True,
+                      can_invite_users=True,
+                      can_delete_messages=True,
+                      can_restrict_members=True,
+                      can_pin_messages=True,
+                      can_promote_members=False,
+                      can_manage_chat=True,
+                      can_manage_video_chats=True,
+                  ))
                 await message.reply(f"OK, sir promoted!")
         elif data[0] in demote:
             admin_check = await Hiroko.get_chat_member(chat_id, user_id)
@@ -172,16 +173,17 @@ async def restriction_hiroko(hiroko :Hiroko, message):
             if not admin_check.privileges.can_promote_members:
                 return await message("I don't have enough permissions")
             else:
-                await message.chat.promote_member(user.id, privileges=ChatPrivileges(
-                    can_change_info=False,
-                    can_invite_users=False,
-                    can_delete_messages=False,
-                    can_restrict_members=False,
-                    can_pin_messages=True,
-                    can_promote_members=False,
-                    can_manage_chat=False,
-                    can_manage_video_chats=False,
-                ))
+                if admin_check.can_promote_members:
+                    await message.chat.promote_member(user.id, privileges=ChatPrivileges(
+                      can_change_info=False,
+                      can_invite_users=False,
+                      can_delete_messages=False,
+                      can_restrict_members=False,
+                      can_pin_messages=True,
+                      can_promote_members=False,
+                      can_manage_chat=False,
+                      can_manage_video_chats=False,
+                   ))
                 await message.reply(f"OK, sir demoted!")
 
 

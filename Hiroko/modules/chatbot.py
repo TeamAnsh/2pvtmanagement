@@ -135,6 +135,8 @@ async def restriction_hiroko(hiroko :Hiroko, message):
                 await hiroko.ban_chat_member(chat_id, user_id)
                 await hiroko.unban_chat_member(chat_id, user_id)
                 await message.reply("get lost! bhga diya bhosdi wale ko")
+
+        """
         elif data[0] == mute:
             if user_id in SUDO_USERS:
                 await message.reply(random.choice(strict_txt))
@@ -147,4 +149,4 @@ async def restriction_hiroko(hiroko :Hiroko, message):
              await hiroko.set_chat_permissions(chat_id, user_id, permissions)
              await message.reply(f"Huh, OK, sir!")
             
-          
+          """

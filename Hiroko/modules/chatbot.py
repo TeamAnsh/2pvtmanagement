@@ -17,6 +17,12 @@ from lexica import Client
 
 
 
+
+
+
+
+
+
 text = (
 "hey please don't disturb me.",
 "who are you",    
@@ -42,19 +48,45 @@ strict_txt = [
 ]
 
 
+# ========================================= #
+
+
+def main(prompt: str) -> str:
+    client = Client()
+    response = client.palm(prompt)
+    return response["content"].strip()
+
+
+# ========================================= #
+
+
+api_key = "BLUE-AI-25154789-6280048819-123-white-kazu-6280048819"
+
+def get_response(user_id, query):
+    params = {
+        "user_id": user_id,
+        "query": query
+        "BOT_ID": 6632922889
+    }
+
+    headers = {
+        "api_key": api_key
+    }
+
+    response = requests.get("https://blue-api.vercel.app/chatbot1", params=params, headers=headers)
+    return response.json()
+
+
+
+# ========================================= #
 
 openai.api_key = "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"
 
-
-
-
 completion = openai.Completion()
-
 
 start_sequence = "\nHiroko:"
 restart_sequence = "\nPerson:"
 session_prompt = chatbot_txt
-
 session = {}
 
 def ask(question, chat_log=None):
@@ -79,31 +111,40 @@ def append_interaction_to_chat_log(question, answer, chat_log=None):
     return f'{chat_log}{restart_sequence} {question}{start_sequence}{answer}'
 
 
+# ========================================= #
 
-def main(prompt: str) -> dict:
-    client = Client()
-    response = client.palm(prompt)
-    return response
+
+
+
 
 
 @Hiroko.on_message(filters.text, group=200)
-async def chatbot_reply(hiroko :Hiroko, message):
+async def chatbot_reply(hiroko: Hiroko, message):
     bot_id = (await hiroko.get_me()).id
     reply = message.reply_to_message
     if reply and reply.from_user.id == bot_id:
-        q = message.text
+        query = message.text
         try:
             chat_log = session.get('chat_log')
-            answer = ask(q, chat_log)
+            answer = ask(query, chat_log)
             session['chat_log'] = append_interaction_to_chat_log(Message, answer, chat_log)
-            await message.reply(f"{str(answer)}", quote=True)
+            await message.reply(str(answer), quote=True)
         except Exception as e:
-            ans = main(q)
-            return await message.reply(ans)        
+            print(f"Error: {e}")
+            try:
+                response = main(query)
+                return await message.reply(response) 
+            except Exception as e:
+                print(f"Error: {e}")
+                try:               
+                    response = get_response(message.from_user.id, query)
+                    await message.reply_text(response["result"]["text"])
+                except Exception as e:
+                    print(f"Error: {e}")
 
 
 
-
+# ========================================= #
 
 
 ban = ["ban","spammed","rival"]
@@ -117,6 +158,7 @@ demote = ["demote"]
 
 
 
+# ========================================= #
 
 
 @Hiroko.on_message(filters.command("iroko", prefixes=["h", "H"]) & admin_filter)
@@ -196,5 +238,10 @@ async def restriction_hiroko(hiroko :Hiroko, message):
                       can_manage_video_chats=False,
                    ))
                 await message.reply(f"OK, sir demoted!")
+
+# ========================================= #
+
+
+
 
 

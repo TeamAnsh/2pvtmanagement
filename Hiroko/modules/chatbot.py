@@ -121,7 +121,7 @@ def append_interaction_to_chat_log(question, answer, chat_log=None):
 
 @Hiroko.on_message(filters.text, group=200)
 async def chatbot_reply(hiroko: Hiroko, message):
-    bot_id = (await client.get_me()).id
+    bot_id = 6632922889
     reply = message.reply_to_message
     if reply and reply.from_user.id == bot_id:
         query = message.text

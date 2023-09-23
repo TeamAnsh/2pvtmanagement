@@ -36,7 +36,9 @@ strict_txt = [
 "hey stupid admin ", 
 "ha ye phele krlo maar lo ek dusre ki gwaand",   
 ]
-    
+
+
+
 openai.api_key = "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"
 
 
@@ -133,15 +135,14 @@ async def restriction_hiroko(hiroko :Hiroko, message):
                 await hiroko.ban_chat_member(chat_id, user_id)
                 await hiroko.unban_chat_member(chat_id, user_id)
                 await message.reply("get lost! bhga diya bhosdi wale ko")
-         elif data[0] == mute:
-             if user_id in SUDO_USERS:
+        elif data[0] == mute:
+            if user_id in SUDO_USERS:
                 await message.reply(random.choice(strict_txt))
             else:
                 permissions = ChatPermissions(can_send_messages=False)
                 await hiroko.set_chat_permissions(chat_id, user_id, permissions)
-                await message.reply(f"Muted successfully! Disgusting people.")
- 
-         elif data[0] == unmute:
+                await message.reply(f"muted successfully! Disgusting people.") 
+        elif data[0] == unmute:
              permissions = ChatPermissions(can_send_messages=True)
              await hiroko.set_chat_permissions(chat_id, user_id, permissions)
              await message.reply(f"Huh, OK, sir!")

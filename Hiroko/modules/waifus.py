@@ -1,5 +1,6 @@
 import requests, asyncio, random, psycopg2, json
 import matplotlib.pyplot as plt
+import numpy as np
 from io import BytesIO
 from config import SUDO_USERS
 from pyrogram import *
@@ -185,10 +186,95 @@ async def my_waifus(client, message):
 
 
 
+@Hiroko.on_message(filters.command("giftwaifu", prefixes="/"))
+async def gift_waifu(client, message):
+    if len(message.text.split()) != 3:
+        await message.reply("Usage: `/giftwaifu @recipient_username waifu_name`")
+        return
+
+    recipient_username = message.text.split()[1]
+    waifu_name = message.text.split()[2]
+    sender_user_id = str(message.from_user.id)
+
+    # Check if the sender has the waifu in their collection
+    cusr.execute("SELECT user_id, rarity FROM grabbed WHERE user_id=%s AND name=%s", (sender_user_id, waifu_name))
+    sender_waifu = cusr.fetchone()
+
+    if not sender_waifu:
+        await message.reply(f"You don't have the waifu '{waifu_name}' in your collection.")
+        return
+
+    # Check if the recipient exists and get their user_id
+    recipient = await client.get_users(recipient_username)
+    if not recipient:
+        await message.reply(f"User '{recipient_username}' not found.")
+        return
+    recipient_user_id = str(recipient.id)
+
+    # Transfer the waifu to the recipient
+    try:
+        cusr.execute(
+            "UPDATE grabbed SET user_id=%s WHERE user_id=%s AND name=%s",
+            (recipient_user_id, sender_user_id, waifu_name)
+        )
+        DB.commit()
+    except Exception as e:
+        print(f"Error transferring waifu: {e}")
+        await message.reply("An error occurred while transferring the waifu.")
+        return
+
+    await message.reply(f"Successfully gifted '{waifu_name}' to {recipient_username}.")
 
 
     
     
+
+
+@Hiroko.on_message(filters.command("topwaifugrabs", prefixes="/"))
+async def top_waifu_grabs(client, message):
+    try:
+        # Fetch the top 10 waifu collectors
+        cusr.execute("SELECT user_id, COUNT(*) as waifu_count FROM grabbed GROUP BY user_id ORDER BY waifu_count DESC LIMIT 10")
+        top_collectors = cusr.fetchall()
+
+        if not top_collectors:
+            await message.reply("No waifu collectors found.")
+            return
+
+        # Extract user_ids and waifu counts
+        user_ids = [str(collector[0]) for collector in top_collectors]
+        waifu_counts = [collector[1] for collector in top_collectors]
+
+        # Get usernames for display
+        usernames = []
+        for user_id in user_ids:
+            user = await client.get_users(int(user_id))
+            usernames.append(user.username if user.username else f"User {user_id}")
+
+        # Create a bar graph to display waifu counts
+        plt.figure(figsize=(10, 6))
+        plt.barh(usernames, waifu_counts, color='red')
+        plt.xlabel('Waifu Count')
+        plt.ylabel('User')
+        plt.title('Top 10 Waifu Collectors')
+        plt.gca().invert_yaxis()
+
+        # Save the graph as an image
+        graph_filename = 'top_waifu_collectors.png'
+        plt.savefig(graph_filename, bbox_inches='tight', format='png')
+        plt.close()
+
+        # Send the graph as a photo
+        await message.reply_photo(photo=graph_filename, caption="Top 10 Waifu Collectors")
+
+    except Exception as e:
+        print(f"Error: {e}")
+        await message.reply("An error occurred while fetching top collectors.")
+
+
+
+
+
 
 
 
@@ -199,172 +285,7 @@ async def my_waifus(client, message):
 
 # ==================================================================== #
 
-@Hiroko.on_message(filters.command("giftwaifu", prefixes="/") & filters.private)
-async def gift_waifu(_, message):
-    if len(message.command) != 2:
-        return await message.reply("🎁 Please use /giftwaifu @user to gift a waifu.")
-    
-    user_id = message.from_user.id
-    target_username = message.command[1]
-    
-    waifu_to_gift = await waifu_collection.find_one({"user_id": user_id})
-    
-    if waifu_to_gift:
-        await waifu_collection.update_one({"user_id": user_id}, {"$unset": {"user_id": ""}})
-        await message.reply(f"🎁 You've gifted {waifu_to_gift['waifu_name']} to {target_username}!")
-    else:
-        await message.reply("🎁 You don't have any waifus to gift.")
 
 
-# ==================================================================== #
 
-@Hiroko.on_message(filters.command("trade", prefixes="/"))
-async def trade_waifus(_, message):
-    user_id = message.from_user.id
-    await message.reply("Mention the user you want to trade with in the format: `/trade @username waifu_name`")
-    
-    @Hiroko.on_message(filters.reply & filters.user(user_id))
-    async def confirm_trade(_, trade_message):
-        if trade_message.text.startswith("/trade @") and " " in trade_message.text:
-            parts = trade_message.text.split()
-            if len(parts) == 3:
-                target_username = parts[1].replace("@", "")
-                waifu_name = parts[2]
-                
-                
-                target_user = await Hiroko.get_users(target_username)
-                if not target_user:
-                    await message.reply("The target user doesn't exist.")
-                    return
-                
-                
-                user_data = await users_collection.find_one({"user_id": user_id})
-                if not user_data or waifu_name not in user_data.get("waifus", []):
-                    await message.reply("You don't have the specified waifu to trade.")
-                    return
-                
-                
-                trade_request_id = str(message.message_id)
-                
-                
-                trade_requests[trade_request_id] = {
-                    "user_id": user_id,
-                    "target_user_id": target_user.id,
-                    "waifu_name": waifu_name,
-                }
-                
-                keyboard = InlineKeyboardMarkup([
-                    [InlineKeyboardButton("Accept", callback_data=f"accept_trade_{trade_request_id}"),
-                     InlineKeyboardButton("Decline", callback_data=f"decline_trade_{trade_request_id}")]
-                ])
-                
-                await message.reply(f"@{target_username}, {message.from_user.mention} wants to trade {waifu_name} with you.", reply_markup=keyboard)
-            else:
-                await message.reply("Invalid format. Use `/trade @username waifu_name`.")
-        else:
-            await message.reply("Invalid format. Use `/trade @username waifu_name`.")
-    
-    await asyncio.sleep(60)  # Wait for 60 seconds for a reply
-    await message.reply("Trade request expired.")
-
-
-# ==================================================================== #
-
-@Hiroko.on_callback_query(filters.regex(r"^accept_trade_(\d+)$"))
-async def accept_trade(_, callback_query):
-    trade_request_id = callback_query.matches[0].group(1)
-    
-    if trade_request_id in trade_requests:
-        trade_request = trade_requests.pop(trade_request_id)
-        target_user_id = trade_request["target_user_id"]
-        user_id = trade_request["user_id"]
-        waifu_name = trade_request["waifu_name"]
         
-        
-        await users_collection.update_one({"user_id": user_id}, {"$pull": {"waifus": waifu_name}})
-        await users_collection.update_one({"user_id": target_user_id}, {"$push": {"waifus": waifu_name}})
-        
-        await callback_query.message.edit_text(f"Trade accepted! {callback_query.from_user.mention} has traded {waifu_name} with you.")
-    
-    else:
-        await callback_query.answer("Trade request not found or expired.", show_alert=True)
-
-
-
-@Hiroko.on_callback_query(filters.regex(r"^decline_trade_(\d+)$"))
-async def decline_trade(_, callback_query):
-    trade_request_id = callback_query.matches[0].group(1)
-    
-    if trade_request_id in trade_requests:
-        trade_requests.pop(trade_request_id)
-        await callback_query.message.edit_text(f"Trade declined. {callback_query.from_user.mention} has declined the trade request.")
-    
-    else:
-        await callback_query.answer("Trade request not found or expired.", show_alert=True)
-
-# ==================================================================== #
-
-
-
-
-chat_groups_data = [
-    {"group_name": "Group 1", "percentage": 15},
-    {"group_name": "Group 2", "percentage": 12},
-    {"group_name": "Group 3", "percentage": 10},
-    {"group_name": "Group 4", "percentage": 8},
-    {"group_name": "Group 5", "percentage": 5},
-]
-
-
-@Hiroko.on_message(filters.command("topgrabber", prefixes="/"))
-async def view_top_grabbers(_, message):
-    top_players = await users_collection.find().sort([("waifus_collected", -1)]).limit(10).to_list(None)
-    
-    player_names = [user.get("username", "Unknown") for user in top_players]
-    waifus_collected = [user.get("waifus_collected", 0) for user in top_players]
-    
-    plt.figure(figsize=(10, 6))
-    plt.barh(player_names, waifus_collected, color='skyblue')
-    plt.xlabel('Waifus Collected')
-    plt.title('Top 10 Waifu Players')
-    
-    caption = "Top 10 Waifu Players:\n"
-    for i, player_name in enumerate(player_names, start=1):
-        caption += f"{i}. {player_name}\n"
-    
-    chart_image = 'top_waifu_players.png'
-    plt.savefig(chart_image, bbox_inches='tight')
-    plt.close()
-    await message.reply_photo(photo=chart_image, caption=caption)
-    
-
-    import os
-    os.remove(chart_image)
-
-
-@Hiroko.on_message(filters.command("topgrabbersgroups", prefixes="/"))
-async def view_top_groups(_, message):
-    group_names = [data["group_name"] for data in chat_groups_data]
-    percentages = [data["percentage"] for data in chat_groups_data]
-    
-
-    plt.figure(figsize=(8, 6))
-    plt.bar(group_names, percentages, color='red')
-    plt.ylabel('Percentage')
-    plt.title('Top 5 Chat Groups by Percentage')
-    
-    
-    for i, percentage in enumerate(percentages):
-        plt.text(i, percentage + 1, f"{percentage}%", ha='center', va='bottom')
-    
-
-    chart_image = 'top_chat_groups.png'
-    plt.savefig(chart_image, bbox_inches='tight')
-    plt.close()
-    await message.reply_photo(photo=chart_image, caption="Top 5 Chat Groups by Percentage")
-
-    import os
-    os.remove(chart_image)
-
-
-

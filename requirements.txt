@@ -1,5 +1,4 @@
-fontTools
-emoji
+search_engine_parser
 aiofiles
 asyncio==3.4.3
 aiohttp==3.8.4

@@ -1,5 +1,4 @@
-import time
-import random
+import time, random
 from asyncio import sleep as rest
 from pyrogram import Client, filters
 from pyrogram.types import Message
@@ -9,12 +8,7 @@ from config import OWNER_ID as owner
 from config import SUDO_USERS as sudo
 from pyrogram import filters, __version__
 from platform import python_version
-from pyrogram.types import (
-    Message,
-    CallbackQuery,
-    InlineKeyboardMarkup,
-    InlineKeyboardButton,
-)
+from pyrogram.types import.Message, CallbackQuery, InlineKeyboardMarkup, InlineKeyboardButton
 
 
 
@@ -103,12 +97,9 @@ PING_TEXT = """
 
 
 Button = InlineKeyboardMarkup(
-    [
-        [
+               [[
             InlineKeyboardButton("๏ ᴄʟᴏsᴇ ๏",callback_data="close_data")
-        ]
-    ]
-)
+               ]])
 
 
 # ------------------------------------------------------------------------------- #

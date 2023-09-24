@@ -23,7 +23,7 @@ from lexica import Client
 
 
 
-text = (
+text = [
 "hey please don't disturb me.",
 "who are you",    
 "aap kon ho",
@@ -35,16 +35,17 @@ text = (
 "aapko smj nhi aata kya ",
 "leave me alone",
 "dude what happend",
-"?",
 "nikl lwde",    
-)
+]
 
 strict_txt = [
-"i can't ban my besties",
-"are you serious i am not restirct to my friends",
+"i can't restrict against my besties",
+"are you serious i am not restrict to my friends",
 "fuck you bsdk k mai apne dosto ko kyu kru",
 "hey stupid admin ", 
-"ha ye phele krlo maar lo ek dusre ki gwaand",   
+"ha ye phele krlo maar lo ek dusre ki gwaand",  
+"i can't hi is my closest friend",
+"i love him please don't restict this user try to usertand "
 ]
 
 
@@ -148,8 +149,8 @@ async def chatbot_reply(hiroko: Hiroko, message):
 # ========================================= #
 
 
-ban = ["ban","restrict","boom"]
-unban = ["unban","unrestrict"]
+ban = ["ban","boom"]
+unban = ["unban",]
 mute = ["mute","silent","shut"]
 unmute = ["unmute","speak","free"]
 kick = ["kick", "out","nikaal"]

@@ -1,6 +1,5 @@
 from pyrogram import filters
 from pyrogram.types import Message
-
 from Hiroko.Helper.database.imposterdb import (
     add_userdata,
     usr_data,
@@ -33,10 +32,10 @@ async def chk_usr(_, message: Message):
         or lastname_before != message.from_user.last_name
     ):
         msg += f"""
-🔹 IMPOSTER DETECTED 👀:
+**🔓 ɪᴍᴘᴏsᴛᴇʀ ᴅᴇᴛᴇᴄᴛᴇᴅ 🔓**
 ➖➖➖➖➖➖➖➖➖➖➖➖
-▪️User: {message.from_user.mention}
-▪️ID: {message.from_user.id}
+**🍊 ɴᴀᴍᴇ** : {message.from_user.mention}
+**🍅 ᴜsᴇʀ ɪᴅ** : {message.from_user.id}
 ➖➖➖➖➖➖➖➖➖➖➖➖\n
 """
     if usernamebefore != message.from_user.username:
@@ -47,10 +46,10 @@ async def chk_usr(_, message: Message):
             else "NO USERNAME"
         )
         msg += """
-🔹CHANGED USERNAME:
+**🐻‍❄️ ᴄʜᴀɴɢᴇᴅ ᴜsᴇʀɴᴀᴍᴇ 🐻‍❄️**
 ➖➖➖➖➖➖➖➖➖➖➖➖
-▪️FROM: {bef}
-▪️TO: {aft}
+**🎭 ғʀᴏᴍ** : {bef}
+**🍜 ᴛᴏ** : {aft}
 ➖➖➖➖➖➖➖➖➖➖➖➖\n
 """.format(bef=usernamebefore, aft=usernameafter)
         await add_userdata(
@@ -61,10 +60,10 @@ async def chk_usr(_, message: Message):
         )
     if first_name != message.from_user.first_name:
         msg += """
-🔹CHANGED FIRST NAME:
+**🪧 ᴄʜᴀɴɢᴇs ғɪʀsᴛ ɴᴀᴍᴇ 🪧**
 ➖➖➖➖➖➖➖➖➖➖➖➖
-▪️FROM: {bef}
-▪️TO: {aft}
+**🔐 ғʀᴏᴍ** : {bef}
+**🍓 ᴛᴏ** : {aft}
 ➖➖➖➖➖➖➖➖➖➖➖➖\n
 """.format(
             bef=first_name, aft=message.from_user.first_name
@@ -79,10 +78,10 @@ async def chk_usr(_, message: Message):
         lastname_before = lastname_before or "NO LAST NAME"
         lastname_after = message.from_user.last_name or "NO LAST NAME"
         msg += """
-🔹CHANGED LAST NAME:
+**🪧 ᴄʜᴀɴɢᴇs ʟᴀsᴛ ɴᴀᴍᴇ 🪧**
 ➖➖➖➖➖➖➖➖➖➖➖➖
-▪️FROM: {bef}
-▪️TO: {aft}
+**🚏ғʀᴏᴍ** : {bef}
+**🍕 ᴛᴏ** : {aft}
 ➖➖➖➖➖➖➖➖➖➖➖➖\n
 """.format(
             bef=lastname_before, aft=lastname_after
@@ -100,14 +99,14 @@ async def chk_usr(_, message: Message):
 @Hiroko.on_message(filters.group & filters.command("imposter") & ~filters.bot & ~filters.via_bot)
 async def set_mataa(_, message: Message):
     if len(message.command) == 1:
-        return await message.reply("Check help Section For Getting Help")
+        return await message.reply("**ᴄʜᴇᴄᴋ ʜᴇʟᴘ sᴇᴄᴛɪᴏɴ ғᴏʀ ɢᴇᴛᴛɪɴɢ ʜᴇʟᴘ.**")
     if message.command[1] == "on":
         cekset = await impo_on(message.chat.id)
         if cekset:
-            await message.reply("Imposter Mode Is Already Enabled")
+            await message.reply("**ɪᴍᴘᴏsᴛᴇʀ ᴍᴏᴅᴇ ɪs ᴀʟʀᴇᴀᴅʏ ᴇɴᴀʙʟᴇᴅ.**")
         else:
             await impo_on(message.chat.id)
-            await message.reply(f"Successfully Enabled Imposter Mode For {message.chat.title}")
+            await message.reply(f"**sᴜᴄᴄᴇssғᴜʟʟʏ ᴇɴᴀʙʟᴇᴅ ɪᴍᴘᴏsᴛᴇʀ ᴍᴏᴅᴇ ғᴏʀ** {message.chat.title}")
     elif message.command[1] == "off":
         cekset = await impo_off(message.chat.id)
         if not cekset:

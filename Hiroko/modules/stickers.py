@@ -321,7 +321,7 @@ async def kang(c:Hiroko, m: Message):
         )
     except (PeerIdInvalid, UserIsBlocked):
         keyboard = IKM(
-            [[IKB("Start me first", url=f"t.me/{Config.BOT_USERNAME}")]]
+            [[IKB("Start me first", url=f"t.me/HirokoRobot")]]
         )
         await msg.delete()
         await m.reply_text(

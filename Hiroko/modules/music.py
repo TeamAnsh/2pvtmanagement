@@ -6,6 +6,7 @@ from Hiroko import Hiroko, pytgcalls, userbot
 from typing import Callable
 from pyrogram import filters, Client
 from pyrogram.types import *
+from Hiroko.Helper.cust_p_filters import admin_filter
 from youtube_search import YoutubeSearch
 from asyncio.queues import QueueEmpty
 from PIL import ImageGrab
@@ -338,7 +339,7 @@ async def play(_, message: Message):
 # --------------------------------------------------------------------------------------------------------- #
 
 
-@Hiroko.on_message(filters.command(["skip", "next"], prefixes=["/", "!"]))
+@Hiroko.on_message(filters.command(["skip", "next"], prefixes=["/", "!"]) & admin_filter)
 async def skip(_, message: Message):    
     ACTV_CALLS = []
     chat_id = message.chat.id
@@ -403,7 +404,7 @@ async def brah2(_, msg):
 
 @Hiroko.on_message(filters.video_chat_members_invited)
 async def fuckoff(hiroko :Hiroko, message:Message):
-           text = f"{message.from_user.mention} Invited "
+           text = f"{message.from_user.mention} ɪɴᴠɪᴛᴇᴅ "
            x = 0
            for user in message.video_chat_members_invited.users:
              try:
@@ -425,7 +426,7 @@ async def join_userbot(_,msg:Message):
   chat_id = msg.chat.id
   invitelink = await Hiroko.export_chat_invite_link(chat_id)
   await userbot.join_chat(invitelink)
-  await msg.reply("ᴀssɪsᴛᴀɴᴛ sᴜᴄᴄᴇssғᴜʟʟʏ ᴊᴏɪɴ.")
+  await msg.reply("**ᴀssɪsᴛᴀɴᴛ sᴜᴄᴄᴇssғᴜʟʟʏ ᴊᴏɪɴ.**")
 
 
 # --------------------------------------------------------------------------------------------------------- #

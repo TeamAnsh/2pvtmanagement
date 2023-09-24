@@ -62,7 +62,7 @@ def btn(text, value, type="callback_data"):
 
 
 
-@Hiroko.on_message(command('google'))
+@Hiroko.on_message(filters.command('google'))
 async def g_search(c: Hiroko, m: Message):
     split = m.text.split(None, 1)
     if len(split) == 1:
@@ -131,7 +131,7 @@ async def g_search(c: Hiroko, m: Message):
 
 
 
-@Hiroko.on_message(command('anime'))
+@Hiroko.on_message(filters.command('anime'))
 async def anime_search(c: Hiroko, m: Message):
     split = m.text.split(None, 1)
     if len(split) == 1:
@@ -199,7 +199,7 @@ async def anime_search(c: Hiroko, m: Message):
         return
 
 
-@Hiroko.on_message(command('stack'))
+@Hiroko.on_message(filters.command('stack'))
 async def stack_search(c: Hiroko, m: Message):
     split = m.text.split(None, 1)
     if len(split) == 1:

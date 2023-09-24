@@ -1,66 +1,116 @@
-import asyncio
-from pyrogram import Client, filters
+from asyncio import sleep
 from pyrogram.enums import ChatType
+from pyrogram.errors import MessageDeleteForbidden, RPCError
+from pyrogram.types import Message
 from Hiroko import Hiroko
-from config import COMMAND_HANDLER
-from Hiroko.Helper.cust_p_filters import admin_filter
 
-# ------------------------------------------------------------------------------- #
 
-TG_MAX_SELECT_LEN = 200
 
-# ------------------------------------------------------------------------------- #
+@Gojo.on_message(command("purge") & admin_filter)
+async def purge(c: Gojo, m: Message):
 
-@Hiroko.on_message(filters.command("purge", COMMAND_HANDLER) & admin_filter)
-async def purge(client, message):
-    """ purge upto the replied message """
-    if message.chat.type not in [ChatType.SUPERGROUP, ChatType.CHANNEL]:        
+    if m.chat.type != ChatType.SUPERGROUP:
+        await m.reply_text(text="Cannot purge messages in a basic group")
         return
 
-    status_message = await message.reply_text("...", quote=True)
-    await message.delete()
-    message_ids = []
-    count_del_etion_s = 0
+    if m.reply_to_message:
+        message_ids = list(range(m.reply_to_message.id, m.id))
 
-    if message.reply_to_message:
-        for a_s_message_id in range(
-            message.reply_to_message.id, message.id
-        ):
-            message_ids.append(a_s_message_id)
-            if len(message_ids) == TG_MAX_SELECT_LEN:
-                count_del_etion_s += await client.delete_messages(
-                    chat_id=message.chat.id, message_ids=message_ids, revoke=True
+        def divide_chunks(l: list, n: int = 100):
+            for i in range(0, len(l), n):
+                yield l[i : i + n]
+
+        # Dielete messages in chunks of 100 messages
+        m_list = list(divide_chunks(message_ids))
+
+        try:
+            for plist in m_list:
+                await c.delete_messages(
+                    chat_id=m.chat.id,
+                    message_ids=plist,
+                    revoke=True,
                 )
-                message_ids = []
-        if len(message_ids) > 0:
-            count_del_etion_s += await client.delete_messages(
-                chat_id=message.chat.id, message_ids=message_ids, revoke=True
+            await m.delete()
+        except MessageDeleteForbidden:
+            await m.reply_text(
+                text="Cannot delete all messages. The messages may be too old, I might not have delete rights, or this might not be a supergroup."
+            )
+            return
+        except RPCError as ef:
+            await m.reply_text(
+                text=f"""Some error occured, report it using `/bug`
+
+      <b>Error:</b> <code>{ef}</code>"""
             )
 
-    await status_message.edit_text(f"**ᴅᴇʟᴇᴛᴇᴅ {count_del_etion_s} ᴍᴇssᴀɢᴇs**")
-    await asyncio.sleep(5)
-    await status_message.delete()
-    
-# ------------------------------------------------------------------------------- #
+        count_del_msg = len(message_ids)
 
-@Hiroko.on_message(filters.command("del")& admin_filter)
-async def _del(_, message):
-    if message.sender_chat:
+        z = await m.reply_text(text=f"Deleted <i>{count_del_msg}</i> messages")
+        await sleep(3)
+        await z.delete()
         return
-    replied = message.reply_to_message
-    chat_id = message.chat.id
-    if not replied:
-        return await message.reply_text("**ʀᴇᴘʟʏ ᴛᴏ ᴀ ᴍᴇssᴀɢᴇ ᴛᴏ ᴅᴇʟᴇᴛᴇ ɪᴛ.**")
-
-    try:
-        await Hiroko.delete_messages(chat_id, replied.id)
-        await message.delete()
-    except:
-        pass
+    await m.reply_text("Reply to a message to start purge !")
+    return
 
 
-# ------------------------------------------------------------------------------- #
+@Gojo.on_message(command("spurge") & admin_filter)
+async def spurge(c: Gojo, m: Message):
+
+    if m.chat.type != ChatType.SUPERGROUP:
+        await m.reply_text(text="Cannot purge messages in a basic group")
+        return
+
+    if m.reply_to_message:
+        message_ids = list(range(m.reply_to_message.id, m.id))
+
+        def divide_chunks(l: list, n: int = 100):
+            for i in range(0, len(l), n):
+                yield l[i : i + n]
+
+        # Dielete messages in chunks of 100 messages
+        m_list = list(divide_chunks(message_ids))
+
+        try:
+            for plist in m_list:
+                await c.delete_messages(
+                    chat_id=m.chat.id,
+                    message_ids=plist,
+                    revoke=True,
+                )
+            await m.delete()
+        except MessageDeleteForbidden:
+            await m.reply_text(
+                text="Cannot delete all messages. The messages may be too old, I might not have delete rights, or this might not be a supergroup."
+            )
+            return
+        except RPCError as ef:
+            await m.reply_text(
+                text=f"""Some error occured, report it using `/bug`
+
+      <b>Error:</b> <code>{ef}</code>"""
+            )
+        return
+    await m.reply_text("Reply to a message to start spurge !")
+    return
 
 
+@Gojo.on_message(
+    command("del") & admin_filter,
+    group=9,
+)
+async def del_msg(c: Gojo, m: Message):
 
-        
+    if m.chat.type != ChatType.SUPERGROUP:
+        return
+
+    if m.reply_to_message:
+        await m.delete()
+        await c.delete_messages(
+            chat_id=m.chat.id,
+            message_ids=m.reply_to_message.id,
+        )
+    else:
+        await m.reply_text(text="What do you wanna delete?")
+    return
+
+

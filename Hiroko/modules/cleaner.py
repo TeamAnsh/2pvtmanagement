@@ -15,9 +15,9 @@ async def clear_downloads(_, message: Message):
     if ls_dir:
         for file in os.listdir(downloads_directory):
             os.remove(os.path.join(downloads_directory, file))
-        await message.reply_text("✅ **Deleted all download files**")
+        await message.reply_text("✅ **ᴅᴇʟᴇᴛᴇᴅ ᴀʟʟ ᴅᴏᴡɴʟᴏᴀᴅ ғɪʟᴇs.**")
     else:
-        await message.reply_text("❌ **No files downloaded**")
+        await message.reply_text("❌ **ɴᴏ ғɪʟᴇs ᴅᴏᴡɴʟᴏᴀᴅᴇᴅ**")
 
 
 @Hiroko.on_message(filters.command(["rmw", "clean"], prefixes=["/", "!"]))
@@ -26,23 +26,9 @@ async def clear_raw(_, message: Message):
     if ls_dir:
         for file in os.listdir(raw_directory):
             os.remove(os.path.join(raw_directory, file))
-        await message.reply_text("✅ **Deleted all raw files**")
+        await message.reply_text("✅ **ᴅᴇʟᴇᴛᴇᴅ ᴀʟʟ ʀᴀᴡ ғɪʟᴇs.**")
     else:
-        await message.reply_text("❌ **No raw files**")
-
-
-@Hiroko.on_message(filters.command(["cleanup"], prefixes=["/", "!"]))
-async def cleanup(_, message: Message):
-    pth = os.path.realpath(".")
-    ls_files = os.listdir(pth)
-    if ls_files:
-        for dta in os.listdir(pth):
-            if dta.endswith(".webm") or dta.endswith(".jpg"):
-                os.remove(os.path.join(pth, dta))
-        await message.reply_text("✅ **Cleaned**")
-    else:
-        await message.reply_text("✅ **Already cleaned**")
-
+        await message.reply_text("❌ **ɴᴏ ʀᴀᴡ ғɪʟᴇs.**")
 
 
 

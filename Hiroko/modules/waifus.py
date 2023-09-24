@@ -179,7 +179,7 @@ async def my_waifus(client, message):
     response = "**Your Waifus:**\n"
     for waifu in waifus:
         name, anime, rarity = waifu
-        response += f"• {name}.\n~~~~~~~~~~~~\nwaifu: {name}\nRarity: {rarity}\n\n"
+        response += f"• {anime}\n⚋⚋⚋⚋⚋⚋⚋⚋⚋⚋⚋⚋⚋⚋⚋\nwaifu: {name}\nRarity: {rarity}\n⚋⚋⚋⚋⚋⚋⚋⚋⚋⚋⚋⚋⚋⚋⚋\n"
 
     await message.reply(response)
 

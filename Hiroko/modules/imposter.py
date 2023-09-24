@@ -99,7 +99,7 @@ async def chk_usr(_, message: Message):
 @Hiroko.on_message(filters.group & filters.command("imposter") & ~filters.bot & ~filters.via_bot)
 async def set_mataa(_, message: Message):
     if len(message.command) == 1:
-        return await message.reply("**ᴄʜᴇᴄᴋ ʜᴇʟᴘ sᴇᴄᴛɪᴏɴ ғᴏʀ ɢᴇᴛᴛɪɴɢ ʜᴇʟᴘ.**")
+        return await message.reply("**ᴅᴇᴛᴇᴄᴛ ɪᴍᴘᴏsᴛᴇʀ ᴜsᴇʀs ᴜsᴀɢᴇ : ɪᴍᴘᴏsᴛᴇʀ ᴏɴ|ᴏғғ**")
     if message.command[1] == "on":
         cekset = await impo_on(message.chat.id)
         if cekset:
@@ -110,12 +110,12 @@ async def set_mataa(_, message: Message):
     elif message.command[1] == "off":
         cekset = await impo_off(message.chat.id)
         if not cekset:
-            await message.reply("Imposter Mode Is Already Disabled")
+            await message.reply("**ɪᴍᴘᴏsᴛᴇʀ ᴍᴏᴅᴇ ɪs ᴀʟʀᴇᴀᴅʏ ᴅɪsᴀʙʟᴇᴅ.**")
         else:
             await impo_off(message.chat.id)
-            await message.reply(f"Successfully Enabled Imposter Mode For {message.chat.title}")
+            await message.reply(f"**sᴜᴄᴄᴇssғᴜʟʟʏ ᴅɪsᴀʙʟᴇᴅ ɪᴍᴘᴏsᴛᴇʀ ᴍᴏᴅᴇ ғᴏʀ** {message.chat.title}")
     else:
-        await message.reply("Check help Section For Getting Help")
+        await message.reply("**ᴅᴇᴛᴇᴄᴛ ɪᴍᴘᴏsᴛᴇʀ ᴜsᴇʀs ᴜsᴀɢᴇ : ɪᴍᴘᴏsᴛᴇʀ ᴏɴ|ᴏғғ**")
 
 
 

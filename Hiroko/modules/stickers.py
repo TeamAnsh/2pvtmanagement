@@ -279,7 +279,7 @@ async def kang(c:Hiroko, m: Message):
     
     try:
         while not packname_found:
-            packname = f"CE{str(m.from_user.id)}{st_type}{packnum}_by_{Config.BOT_USERNAME}"
+            packname = f"CE{str(m.from_user.id)}{st_type}{packnum}_by_@HirokoRobot"
             kangpack = f"{('@'+m.from_user.username) if m.from_user.username else m.from_user.first_name[:10]} {st_type} {('vOl '+str(volume)) if volume else ''} by @{Config.BOT_USERNAME}"
             if limit >= 50: # To prevent this loop from running forever
                 await m.reply_text("Failed to kang\nMay be you have made more than 50 sticker packs with me try deleting some")
@@ -360,13 +360,7 @@ async def memify_it(c: Hiroko, m: Message):
     if rep_to.sticker and (rep_to.sticker.is_animated or rep_to.sticker.is_video):
         await m.reply_text("I only support memifying of normal sticker and photos for now")
         return
-    kb = IKM(
-        [
-            [
-                IKB("Join for memes",url="https://t.me/memesofdank")
-            ]
-        ]
-    )
+
     if len(m.command) == 1:
         await m.reply_text("Give me something to write")
         return
@@ -384,13 +378,13 @@ async def memify_it(c: Hiroko, m: Message):
         is_sticker = True
     output = await draw_meme(path,meme,is_sticker,fiil)
     await x.delete()
-    xNx = await m.reply_photo(output[0],reply_markup=kb)
-    await xNx.reply_sticker(output[1],reply_markup=kb)
+    xNx = await m.reply_photo(output[0])
+    await xNx.reply_sticker(output[1])
     try:
         os.remove(output[0])
         os.remove(output[1])
     except Exception as e:
-        print(f"error {e}")
+      print(f"error {e}")
       
        
 
@@ -411,7 +405,7 @@ async def get_sticker_from_file(c: Hiroko, m: Message):
         upp = await repl.download()
         up = toimage(upp,is_direc=True)
         await x.delete()
-        await m.reply_photo(up,caption=Caption)
+        await m.reply_photo(up)
         os.remove(up)
         return
     elif repl.photo:

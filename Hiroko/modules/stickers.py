@@ -144,8 +144,8 @@ async def get_file_size(file: Message):
 
 
 
-@Gojo.on_message(command(["stickerinfo","stinfo"]))
-async def give_st_info(c: Gojo , m: Message):
+@Hiroko.on_message(filters.command(["stickerinfo","stinfo"]))
+async def give_st_info(c: Hiroko , m: Message):
     if not m.reply_to_message:
         await m.reply_text("Reply to a sticker")
         return
@@ -171,7 +171,7 @@ Pack name : {st_in.set_name}
     await m.reply_text(st_to_gib,reply_markup=kb)
     return
 
-@Gojo.on_message(command(["stickerid","stid"]))
+@Hiroko.on_message(filters.command(["stickerid","stid"]))
 async def sticker_id_gib(c: Gojo, m: Message):
     if not m.reply_to_message:
         await m.reply_text("Reply to a sticker")
@@ -184,8 +184,8 @@ async def sticker_id_gib(c: Gojo, m: Message):
     return
 
 
-@Gojo.on_message(command(["kang", "steal"]))
-async def kang(c:Gojo, m: Message):
+@Hiroko.on_message(command(["kang", "steal"]))
+async def kang(c:Hiroko, m: Message):
     if not m.reply_to_message:
         return await m.reply_text("Reply to a sticker or image to kang it.")
     elif not (m.reply_to_message.sticker or m.reply_to_message.photo or (m.reply_to_message.document and m.reply_to_message.document.mime_type.split("/")[0]=="image")):
@@ -226,15 +226,11 @@ async def kang(c:Gojo, m: Message):
                 try:
                     path = await resize_file_to_sticker_size(path)
                 except OSError as e:
-                    await m.reply_text(f"Error\n{e}")
-                    LOGGER.error(e)
-                    LOGGER.error(format_exc)
+                    await m.reply_text(f"Error\n{e}")                   
                     os.remove(path)
                     return
     except Exception as e:
         await m.reply_text(f"Got an error:\n{e}")
-        LOGGER.error(e)
-        LOGGER.error(format_exc())
         return
     try:
         if is_requ or not m.reply_to_message.sticker:
@@ -259,9 +255,7 @@ async def kang(c:Gojo, m: Message):
 
     except Exception as e:
         await m.reply_text(str(e))
-        e = format_exc()
-        LOGGER.error(e)
-        LOGGER.error(format_exc())
+        
 
     # Find an available pack & add the sticker to the pack; create a new pack if needed
     # Would be a good idea to cache the number instead of searching it every single time...
@@ -354,8 +348,8 @@ async def kang(c:Gojo, m: Message):
     return
 
 
-@Gojo.on_message(command(["mmfb","mmfw","mmf"]))
-async def memify_it(c: Gojo, m: Message):
+@Hiroko.on_message(filters.command(["mmfb","mmfw","mmf"]))
+async def memify_it(c: Hiroko, m: Message):
     if not m.reply_to_message:
         await m.reply_text("Invalid type.")
         return
@@ -383,7 +377,7 @@ async def memify_it(c: Gojo, m: Message):
         fiil = "white"
     x = await m.reply_text("Memifying...")
     meme = m.text.split(None,1)[1].strip()
-    name = f"@memesofdank_{m.id}.png"
+    name = f"Hiroko_{m.id}.png"
     path = await rep_to.download(name)
     is_sticker = False
     if rep_to.sticker:
@@ -396,13 +390,12 @@ async def memify_it(c: Gojo, m: Message):
         os.remove(output[0])
         os.remove(output[1])
     except Exception as e:
-        LOGGER.error(e)
-        LOGGER.error(format_exc())
-    return
+        print(f"error {e}")
+      
+       
 
-@Gojo.on_message(command(["getsticker","getst"]))
-async def get_sticker_from_file(c: Gojo, m: Message):
-    Caption = f"Converted by:\n@{Config.BOT_USERNAME}"
+@Hiroko.on_message(filters.command(["getsticker","getst"]))
+async def get_sticker_from_file(c: Hiroko, m: Message):
     if not m.reply_to_message:
         await m.reply_text("Reply to a sticker or file")
         return
@@ -425,7 +418,7 @@ async def get_sticker_from_file(c: Gojo, m: Message):
         upp = await repl.download()
         up = tosticker(upp,is_direc=True)
         await x.delete()
-        await m.reply_sticker(up,caption=Caption)
+        await m.reply_sticker(up)
         os.remove(up)
         return
 

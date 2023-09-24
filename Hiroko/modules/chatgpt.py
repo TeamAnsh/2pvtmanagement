@@ -1,6 +1,6 @@
 import os, time
 import openai
-from pyrogram import Client, filters
+from pyrogram import filters
 from Hiroko import Hiroko
 from pyrogram.enums import ChatAction, ParseMode
 

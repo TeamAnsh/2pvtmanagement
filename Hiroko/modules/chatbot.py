@@ -14,16 +14,7 @@ from lexica import Client
 
 
 
-
-
-
-
-
-
-
-
-
-text = [
+hiroko_text = [
 "hey please don't disturb me.",
 "who are you",    
 "aap kon ho",
@@ -34,8 +25,7 @@ text = [
 "hey i am busy",
 "aapko smj nhi aata kya ",
 "leave me alone",
-"dude what happend",
-"nikl lwde",    
+"dude what happend",    
 ]
 
 strict_txt = [
@@ -168,7 +158,7 @@ async def restriction_hiroko(hiroko :Hiroko, message):
     reply = message.reply_to_message
     chat_id = message.chat.id
     if len(message.text) < 2:
-        return await message.reply(random.choice(text))
+        return await message.reply(random.choice(hiroko_text))
     bruh = message.text.split(maxsplit=1)[1]
     data = bruh.split(" ")
     

@@ -369,18 +369,24 @@ async def replied_user(draw, tot, text, maxlength, title):
 
 
 
-@Hiroko.on_message(filters.command(["q"]))
-async def q(hiroko :Hiroko, message):
-    if message.reply_to_message:
-        reply = message.reply_to_message
-        msg = reply.text
-        repliedreply = await reply.reply_to_message()
-        user = await hiroko.get_users(reply.from_user.id)
-        res, canvas = await process(msg, user, reply, repliedreply)
-        if not res:
-            return
-        canvas.save('sticker.webp')
-        await message.reply_document(document="sticker.webp")
-        os.remove('sticker.webp')
+@Hiroko.on_message(filters.command("q", prefixes=("!","/")))
+async def q(client, message):
+    if message.reply_to_message is None:
+        await message.reply_text("Please reply to a message to use this command.")
+        return
+    reply = message.reply_to_message
+    msg = reply.text
+    replied_reply = reply.reply_to_message
+    user = reply.forward_sender if reply.forward_sender else reply.from_user
+    res, canvas = await process(msg, user, client, reply, replied_reply)
+    if not res:
+        return
+    canvas.save("sticker.webp")
+    await client.send_document(
+        chat_id=message.chat.id,
+        document="sticker.webp",
+        reply_to_message_id=message.reply_to_message.message_id
+    )
+    os.remove("sticker.webp")
 
 

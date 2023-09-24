@@ -184,7 +184,7 @@ async def sticker_id_gib(c: Hiroko, m: Message):
     return
 
 
-@Hiroko.on_message(command(["kang", "steal"]))
+@Hiroko.on_message(filters.command(["kang", "steal"]))
 async def kang(c:Hiroko, m: Message):
     if not m.reply_to_message:
         return await m.reply_text("Reply to a sticker or image to kang it.")

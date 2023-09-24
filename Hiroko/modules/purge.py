@@ -10,9 +10,9 @@ from Hiroko import Hiroko
 
 @Hiroko.on_message(filters.command("purge") & admin_filter)
 async def purge(hiroko: Hiroko, msg: Message):
-
+    
     if msg.chat.type != ChatType.SUPERGROUP:
-        await msg.reply_text(text="Cannot purge messages in a basic group")
+        await msg.reply_text(text="**ɪ ᴄᴀɴ'ᴛ ᴘᴜʀɢᴇ ᴍᴇssᴀɢᴇs ɪɴ ᴀ ʙᴀsɪᴄ ɢʀᴏᴜᴘ ᴍᴀᴋᴇ sᴜᴘᴇʀ ɢʀᴏᴜᴘ.**")
         return
 
     if msg.reply_to_message:
@@ -30,36 +30,33 @@ async def purge(hiroko: Hiroko, msg: Message):
                 await hiroko.delete_messages(
                     chat_id=msg.chat.id,
                     message_ids=plist,
-                    revoke=True,
-                )
+                    revoke=True,)
+                
             await msg.delete()
         except MessageDeleteForbidden:
             await msg.reply_text(
-                text="Cannot delete all messages. The messages may be too old, I might not have delete rights, or this might not be a supergroup."
-            )
+                text="**ɪ ᴄᴀɴ'ᴛ ᴅᴇʟᴇᴛᴇ ᴀʟʟ ᴍᴇssᴀɢᴇs. ᴛʜᴇ ᴍᴇssᴀɢᴇs ᴍᴀʏ ʙᴇ ᴛᴏᴏ ᴏʟᴅ, ɪ ᴍɪɢʜᴛ ɴᴏᴛ ʜᴀᴠᴇ ᴅᴇʟᴇᴛᴇ ʀɪɢʜᴛs, ᴏʀ ᴛʜɪs ᴍɪɢʜᴛ ɴᴏᴛ ʙᴇ ᴀ sᴜᴘᴇʀɢʀᴏᴜᴘ.**")
             return
         except RPCError as ef:
             await msg.reply_text(
-                text=f"""Some error occured, report it using `/bug`
-
-      <b>Error:</b> <code>{ef}</code>"""
-            )
-
+                text=f"**sᴏᴍᴇ ᴇʀʀᴏʀ ᴏᴄᴄᴜʀᴇᴅ, ʀᴇᴘᴏʀᴛ ɪᴛ ᴜsɪɴɢ** `/bug`<b>ᴇʀʀᴏʀ:</b> <code>{ef}</code>")
         count_del_msg = len(message_ids)
-
-        sumit = await msg.reply_text(text=f"Deleted <i>{count_del_msg}</i> messages")
+        sumit = await msg.reply_text(text=f"ᴅᴇʟᴇᴛᴇᴅ <i>{count_del_msg}</i> ᴍᴇssᴀɢᴇs")
         await sleep(3)
         await sumit.delete()
         return
-    await msg.reply_text("Reply to a message to start purge !")
+    await msg.reply_text("**ʀᴇᴘʟʏ ᴛᴏ ᴀ ᴍᴇssᴀɢᴇ ᴛᴏ sᴛᴀʀᴛ ᴘᴜʀɢᴇ !**")
     return
+
+
+
 
 
 @Hiroko.on_message(filters.command("spurge") & admin_filter)
 async def spurge(c: Hiroko, m: Message):
 
     if m.chat.type != ChatType.SUPERGROUP:
-        await m.reply_text(text="Cannot purge messages in a basic group")
+        await m.reply_text(text="**ɪ ᴄᴀɴ'ᴛ ᴘᴜʀɢᴇ ᴍᴇssᴀɢᴇs ɪɴ ᴀ ʙᴀsɪᴄ ɢʀᴏᴜᴘ ᴍᴀᴋᴇ sᴜᴘᴇʀ ɢʀᴏᴜᴘ.**")
         return
 
     if m.reply_to_message:
@@ -69,7 +66,6 @@ async def spurge(c: Hiroko, m: Message):
             for i in range(0, len(l), n):
                 yield l[i : i + n]
 
-        # Dielete messages in chunks of 100 messages
         m_list = list(divide_chunks(message_ids))
 
         try:

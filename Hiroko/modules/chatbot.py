@@ -170,54 +170,58 @@ async def restriction_hiroko(hiroko :Hiroko, message):
         return await message.reply(random.choice(text))
     bruh = message.text.split(maxsplit=1)[1]
     data = bruh.split(" ")
-    for banned in data:
-        print(f"present {banned}")
-    for unbanned in data:
-        print(f"present {unbanned}")
-    for kicked in data:
-        print(f"present {kicked}")
-    for muted in data:
-        print(f"present {muted}") 
-    for unmuted in data:
-        print(f"present {unmuted}")
-    for promoted in data:
-        print(f"present {promoted}")
-    for demoted in data:
-        print(f"present {demoted}")    
     
-
     if reply:
         user_id = reply.from_user.id
-        if banned in ban:
-            if user_id in SUDO_USERS:
-                await message.reply(random.choice(strict_txt))
-            else:
-                await hiroko.ban_chat_member(chat_id, user_id)
-                await message.reply("OK, banned!")
-        elif unbanned in unban:
-            await hiroko.unban_chat_member(chat_id, user_id)
-            await message.reply(f"OK, unbanned!")        
-        elif kicked in kick:
-            if user_id in SUDO_USERS:
-                await message.reply(random.choice(strict_txt))
-            else:
-                await hiroko.ban_chat_member(chat_id, user_id)
+        for banned in data:
+            print(f"present {banned}")
+            if banned in ban:
+                if user_id in SUDO_USERS:
+                    await message.reply(random.choice(strict_txt))
+                else:
+                    await hiroko.ban_chat_member(chat_id, user_id)
+                    await message.reply("OK, banned!")
+        for unbanned in data:
+            print(f"present {unbanned}")
+            if unbanned in unban:
                 await hiroko.unban_chat_member(chat_id, user_id)
-                await message.reply("get lost! bhga diya bhosdi wale ko") 
-        elif muted in mute:
-            if user_id in SUDO_USERS:
-                await message.reply(random.choice(strict_txt))
-            else:
-                permissions = ChatPermissions(can_send_messages=False)
+                await message.reply(f"OK, unbanned!") 
+        for kicked in data:
+            print(f"present {kicked}")
+            if kicked in kick:
+                if user_id in SUDO_USERS:
+                    await message.reply(random.choice(strict_txt))
+                else:
+                    await hiroko.ban_chat_member(chat_id, user_id)
+                    await hiroko.unban_chat_member(chat_id, user_id)
+                    await message.reply("get lost! bhga diya bhosdi wale ko") 
+        for muted in data:
+            print(f"present {muted}") 
+            if muted in mute:
+                if user_id in SUDO_USERS:
+                    await message.reply(random.choice(strict_txt))
+                else:
+                    permissions = ChatPermissions(can_send_messages=False)
+                    await hiroko.set_chat_permissions(chat_id, user_id, permissions)
+                    await message.reply(f"muted successfully! Disgusting people.") 
+        for unmuted in data:
+            print(f"present {unmuted}")            
+            if unmuted in unmute:
+                permissions = ChatPermissions(can_send_messages=True)
                 await hiroko.set_chat_permissions(chat_id, user_id, permissions)
-                await message.reply(f"muted successfully! Disgusting people.") 
-        elif unmuted in unmute:
-             permissions = ChatPermissions(can_send_messages=True)
-             await hiroko.set_chat_permissions(chat_id, user_id, permissions)
-             await message.reply(f"Huh, OK, sir!")
+                await message.reply(f"Huh, OK, sir!")
 
 
+
+
+
+
+
+        
         """
+        for promoted in data:
+        
+        print(f"present {promoted}")
         elif data[0] in promote:
             admin_check = await Hiroko.get_chat_member(chat_id, user_id)
         
@@ -236,6 +240,9 @@ async def restriction_hiroko(hiroko :Hiroko, message):
                       can_manage_video_chats=True,
                   ))
                 await message.reply(f"OK, sir promoted!")
+        for demoted in data:
+        print(f"present {demoted}")    
+    
         elif data[0] in demote:
             admin_check = await Hiroko.get_chat_member(chat_id, user_id)
         

@@ -172,7 +172,7 @@ Pack name : {st_in.set_name}
     return
 
 @Hiroko.on_message(filters.command(["stickerid","stid"]))
-async def sticker_id_gib(c: Gojo, m: Message):
+async def sticker_id_gib(c: Hiroko, m: Message):
     if not m.reply_to_message:
         await m.reply_text("Reply to a sticker")
         return

@@ -46,19 +46,19 @@ DB.commit()
 @Hiroko.on_message(filters.command(["addwaifu"]) & filters.user(SUDO_USERS))
 async def add_waifus(_, message):
     if len(message.text) < 10:
-        return await message.reply("💌 Hello hottie, please provide the waifu details in the format: /addwaifu photo+name-anime+rarity")
+        return await message.reply("** ʜᴇʟʟᴏ ʜᴏᴛᴛɪᴇ, ᴘʟᴇᴀsᴇ ᴘʀᴏᴠɪᴅᴇ ᴛʜᴇ ᴡᴀɪғᴜ ᴅᴇᴛᴀɪʟs ɪɴ ᴛʜᴇ ғᴏʀᴍᴀᴛ**: /addwaifu photo+name-anime+rarity")
     if not message.text.split(maxsplit=1)[1]:
-        return await message.reply("💌 Hello hottie, please provide the waifu details in the format: /addwaifu photo+name+anime+rarity")
+        return await message.reply("** ʜᴇʟʟᴏ ʜᴏᴛᴛɪᴇ, ᴘʟᴇᴀsᴇ ᴘʀᴏᴠɪᴅᴇ ᴛʜᴇ ᴡᴀɪғᴜ ᴅᴇᴛᴀɪʟs ɪɴ ᴛʜᴇ ғᴏʀᴍᴀᴛ**: /addwaifu photo+name-anime+rarity")
     bruh = message.text.split(maxsplit=1)[1]
     data = bruh.split("+")
     if not data[0].startswith("https"):
-        return await message.reply("link de bhai pic ka")
+        return await message.reply("**sᴡᴇᴇᴛʜᴇᴀʀᴛʏ ɪ ᴛʜɪɴᴋ ʏᴏᴜ ғᴏʀɢᴇᴛ ᴡᴀɪғᴜ ʟɪɴᴋ.**")
     if not data[1]:
-        return await message.reply("naam bol bhai bandi ka")
+        return await message.reply("**sᴡᴇᴇᴛʜᴇᴀʀᴛʏ ɪ ᴛʜɪɴᴋ ʏᴏᴜ ғᴏʀɢᴇᴛ ᴡᴀɪғᴜ ɴᴀᴍᴇ.**")
     if not data[2]:
-        return await message.reply_text("anime ka naam bol mosquitochod")
+        return await message.reply_text("**sᴡᴇᴇᴛʜᴇᴀʀᴛʏ ɪ ᴛʜɪɴᴋ ʏᴏᴜ ғᴏʀɢᴇᴛ ᴀɴɪᴍᴇ ɴᴀᴍᴇ.**")
     if not data[3]:
-        return await message.reply("rarity bol madarchod")
+        return await message.reply("**sᴡᴇᴇᴛʜᴇᴀʀᴛʏ ɪ ᴛʜɪɴᴋ ʏᴏᴜ ғᴏʀɢᴇᴛ ᴡᴀɪғᴜ ʀᴀʀɪᴛʏ.**")
     
     photo = data[0]
     nam = data[1]
@@ -83,7 +83,7 @@ async def add_waifus(_, message):
     await Hiroko.send_photo(-1001936480103, photo=photo, reply_markup=InlineKeyboardMarkup([[
      InlineKeyboardButton(f"{message.from_user.first_name}", url=f"https://t.me/{message.from_user.username}"),    
       ]]))
-    await Hiroko.send_message(-1001946875647, text=f"**ᴡᴀɪғᴜ ᴜᴘʟᴏᴀᴅ sᴜᴄᴄᴇssғᴜʟʟʏ ᴄʜᴇᴄᴋ ᴡᴀɪғᴜs ᴅᴏᴍᴀɪɴ**[🎉]({photo}) @WaifusDomain", reply_markup=InlineKeyboardMarkup([[
+    await Hiroko.send_message(-1001946875647, text=f"**ᴡᴀɪғᴜ ᴜᴘʟᴏᴀᴅ sᴜᴄᴄᴇssғᴜʟʟʏ ᴄʜᴇᴄᴋ ᴡᴀɪғᴜs ᴅᴏᴍᴀɪɴ**[🎉]({photo})", reply_markup=InlineKeyboardMarkup([[
      InlineKeyboardButton(f"{message.from_user.first_name}", url=f"https://t.me/{message.from_user.username}"),    
       ]]))
 
@@ -139,10 +139,10 @@ async def _watcher(_, message):
 async def grab_waifus(client, message):
     chat_id = message.chat.id
     if chat_id not in DICT or not DICT[chat_id]['name']:
-        return await message.reply("No character to grab at the moment. Keep an eye out for the next one!")
+        return await message.reply("**ɴᴏ sᴇxʏ ᴡᴀɪғᴜ ᴛᴏ ɢʀᴀʙ ᴀᴛ ᴛʜᴇ ᴍᴏᴍᴇɴᴛ. ᴋᴇᴇᴘ ᴀɴ ᴇʏᴇ ᴏᴜᴛ ғᴏʀ ᴛʜᴇ ɴᴇxᴛ ᴏɴᴇ!**")
     user_id = message.from_user.id
     if len(message.text) < 6:
-        return await message.reply("Usage:- `/grab waifu name`")
+        return await message.reply("**ʜᴇʏ sᴡᴇᴇᴛʜᴇᴀʀᴛ ᴛʏᴘᴇ ɢʀᴀʙ ᴀɴᴅ ᴡᴀɪғᴜ ɴᴀᴍᴇ ᴜsᴀɢᴇ**:- `/grab waifu name`")
     guess = message.text.split(maxsplit=1)[1].lower()
     name = DICT[chat_id]['name'].lower()
     wname = DICT[chat_id]['name']
@@ -156,7 +156,7 @@ async def grab_waifus(client, message):
         DICT.pop(chat_id)
         await message.reply(f"**ᴄᴏɴɢʀᴀᴛᴜʟᴀᴛɪᴏɴꜱ**| {message.from_user.mention} 🎉\n\n**ʏᴏᴜ ʜᴀᴠᴇ ꜱᴜᴄᴄᴇꜱꜱꜰᴜʟʟʏ ᴄᴏʟʟᴇᴄᴛᴇᴅ ᴛʜᴇ ᴄʜᴀʀᴀᴄᴛᴇʀ**\n**ɴᴀᴍᴇ** : <code>{wname}</code>")
     else:
-        await message.reply("❌ Rip, that's not quite right.")
+        await message.reply("❌ **ʀɪᴘ, ᴛʜᴀᴛ's ɴᴏᴛ ǫᴜɪᴛᴇ ʀɪɢʜᴛ.**")
 
 
 
@@ -173,18 +173,18 @@ async def my_waifus(client, message):
     waifus = cusr.fetchall()
 
     if not waifus:
-        await message.reply("You haven't collected any waifus yet.")
+        await message.reply("**ᴀᴡᴡ ʙᴀʙʏ ʏᴏᴜ ʜᴀᴠᴇɴ'ᴛ ᴄᴏʟʟᴇᴄᴛᴇᴅ ᴀɴʏ ᴡᴀɪғᴜs ʏᴇᴛ.**")
         return
 
     response = "**Your Waifus:**\n"
     for waifu in waifus:
         name, anime, rarity = waifu
-        response += f"• {anime}\n⚋⚋⚋⚋⚋⚋⚋⚋⚋⚋⚋⚋⚋⚋⚋\nwaifu: {name}\nRarity: {rarity}\n⚋⚋⚋⚋⚋⚋⚋⚋⚋⚋⚋⚋⚋⚋⚋\n"
+        response += f"⊱ {anime}\n⚋⚋⚋⚋⚋⚋⚋⚋⚋⚋⚋⚋⚋⚋⚋\n⊚ **ᴡᴀɪғᴜ ɴᴀᴍᴇ** : {name}\n⊚ **ᴡᴀɪғᴜ ʀᴀʀɪᴛʏ** : {rarity}\n⚋⚋⚋⚋⚋⚋⚋⚋⚋⚋⚋⚋⚋⚋⚋\n"
 
     await message.reply(response)
 
 
-
+# ғɪx.ᴋʀɴᴀ. ʜᴀɪ.ʏʜᴀ sᴇ 
 
 @Hiroko.on_message(filters.command("giftwaifu", prefixes="/"))
 async def gift_waifu(client, message):
@@ -322,75 +322,4 @@ async def top_waifu_groups(client, message):
 
 
 
-@Hiroko.on_message(filters.command("trade", prefixes="/"))
-async def trade_waifu(client, message):
-    # Check if a user is mentioned in the message
-    if not message.reply_to_message or not message.reply_to_message.from_user:
-        await message.reply("Please reply to a message from the user you want to trade with.")
-        return
 
-    # Get the user IDs of both users involved in the trade
-    user_id1 = message.from_user.id
-    user_id2 = message.reply_to_message.from_user.id
-
-    # Check if the same user is trying to trade with themselves
-    if user_id1 == user_id2:
-        await message.reply("You can't trade with yourself.")
-        return
-
-    # Check if a trade request already exists between these two users
-    if user_id1 in trade_requests and trade_requests[user_id1] == user_id2:
-        await message.reply("You've already sent a trade request to this user. Please wait for their response.")
-        return
-
-    # Create a trade request
-    trade_requests[user_id1] = user_id2
-
-    # Send a trade request message with accept and decline buttons
-    request_text = f"{message.from_user.mention} wants to trade waifus with {message.reply_to_message.from_user.mention}."
-    keyboard = InlineKeyboardMarkup([
-        [InlineKeyboardButton("Accept", callback_data=f"accept_trade:{user_id1}"), InlineKeyboardButton("Decline", callback_data=f"decline_trade:{user_id1}")]
-    ])
-    await message.reply(request_text, reply_markup=keyboard)
-
-
-@Hiroko.on_callback_query(filters.regex(r'^accept_trade:|decline_trade:'))
-async def handle_trade_request(client, callback_query):
-    user_id1 = callback_query.from_user.id
-    user_id2 = trade_requests.get(user_id1)
-    
-    if not user_id2:
-        await callback_query.answer("No pending trade request found.")
-        return
-
-    if callback_query.data.startswith("accept_trade"):
-        # Perform the trade by swapping waifus between user_id1 and user_id2 in the database
-        # Update your database logic to swap the waifus between the users
-
-        # Notify both users that the trade is complete
-        await client.send_message(user_id1, "Trade accepted! You've successfully exchanged waifus.")
-        await client.send_message(user_id2, "Trade accepted! You've successfully exchanged waifus.")
-    elif callback_query.data.startswith("decline_trade"):
-        await client.send_message(user_id2, "Trade request declined.")
-
-    # Remove the trade request from the dictionary
-    trade_requests.pop(user_id1)
-
-    # Answer the callback query to remove the button
-    await callback_query.answer("Trade request handled.")
-
-
-
-
-
-
-
-        
-
-
-# ==================================================================== #
-
-
-
-
-        

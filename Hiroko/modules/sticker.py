@@ -100,3 +100,20 @@ async def _packkang(app :Hiroko,message):
         await txt.edit(f"𝙿𝙰𝙲𝙺 [𝙺𝙰𝙽𝙶𝙴𝙳](http://t.me/addstickers/{short_name})!\n𝚃𝙾𝚃𝙰𝙻 𝚂𝚃𝙸𝙲𝙺𝙴𝚁: {len(sticks)}",reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("ᴘᴀᴄᴋ ʟɪɴᴋ",url=f"http://t.me/addstickers/{short_name}")]]))
     except Exception as e:
         await message.reply(str(e))
+
+
+
+@Hiroko.on_message(filters.command(["stickerid","stid"]))
+async def sticker_id(Hiroko: Hiroko, msg):
+    if not msg.reply_to_message:
+        await msg.reply_text("Reply to a sticker")        
+    elif not msg.reply_to_message.sticker:
+        await msg.reply_text("Reply to a sticker")        
+    st_in = msg.reply_to_message.sticker
+    await msg.reply_text(f"""
+    Sticker id: `{st_in.file_id}`\nSticker unique ID : `{st_in.file_unique_id}`")
+    
+
+
+
+

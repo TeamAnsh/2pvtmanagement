@@ -53,6 +53,7 @@ async def pinterest(_, message):
 
     response = requests.get(f"https://nova-api-seven.vercel.app/api/images?name={query}")
     image_data = response.json()
+    msg = await message.reply(f"sᴄʀᴀᴘɪɴɢ ɪᴍᴀɢᴇs ғʀᴏᴍ chichi...") 
     image_urls = image_data.get("image_urls", [])
 
     images = []
@@ -67,10 +68,13 @@ async def pinterest(_, message):
     media_groups = [images[i:i + 10] for i in range(0, len(images), 10)]
 
     for media_group in media_groups:
-        await Hiroko.send_media_group(
-            message.chat.id,
-            media=media_group
-        )
+         try:
+              await Hiroko.send_media_group(message.chat.id, media=media_group)
+              return await msg.delete()
+         except Exception as e:
+              await msg.delete()
+              return await message.reply(f"ᴇʀʀᴏʀ : {e}")
+          
 
 
 

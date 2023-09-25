@@ -1,7 +1,4 @@
-import os
-import wget
-import asyncio
-import speedtest
+import os, wget, asyncio
 from PIL import Image
 from Hiroko import Hiroko
 from pyrogram.types import Message
@@ -27,22 +24,22 @@ def testspeed(m):
 # ------------------------------------------------------------------------------- #
 
 @Hiroko.on_message(filters.command(["speedtest"], prefixes=["/", "!"]))
-async def speedtest_function(client, message):
+async def speedtest_function(_, message):
     m = await message.reply_text("💫 ᴛʀʏɪɴɢ ᴛᴏ ᴄʜᴇᴄᴋ ᴜᴩʟᴏᴀᴅ ᴀɴᴅ ᴅᴏᴡɴʟᴏᴀᴅ sᴩᴇᴇᴅ...")
     loop = asyncio.get_event_loop()
     result = await loop.run_in_executor(None, testspeed, m)
     output = f""" **sᴩᴇᴇᴅᴛᴇsᴛ ʀᴇsᴜʟᴛs** 
     
-<u>**❥͜͡ᴄʟɪᴇɴᴛ :**</u>
-**» ɪsᴩ :** {result['client']['isp']}
-**» ᴄᴏᴜɴᴛʀʏ :** {result['client']['country']}
+<u>**⊹ ᴄʟɪᴇɴᴛ ⊹**</u>
+**⊚ ɪsᴩ :** {result['client']['isp']}
+**⊚ ᴄᴏᴜɴᴛʀʏ :** {result['client']['country']}
   
-<u>**❥͜͡sᴇʀᴠᴇʀ :**</u>
-**» ɴᴀᴍᴇ :** {result['server']['name']}
-**» ᴄᴏᴜɴᴛʀʏ :** {result['server']['country']}, {result['server']['cc']}
-**» sᴩᴏɴsᴏʀ :** {result['server']['sponsor']}
-**» ʟᴀᴛᴇɴᴄʏ :** {result['server']['latency']}  
-**» ᴩɪɴɢ :** {result['ping']}"""
+<u>**⊹ sᴇʀᴠᴇʀ ⊹**</u>
+**⊚ ɴᴀᴍᴇ :** {result['server']['name']}
+**⊚ ᴄᴏᴜɴᴛʀʏ :** {result['server']['country']}, {result['server']['cc']}
+**⊚ sᴩᴏɴsᴏʀ :** {result['server']['sponsor']}
+**⊚ ʟᴀᴛᴇɴᴄʏ :** {result['server']['latency']}  
+**⊚ ᴩɪɴɢ :** {result['ping']}"""
     msg = await Hiroko.send_photo(
         chat_id=message.chat.id, 
         photo=result["share"], 

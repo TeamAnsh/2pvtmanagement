@@ -1,8 +1,8 @@
-import os, wget, asyncio
+import os, wget, asyncio, speedtest
 from PIL import Image
 from Hiroko import Hiroko
 from pyrogram.types import Message
-from pyrogram import filters, Client as client
+from pyrogram import filters
 
 # ------------------------------------------------------------------------------- #
 

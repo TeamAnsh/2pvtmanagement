@@ -184,7 +184,7 @@ async def my_waifus(client, message):
         await message.reply("**ᴀᴡᴡ ʙᴀʙʏ ʏᴏᴜ ʜᴀᴠᴇɴ'ᴛ ᴄᴏʟʟᴇᴄᴛᴇᴅ ᴀɴʏ ᴡᴀɪғᴜs ʏᴇᴛ.**")
         return
 
-    response = f"**ʜᴇʟʟᴏ** {message.from_user.mention} **ʜᴇʀᴇ ʏᴏᴜʀ ᴡᴀɪꜰᴜꜱ**\n"
+    response = f"**ʜᴇʟʟᴏ** {message.from_user.mention} **ʜᴇʀᴇ ʏᴏᴜʀ ᴡᴀɪꜰᴜꜱ**\n\n"
     for waifu in waifus:
         name, anime, rarity = waifu
         response += f"⊱ {anime}\n⚋⚋⚋⚋⚋⚋⚋⚋⚋⚋⚋⚋⚋⚋⚋\n⊚ **ᴡᴀɪғᴜ** : {name}\n⊚ **ʀᴀʀɪᴛʏ** |{random.choice(rarity_colour)}| {rarity}\n⚋⚋⚋⚋⚋⚋⚋⚋⚋⚋⚋⚋⚋⚋⚋\n"
@@ -192,142 +192,40 @@ async def my_waifus(client, message):
     await message.reply(response)
 
 
-# ғɪx.ᴋʀɴᴀ. ʜᴀɪ.ʏʜᴀ sᴇ 
-
 @Hiroko.on_message(filters.command("giftwaifu", prefixes="/"))
 async def gift_waifu(client, message):
-    if len(message.text.split()) != 3:
-        await message.reply("Usage: `/giftwaifu @recipient_username waifu_name`")
+    replied = message.reply_to_message
+    user_id = message.from_user.id
+
+    if len(message.command) != 2:
+        await message.reply("Usage: `/giftwaifu waifu_name` or reply to a user's message with the waifu name.")
         return
 
-    recipient_username = message.text.split()[1]
-    waifu_name = message.text.split()[2]
-    sender_user_id = str(message.from_user.id)
+    if replied:
+        waifu_name = message.command[1]
+        sender_id = str(user_id)
+        cusr.execute("SELECT user_id, rarity FROM grabbed WHERE user_id=%s AND name=%s", (sender_id, waifu_name))
+        sender_waifu = cusr.fetchone()
 
-    # Check if the sender has the waifu in their collection
-    cusr.execute("SELECT user_id, rarity FROM grabbed WHERE user_id=%s AND name=%s", (sender_user_id, waifu_name))
-    sender_waifu = cusr.fetchone()
-
-    if not sender_waifu:
-        await message.reply(f"You don't have the waifu '{waifu_name}' in your collection.")
-        return
-
-    # Check if the recipient exists and get their user_id
-    recipient = await client.get_users(recipient_username)
-    if not recipient:
-        await message.reply(f"User '{recipient_username}' not found.")
-        return
-    recipient_user_id = str(recipient.id)
-
-    # Transfer the waifu to the recipient
-    try:
-        cusr.execute(
-            "UPDATE grabbed SET user_id=%s WHERE user_id=%s AND name=%s",
-            (recipient_user_id, sender_user_id, waifu_name)
-        )
-        DB.commit()
-    except Exception as e:
-        print(f"Error transferring waifu: {e}")
-        await message.reply("An error occurred while transferring the waifu.")
-        return
-
-    await message.reply(f"Successfully gifted '{waifu_name}' to {recipient_username}.")
-
-
-    
-    
-
-
-@Hiroko.on_message(filters.command("topwaifugrabbers", prefixes="/"))
-async def top_waifu_grabs(client, message):
-    try:
-        # Fetch the top 10 waifu collectors
-        cusr.execute("SELECT user_id, COUNT(*) as waifu_count FROM grabbed GROUP BY user_id ORDER BY waifu_count DESC LIMIT 10")
-        top_collectors = cusr.fetchall()
-
-        if not top_collectors:
-            await message.reply("No waifu collectors found.")
+        if not sender_waifu:
+            await message.reply(f"You don't have the waifu '{waifu_name}' in your collection.")
             return
+        recipient_id = str(replied.from_user.id)
 
-        # Extract user_ids and waifu counts
-        user_ids = [str(collector[0]) for collector in top_collectors]
-        waifu_counts = [collector[1] for collector in top_collectors]
+        try:
+            cusr.execute(
+                "UPDATE grabbed SET user_id=%s WHERE user_id=%s AND name=%s",
+                (recipient_id, sender_id, waifu_name)
+            )
+            DB.commit()
 
-        # Get usernames for display
-        usernames = []
-        for user_id in user_ids:
-            user = await client.get_users(int(user_id))
-            usernames.append(user.username if user.username else f"User {user_id}")
-
-        # Create a bar graph to display waifu counts
-        plt.figure(figsize=(10, 6))
-        plt.barh(usernames, waifu_counts, color='red')
-        plt.xlabel('Waifu Count')
-        plt.ylabel('User')
-        plt.title('Top 10 Waifu Collectors')
-        plt.gca().invert_yaxis()
-
-        # Save the graph as an image
-        graph_filename = 'top_waifu_collectors.png'
-        plt.savefig(graph_filename, bbox_inches='tight', format='png')
-        plt.close()
-
-        # Send the graph as a photo
-        await message.reply_photo(photo=graph_filename, caption="Top 10 Waifu Collectors")
-
-    except Exception as e:
-        print(f"Error: {e}")
-        await message.reply("An error occurred while fetching top collectors.")
-
-
-
-
-
-
-
-
-@Hiroko.on_message(filters.command("topwaifugroups", prefixes="/"))
-async def top_waifu_groups(client, message):
-    try:
-        # Fetch the top 5 waifu collector groups
-        cusr.execute("SELECT chat_id, COUNT(*) as waifu_count FROM grabbed GROUP BY chat_id ORDER BY waifu_count DESC LIMIT 5")
-        top_groups = cusr.fetchall()
-
-        if not top_groups:
-            await message.reply("No waifu collector groups found.")
+            await message.reply(f"Successfully gifted '{waifu_name}' to @{replied.from_user.username}.")
+        except Exception as e:
+            print(f"Error transferring waifu: {e}")
+            await message.reply("An error occurred while transferring the waifu.")
             return
-
-        # Extract chat_ids and waifu counts
-        chat_ids = [str(group[0]) for group in top_groups]
-        waifu_counts = [group[1] for group in top_groups]
-
-        # Get group names for display
-        group_names = []
-        for chat_id in chat_ids:
-            chat_info = await client.get_chat(chat_id)
-            group_names.append(chat_info.title)
-
-        # Create a 3D pie chart to display group percentages
-        fig = plt.figure(figsize=(8, 8))
-        ax = fig.add_subplot(111, projection='3d')
-        ax.pie(waifu_counts, labels=group_names, autopct='%1.1f%%', startangle=90)
-
-        ax.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
-        plt.title('Top 5 Waifu Collector Groups')
-
-        # Save the graph as an image
-        graph_filename = 'top_waifu_groups.png'
-        plt.savefig(graph_filename, bbox_inches='tight', format='png')
-        plt.close()
-
-        # Send the graph as a photo
-        await message.reply_photo(photo=graph_filename, caption="Top 5 Waifu Collector Groups")
-
-    except Exception as e:
-        print(f"Error: {e}")
-        await message.reply("An error occurred while fetching top groups.")
-
-
+    else:
+        await message.reply("Please reply to a user's message with the waifu name you want to gift.")
 
 
 

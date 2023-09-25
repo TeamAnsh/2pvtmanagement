@@ -95,7 +95,7 @@ async def bugs(_, msg: Message):
 @Hiroko.on_callback_query(filters.regex("close_send_photo"))
 async def close_send_photo(_,  query :CallbackQuery):
     is_admin = await Hiroko.get_chat_member(query.message.chat.id, query.from_user.id)
-    if not is_admin.can_delete_messages:
+    if not is_admin.privileges.can_delete_messages:
         await query.answer("ʏᴏᴜ ᴅᴏɴ'ᴛ ʜᴀᴠᴇ ʀɪɢʜᴛs ᴛᴏ ᴄʟᴏsᴇ ᴛʜɪs.", show_alert=True)
     else:
         await query.message.delete()

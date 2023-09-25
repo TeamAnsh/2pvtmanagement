@@ -86,7 +86,7 @@ async def del_msg(hiroko: Hiroko, msg: Message):
         return        
     if msg.reply_to_message:
         await msg.delete()
-        await hiroko.delete_messages(chat_id=m.chat.id, message_ids=m.reply_to_message.id)
+        await hiroko.delete_messages(chat_id=msg.chat.id, message_ids=msg.reply_to_message.id)
     else:
         await msg.reply_text(text="**ᴡʜᴀᴛ ᴅᴏ ʏᴏᴜ ᴡᴀɴᴛ ᴛᴏ ᴅᴇʟᴇᴛᴇ.**")
         return

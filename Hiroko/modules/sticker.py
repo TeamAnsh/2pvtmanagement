@@ -10,12 +10,10 @@ from pyrogram.types import InlineKeyboardButton,InlineKeyboardMarkup
 @Hiroko.on_message(filters.reply & filters.command("upscale"))
 async def upscale_image(client, message):
     try:
-        # Check if the replied message contains a photo
         if not message.reply_to_message or not message.reply_to_message.photo:
-            await message.reply_text("Please reply to an image to upscale it.")
+            await message.reply_text("**ᴘʟᴇᴀsᴇ ʀᴇᴘʟʏ ᴛᴏ ᴀɴ ɪᴍᴀɢᴇ ᴛᴏ ᴜᴘsᴄᴀʟᴇ ɪᴛ.**")
             return
 
-        # Access the image file_id from the replied message
         image = message.reply_to_message.photo.file_id
         file_path = await client.download_media(image)
 
@@ -29,28 +27,25 @@ async def upscale_image(client, message):
                 "https://api.qewertyy.me/upscale", data={"image_data": b}, timeout=None
             )
 
-        # Save the upscaled image
         with open("upscaled_image.png", "wb") as output_file:
             output_file.write(response.content)
 
-        # Send the upscaled image as a PNG file
-        await client.send_document(
+         await client.send_document(
             message.chat.id,
             document="upscaled_image.png",
-            caption="Here is the upscaled image!",
+            caption="**ʜᴇʀᴇ ɪs ᴛʜᴇ ᴜᴘsᴄᴀʟᴇᴅ ɪᴍᴀɢᴇ!**",
         )
 
     except Exception as e:
-        print(f"Failed to upscale the image: {e}")
-        await message.reply_text("Failed to upscale the image. Please try again later.")
-        # You may want to handle the error more gracefully here
-
+        print(f"**ғᴀɪʟᴇᴅ ᴛᴏ ᴜᴘsᴄᴀʟᴇ ᴛʜᴇ ɪᴍᴀɢᴇ**: {e}")
+        await message.reply_text("**ғᴀɪʟᴇᴅ ᴛᴏ ᴜᴘsᴄᴀʟᴇ ᴛʜᴇ ɪᴍᴀɢᴇ. ᴘʟᴇᴀsᴇ ᴛʀʏ ᴀɢᴀɪɴ ʟᴀᴛᴇʀ**.")
+        
 
 
 
 @Hiroko.on_message(filters.command("packkang"))
-async def _packkang(app :Hiroko,message):  
-    txt = await message.reply_text("ᴘʀᴏᴄᴇssɪɴɢ....")
+async def _packkang(hiroko :Hiroko,message):  
+    txt = await message.reply_text("**ᴘʀᴏᴄᴇssɪɴɢ....**")
     if not message.reply_to_message:
         await txt.edit('ʀᴇᴘʟʏ ᴛᴏ ᴍᴇssᴀɢᴇ')
         return
@@ -64,7 +59,7 @@ async def _packkang(app :Hiroko,message):
     else :
         pack_name = message.text.split(maxsplit=1)[1]
     short_name = message.reply_to_message.sticker.set_name
-    stickers = await app.invoke(
+    stickers = await hiroko.invoke(
         pyrogram.raw.functions.messages.GetStickerSet(
             stickerset=pyrogram.raw.types.InputStickerSetShortName(
                 short_name=short_name),
@@ -88,8 +83,8 @@ async def _packkang(app :Hiroko,message):
 
     try:
         short_name = f'stikcer_pack_{str(uuid4()).replace("-","")}_by_{app.me.username}'
-        user_id = await app.resolve_peer(message.from_user.id)
-        await app.invoke(
+        user_id = await hiroko.resolve_peer(message.from_user.id)
+        await hiroko.invoke(
             pyrogram.raw.functions.stickers.CreateStickerSet(
                 user_id=user_id,
                 title=pack_name,
@@ -97,7 +92,7 @@ async def _packkang(app :Hiroko,message):
                 stickers=sticks,
             )
         )
-        await txt.edit(f"𝙿𝙰𝙲𝙺 [𝙺𝙰𝙽𝙶𝙴𝙳](http://t.me/addstickers/{short_name})!\n𝚃𝙾𝚃𝙰𝙻 𝚂𝚃𝙸𝙲𝙺𝙴𝚁: {len(sticks)}",reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("ᴘᴀᴄᴋ ʟɪɴᴋ",url=f"http://t.me/addstickers/{short_name}")]]))
+        await txt.edit(f"**ʜᴇʀᴇ ɪs ʏᴏᴜʀ ᴋᴀɴɢᴇᴅ ʟɪɴᴋ**!\n**ᴛᴏᴛᴀʟ sᴛɪᴄᴋᴇʀ **: {len(sticks)}",reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("ᴘᴀᴄᴋ ʟɪɴᴋ",url=f"http://t.me/addstickers/{short_name}")]]))
     except Exception as e:
         await message.reply(str(e))
 
@@ -111,7 +106,10 @@ async def sticker_id(Hiroko: Hiroko, msg):
         await msg.reply_text("Reply to a sticker")        
     st_in = msg.reply_to_message.sticker
     await msg.reply_text(f"""
-    Sticker id: `{st_in.file_id}`\nSticker unique ID : `{st_in.file_unique_id}`")
+     ⊹ <u>sᴛɪᴄᴋᴇʀ ɪɴғᴏ</u> ⊹
+    **⊚ sᴛɪᴄᴋᴇʀ ɪᴅ **: `{st_in.file_id}`
+    **⊚ sᴛɪᴄᴋᴇʀ ᴜɴɪǫᴜᴇ ɪᴅ **: `{st_in.file_unique_id}`
+    """)
     
 
 

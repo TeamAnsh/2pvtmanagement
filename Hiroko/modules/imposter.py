@@ -1,13 +1,6 @@
 from pyrogram import filters
 from pyrogram.types import Message
-from Hiroko.Helper.database.imposterdb import (
-    add_userdata,
-    usr_data,
-    get_userdata,
-    check_imposter,
-    impo_on,
-    impo_off,
-)
+from Hiroko.Helper.database import *
 from Hiroko import Hiroko
 
 

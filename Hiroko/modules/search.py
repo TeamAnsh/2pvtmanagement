@@ -12,7 +12,6 @@ from pyrogram import filters
 
 
 gsearch = GoogleSearch()
-anisearch = AnimeSearch()
 stsearch = StackSearch()
 
 
@@ -31,14 +30,14 @@ def ikb(rows=None, back=False, todo="start_back"):
             line = []
             for button in row:
                 btn_text = button.split(".")[1].capitalize()
-                button = btn(btn_text, button)  # InlineKeyboardButton
+                button = btn(btn_text, button)  
                 line.append(button)
             lines.append(line)
     except AttributeError:
         for row in rows:
             line = []
             for button in row:
-                button = btn(*button)  # Will make the kb which don't have "." in them
+                button = btn(*button)  
                 line.append(button)
             lines.append(line)
     except TypeError:
@@ -49,7 +48,7 @@ def ikb(rows=None, back=False, todo="start_back"):
             line.append(button)
         lines.append(line)
     if back: 
-        back_btn = [(btn("« Back", todo))]
+        back_btn = [(btn("ʙᴀᴄᴋ", todo))]
         lines.append(back_btn)
     return InlineKeyboardMarkup(inline_keyboard=lines)
 
@@ -63,11 +62,11 @@ def btn(text, value, type="callback_data"):
 
 
 @Hiroko.on_message(filters.command('google'))
-async def g_search(c: Hiroko, m: Message):
-    split = m.text.split(None, 1)
+async def search_(hiroko: Hiroko, msg: Message):
+    split = msg.text.split(None, 1)
     if len(split) == 1:
-        return await m.reply_text("No query given\nDo `/help search` to see how to use it")
-    to_del = await m.reply_text("Searching google...")
+        return await msg.reply_text("**ɢɪᴠᴇ ǫᴜᴇʀʏ ᴛᴏ sᴇᴀʀᴄʜ**")
+    to_del = await msg.reply_text("**sᴇᴀʀᴄʜɪɴɢ ᴏɴ ɢᴏᴏɢʟᴇ...**")
     query = split[1]
     try:
         result = await gsearch.async_search(query)
@@ -111,100 +110,32 @@ async def g_search(c: Hiroko, m: Message):
             ]
         )
 
-        txt = f"Here are the results of requested query **{query.upper()}**"
+        txt = f"**ʜᴇʀᴇ ᴀʀᴇ ᴛʜᴇ ʀᴇsᴜʟᴛs ᴏғ ʀǫᴜᴇsᴛᴇᴅ : {query.title()}**"
         await to_del.delete()
-        await m.reply_text(txt, reply_markup=keyboard)
+        await msg.reply_text(txt, reply_markup=keyboard)
         return
     except NoResultsFound:
         await to_del.delete()
-        await m.reply_text("No result found corresponding to your query")
+        await msg.reply_text("**ɴᴏ ʀᴇsᴜʟᴛ ғᴏᴜɴᴅ ᴄᴏʀʀᴇsᴘᴏɴᴅɪɴɢ ᴛᴏ ʏᴏᴜʀ ǫᴜᴇʀʏ**")
         return
     except NoResultsOrTrafficError:
         await to_del.delete()
-        await m.reply_text("No result found due to too many traffic")
+        await msg.reply_text("****ɴᴏ ʀᴇsᴜʟᴛ ғᴏᴜɴᴅ ᴅᴜᴇ ᴛᴏ ᴛᴏᴏ ᴍᴀɴʏ ᴛʀᴀғғɪᴄ**")
         return
     except Exception as e:
         await to_del.delete()
-        await m.reply_text(f"Got an error:\nReport it at @DevsOops")
+        await msg.reply_text(f"**sᴏᴍᴇᴛʜɪɴɢ ᴡᴇɴᴛ ᴡʀᴏɴɢ :\nʀᴇᴘᴏʀᴛ ᴀᴛ ɪᴛ** @DevsOops")
         print(f"error : {e}")
         return
 
-
-
-@Hiroko.on_message(filters.command('anime'))
-async def anime_search(c: Hiroko, m: Message):
-    split = m.text.split(None, 1)
-    if len(split) == 1:
-        return await m.reply_text("No query given\nDo `/help search` to see how to use it")
-    to_del = await m.reply_text("Searching myanimelist...")
-    query = split[1]
-    try:
-        result = await anisearch.async_search(query)
-        keyboard = ikb(
-            [
-                [
-                    (
-                        f"{result[0]['titles']}",
-                        f"{result[0]['links']}",
-                        "url",
-                    ),
-                ],
-                [
-                    (
-                        f"{result[1]['titles']}",
-                        f"{result[1]['links']}",
-                        "url",
-                    ),
-                ],
-                [
-                    (
-                        f"{result[2]['titles']}",
-                        f"{result[2]['links']}",
-                        "url",
-                    ),
-                ],
-                [
-                    (
-                        f"{result[3]['titles']}",
-                        f"{result[3]['links']}",
-                        "url",
-                    ),
-                ],
-                [
-                    (
-                        f"{result[4]['titles']}",
-                        f"{result[4]['links']}",
-                        "url",
-                    ),
-                ],
-            ]
-        )
-
-        txt = f"Here are the results of requested query **{query.upper()}**"
-        await to_del.delete()
-        await m.reply_text(txt, reply_markup=keyboard)
-        return
-    except NoResultsFound:
-        await to_del.delete()
-        await m.reply_text("No result found corresponding to your query")
-        return
-    except NoResultsOrTrafficError:
-        await to_del.delete()
-        await m.reply_text("No result found due to too many traffic")
-        return
-    except Exception as e:
-        await to_del.delete()
-        await m.reply_text(f"Got an error:\nReport it at @DevsOops")
-        print(f"error : {e}")
-        return
 
 
 @Hiroko.on_message(filters.command('stack'))
-async def stack_search(c: Hiroko, m: Message):
-    split = m.text.split(None, 1)
+async def stack_search_(hiroko: Hiroko, msg: Message):
+    split = msg.text.split(None, 1)
     if len(split) == 1:
-        return await m.reply_text("No query given\nDo `/help search` to see how to use it")
-    to_del = await m.reply_text("Searching Stackoverflow...")
+        return await msg.reply_text("**ɢɪᴠᴇ ǫᴜᴇʀʏ ᴛᴏ sᴇᴀʀᴄʜ**")
+    to_del = await msg.reply_text("**sᴇᴀʀᴄʜɪɴɢ ᴏɴ ɢᴏᴏɢʟᴇ...**")
     query = split[1]
     try:
         result = await stsearch.async_search(query)
@@ -248,24 +179,23 @@ async def stack_search(c: Hiroko, m: Message):
             ]
         )
 
-        txt = f"Here are the results of requested query **{query.upper()}**"
+        txt = f"**ʜᴇʀᴇ ᴀʀᴇ ᴛʜᴇ ʀᴇsᴜʟᴛs ᴏғ ʀǫᴜᴇsᴛᴇᴅ : {query.title()}**"
         await to_del.delete()
-        await m.reply_text(txt, reply_markup=keyboard)
+        await msg.reply_text(txt, reply_markup=keyboard)
         return
     except NoResultsFound:
         await to_del.delete()
-        await m.reply_text("No result found corresponding to your query")
+        await msg.reply_text("**ɴᴏ ʀᴇsᴜʟᴛ ғᴏᴜɴᴅ ᴄᴏʀʀᴇsᴘᴏɴᴅɪɴɢ ᴛᴏ ʏᴏᴜʀ ǫᴜᴇʀʏ**")
         return
     except NoResultsOrTrafficError:
         await to_del.delete()
-        await m.reply_text("No result found due to too many traffic")
+        await msg.reply_text("****ɴᴏ ʀᴇsᴜʟᴛ ғᴏᴜɴᴅ ᴅᴜᴇ ᴛᴏ ᴛᴏᴏ ᴍᴀɴʏ ᴛʀᴀғғɪᴄ**")
         return
     except Exception as e:
         await to_del.delete()
-        await m.reply_text(f"Got an error:\nReport it at @DevsOops")
+        await msg.reply_text(f"**sᴏᴍᴇᴛʜɪɴɢ ᴡᴇɴᴛ ᴡʀᴏɴɢ :\nʀᴇᴘᴏʀᴛ ᴀᴛ ɪᴛ** @DevsOops")
         print(f"error : {e}")
         return
-
 
 
 

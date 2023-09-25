@@ -8,7 +8,7 @@ from config import OWNER_ID as owner
 from config import SUDO_USERS as sudo
 from pyrogram import filters, __version__
 from platform import python_version
-from pyrogram.types import.Message, CallbackQuery, InlineKeyboardMarkup, InlineKeyboardButton
+from pyrogram.types import Message, CallbackQuery, InlineKeyboardMarkup, InlineKeyboardButton
 
 
 

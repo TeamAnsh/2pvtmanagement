@@ -1,12 +1,12 @@
 from typing import BinaryIO, Dict, List
-import time
-import os
+import time, os, httpx
 from uuid import uuid4
-import httpx
-from Hiroko import Hiroko
+ from Hiroko import Hiroko
 from pyrogram.enums import MessageMediaType
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
 from pyrogram import Client, filters
+
+
 
 
 API_URL: str = "https://sasta-api.vercel.app/google_reverse"
@@ -16,21 +16,21 @@ API_URL: str = "https://sasta-api.vercel.app/google_reverse"
 async_client: httpx.AsyncClient = httpx.AsyncClient(timeout=120)
 
 class STRINGS:
-    REPLY_TO_MEDIA: str = "ℹ️ Please reply to a message that contains one of the supported media types, such as a photo, sticker, or image file."
-    UNSUPPORTED_MEDIA_TYPE: str = "⚠️ <b>Unsupported media type!</b>\nℹ️ Please reply with a supported media type: image, sticker, or image file."
+    REPLY_TO_MEDIA: str = "**ᴘʟᴇᴡsᴇ ʀᴇᴘʟʏ ᴛᴏ ᴀ ᴍᴇssᴀɢᴇ ᴛʜᴀᴛ ᴄᴏɴᴛᴀɪɴs ᴏɴᴇ ᴏғ ᴛʜᴇ sᴜᴘᴘᴏʀᴛᴇᴅ ᴍᴇᴅɪᴀ ᴛʏᴘᴇs, sᴜᴄʜ ᴀs ᴀ ᴘʜᴏᴛᴏ ᴏʀ ɪᴍᴀɢᴇ ᴀɴᴅ ғɪʟᴇ.**"
+    UNSUPPORTED_MEDIA_TYPE: str = "⚠️ **ᴜɴsᴜᴘᴘᴏʀᴛᴇᴅ ᴍᴇᴅɪᴀ ᴛʏᴘᴇ !**\n**ᴘʟᴇᴡsᴇ ʀᴇᴘʟʏ ᴛᴏ ᴀ ᴍᴇssᴀɢᴇ ᴛʜᴀᴛ ᴄᴏɴᴛᴀɪɴs ᴏɴᴇ ᴏғ ᴛʜᴇ sᴜᴘᴘᴏʀᴛᴇᴅ ᴍᴇᴅɪᴀ ᴛʏᴘᴇs, sᴜᴄʜ ᴀs ᴀ ᴘʜᴏᴛᴏ ᴏʀ ɪᴍᴀɢᴇ ᴀɴᴅ ғɪʟᴇ.**"
     
-    DOWNLOADING_MEDIA: str = "⏳ Downloading media..."
-    UPLOADING_TO_API_SERVER: str = "📡 Uploading media to <b>API Server</b>... 📶"
-    PARSING_RESULT: str = "💻 Parsing result..."
+    DOWNLOADING_MEDIA: str = "⏳ **ᴅᴏᴡɴʟᴏᴀᴅɪɴɢ ᴍᴇᴅɪᴀ...**"
+    UPLOADING_TO_API_SERVER: str = "**ᴜᴘʟᴏᴀᴅɪɴɢ ᴍᴇᴅɪᴀ ᴛᴏ ᴀᴘɪ sᴇʀᴠᴇʀ**"
+    PARSING_RESULT: str = "💻 **ᴘᴀʀsɪɴɢ ʀᴇsᴜʟᴛ...**"
     
-    EXCEPTION_OCCURRED: str = "❌ <b>Exception occurred!</b>\n\n<b>Exception:</b> {}"
+    EXCEPTION_OCCURRED: str = "❌ **ᴇxᴄᴇᴘᴛɪᴏɴ ᴏᴄᴄᴜʀʀᴇᴅ !**\n\n**ᴇxᴄᴇᴘᴛɪᴏɴ :** {}"
     
     RESULT: str = """
-🔤 <b>Query:</b> <code>{query}</code>
-🔗 <b>Page Link:</b> <a href="{page_url}">Link</a>
+✒️ <b>ǫᴜᴇʀʏ** :</b> <code>{query}</code>
+⛓ <b>ᴘᴀɢᴇ ʟɪɴᴋ :</b> <a href="{page_url}">ᴄʟɪᴄᴋ </a>
 
-⌛️ <b>Time Taken:</b> <code>{time_taken}</code> seconds"""
-    OPEN_PAGE: str = "↗️ Open Page"
+⏱ <b>ᴛɪᴍᴇ ᴛᴀᴋᴇɴ :</b> <code>{time_taken}</code> sᴇᴄᴏɴᴅs"""
+    OPEN_PAGE: str = "ᴏᴘᴇɴ ᴘᴀɢᴇ"
 
 
 @Hiroko.on_message(filters.command(["pp","reverse","sauce"]))

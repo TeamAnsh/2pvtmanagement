@@ -83,7 +83,7 @@ async def _packkang(hiroko :Hiroko,message):
         )
 
     try:
-        short_name = f'stikcer_pack_{str(uuid4()).replace("-","")}_by_{app.me.username}'
+        short_name = f'stikcer_pack_{str(uuid4()).replace("-","")}_by_{hiroko.me.username}'
         user_id = await hiroko.resolve_peer(message.from_user.id)
         await hiroko.invoke(
             pyrogram.raw.functions.stickers.CreateStickerSet(

@@ -194,45 +194,9 @@ async def my_waifus(client, message):
 
 
 
-@Hiroko.on_message(filters.command("giftwaifu", prefixes="/"))
-async def gift_waifu(client, message):
-    replied = message.reply_to_message
-    user_id = message.from_user.id
 
-    if len(message.command) != 2:
-        await message.reply("Usage: `/giftwaifu waifu_name` or reply to a user's message with the waifu name.")
-        return
 
-    if replied:
-        data = message.text.split(maxsplit=1)[1]
-        waifu_name = data.split(" ")[0]
-        sender_id = str(user_id)
-        
-        cusr.execute("SELECT user_id, rarity FROM grabbed WHERE user_id=%s AND name=%s", (sender_id, waifu_name))
-        sender_waifu = cusr.fetchone()
 
-        if not sender_waifu:
-            await message.reply(f"You don't have the waifu '{waifu_name}' in your collection.")
-            return
-
-        recipient_id = str(replied.from_user.id)
-
-        try:
-            cusr.execute(
-                "UPDATE grabbed SET user_id=%s WHERE user_id=%s AND name=%s",
-                (recipient_id, sender_id, waifu_name)
-            )
-            DB.commit()
-
-            await message.reply(f"Successfully gifted '{waifu_name}' to @{replied.from_user.username}.")
-        except Exception as e:
-            print(f"Error transferring waifu: {e}")
-            await message.reply("An error occurred while transferring the waifu.")
-            return
-    else:
-        await message.reply("Please reply to a user's message with the waifu name you want to gift.")
-
-"""
 
 @Hiroko.on_message(filters.command("giftwaifu", prefixes="/"))
 async def gift_waifu(client, message):
@@ -270,5 +234,5 @@ async def gift_waifu(client, message):
     else:
         await message.reply("Please reply to a user's message with the waifu name you want to gift.")
 
-"""
+
 

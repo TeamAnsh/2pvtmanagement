@@ -10,7 +10,7 @@ SPAM_CHATS = []
 async def tag_all_users(_,message): 
     replied = message.reply_to_message  
     if len(message.command) < 2 and not replied:
-        await message.reply_text("Reply To A Message or Give Some Text To Tag All") 
+        await message.reply_text("**ʀᴇᴘʟʏ ᴛᴏ ᴀ ᴍᴇssᴀɢᴇ ᴏʀ ɢɪᴠᴇ sᴏᴍᴇ ᴛᴇxᴛ ᴛᴏ ᴛᴀɢ ᴀʟʟ**") 
         return                  
     if replied:
         SPAM_CHATS.append(message.chat.id)      
@@ -20,7 +20,7 @@ async def tag_all_users(_,message):
             if message.chat.id not in SPAM_CHATS:
                 break       
             usernum += 1
-            usertxt += f"\n» [{m.user.first_name}](tg://user?id={m.user.id})\n"
+            usertxt += f"\n⊚ [{m.user.first_name}](tg://user?id={m.user.id})\n"
             if usernum == 5:
                 await replied.reply_text(usertxt)
                 await asyncio.sleep(2)
@@ -40,7 +40,7 @@ async def tag_all_users(_,message):
             if message.chat.id not in SPAM_CHATS:
                 break 
             usernum += 1
-            usertxt += f"\n» [{m.user.first_name}](tg://user?id={m.user.id})\n"
+            usertxt += f"\n⊚ [{m.user.first_name}](tg://user?id={m.user.id})\n"
             if usernum == 5:
                 await Hiroko.send_message(message.chat.id,f'{text}\n{usertxt}')
                 await asyncio.sleep(2)
@@ -59,10 +59,10 @@ async def cancelcmd(_, message):
             SPAM_CHATS.remove(chat_id)
         except Exception:
             pass   
-        return await message.reply_text("Stopped!")     
+        return await message.reply_text("**ᴛᴀɢ ᴀʟʟ sᴜᴄᴄᴇssғᴜʟʟʏ sᴛᴏᴘᴘᴇᴅ!**")     
                                      
     else :
-        await message.reply_text("**No Proccess Ongoing!**")  
+        await message.reply_text("**ɴᴏ ᴘʀᴏᴄᴇss ᴏɴɢᴏɪɴɢ!**")  
         return       
 
 

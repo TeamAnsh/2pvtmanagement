@@ -52,13 +52,13 @@ async def add_waifus(_, message):
     bruh = message.text.split(maxsplit=1)[1]
     data = bruh.split("+")
     if not data[0].startswith("https"):
-        return await message.reply("**sᴡᴇᴇᴛʜᴇᴀʀᴛʏ ɪ ᴛʜɪɴᴋ ʏᴏᴜ ғᴏʀɢᴇᴛ ᴡᴀɪғᴜ ʟɪɴᴋ.**")
+        return await message.reply("**sᴡᴇᴇᴛʜᴇᴀʀᴛ ɪ ᴛʜɪɴᴋ ʏᴏᴜ ғᴏʀɢᴇᴛ ᴡᴀɪғᴜ ʟɪɴᴋ.**")
     if not data[1]:
-        return await message.reply("**sᴡᴇᴇᴛʜᴇᴀʀᴛʏ ɪ ᴛʜɪɴᴋ ʏᴏᴜ ғᴏʀɢᴇᴛ ᴡᴀɪғᴜ ɴᴀᴍᴇ.**")
+        return await message.reply("**sᴡᴇᴇᴛʜᴇᴀʀᴛ ɪ ᴛʜɪɴᴋ ʏᴏᴜ ғᴏʀɢᴇᴛ ᴡᴀɪғᴜ ɴᴀᴍᴇ.**")
     if not data[2]:
-        return await message.reply_text("**sᴡᴇᴇᴛʜᴇᴀʀᴛʏ ɪ ᴛʜɪɴᴋ ʏᴏᴜ ғᴏʀɢᴇᴛ ᴀɴɪᴍᴇ ɴᴀᴍᴇ.**")
+        return await message.reply_text("**sᴡᴇᴇᴛʜᴇᴀʀᴛ ɪ ᴛʜɪɴᴋ ʏᴏᴜ ғᴏʀɢᴇᴛ ᴀɴɪᴍᴇ ɴᴀᴍᴇ.**")
     if not data[3]:
-        return await message.reply("**sᴡᴇᴇᴛʜᴇᴀʀᴛʏ ɪ ᴛʜɪɴᴋ ʏᴏᴜ ғᴏʀɢᴇᴛ ᴡᴀɪғᴜ ʀᴀʀɪᴛʏ.**")
+        return await message.reply("**sᴡᴇᴇᴛʜᴇᴀʀᴛ ɪ ᴛʜɪɴᴋ ʏᴏᴜ ғᴏʀɢᴇᴛ ᴡᴀɪғᴜ ʀᴀʀɪᴛʏ.**")
     
     photo = data[0]
     nam = data[1]
@@ -164,6 +164,15 @@ async def grab_waifus(client, message):
 
 # ==================================================================== #
 
+rarity_colour = [
+    "🔘",
+    "⚫",
+    "⚪",
+    "🔴",
+    "🔵"
+]
+
+
 @Hiroko.on_message(filters.command(["mywaifu","myharem"], prefixes="/"))
 async def my_waifus(client, message):
     user_id = str(message.from_user.id)
@@ -176,10 +185,10 @@ async def my_waifus(client, message):
         await message.reply("**ᴀᴡᴡ ʙᴀʙʏ ʏᴏᴜ ʜᴀᴠᴇɴ'ᴛ ᴄᴏʟʟᴇᴄᴛᴇᴅ ᴀɴʏ ᴡᴀɪғᴜs ʏᴇᴛ.**")
         return
 
-    response = "**Your Waifus:**\n"
+    response = f"**ʜᴇʟʟᴏ** {message.from_user.mention} **ʜᴇʀᴇ ʏᴏᴜʀ ᴡᴀɪꜰᴜꜱ**\n"
     for waifu in waifus:
         name, anime, rarity = waifu
-        response += f"⊱ {anime}\n⚋⚋⚋⚋⚋⚋⚋⚋⚋⚋⚋⚋⚋⚋⚋\n⊚ **ᴡᴀɪғᴜ ɴᴀᴍᴇ** : {name}\n⊚ **ᴡᴀɪғᴜ ʀᴀʀɪᴛʏ** : {rarity}\n⚋⚋⚋⚋⚋⚋⚋⚋⚋⚋⚋⚋⚋⚋⚋\n"
+        response += f"⊱ {anime}\n⚋⚋⚋⚋⚋⚋⚋⚋⚋⚋⚋⚋⚋⚋⚋\n⊚ **ᴡᴀɪғᴜ** : {name}\n⊚ **ʀᴀʀɪᴛʏ** |{rarity_colour}| {rarity}\n⚋⚋⚋⚋⚋⚋⚋⚋⚋⚋⚋⚋⚋⚋⚋\n"
 
     await message.reply(response)
 

@@ -9,7 +9,7 @@ from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton
 async def telegraph_command(_, message: Message):
     replied = message.reply_to_message
     if not replied:
-        await message.reply_text("ᴘʟᴇᴀsᴇ ʀᴇᴘʟʏ ᴛᴏ ᴀ sᴜᴘᴘᴏʀᴛᴇᴅ ᴍᴇᴅɪᴀ ғɪʟᴇ.")
+        await message.reply_text("**ᴘʟᴇᴀsᴇ ʀᴇᴘʟʏ ᴛᴏ ᴀ sᴜᴘᴘᴏʀᴛᴇᴅ ᴍᴇᴅɪᴀ ғɪʟᴇ.**")
         return
     if not (
         (replied.photo and replied.photo.file_size <= 5242880)
@@ -27,7 +27,7 @@ async def telegraph_command(_, message: Message):
             and replied.document.file_size <= 5242880
         )
     ):
-        await message.reply_text("ᴜɴsᴜᴘᴘᴏʀᴛᴇᴅ ғɪʟᴇ ғᴏʀᴍᴀᴛ !")
+        await message.reply_text("**ᴜɴsᴜᴘᴘᴏʀᴛᴇᴅ ғɪʟᴇ ғᴏʀᴍᴀᴛ !**")
         return
     download_location = await Hiroko.download_media(
         message=message.reply_to_message, file_name="root/nana/"
@@ -51,7 +51,7 @@ async def telegraph_command(_, message: Message):
             reply_markup=reply_markup,
         )
     except Exception as err:
-        await Hiroko.send_message(message.chat.id, f"ᴇʀʀᴏʀ: {err}")
+        await Hiroko.send_message(message.chat.id, f"**ᴇʀʀᴏʀ**: {err}")
     finally:
         os.remove(download_location)
 

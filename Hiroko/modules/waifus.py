@@ -202,7 +202,9 @@ async def gift_waifu(client, message):
         return
 
     if replied:
-        waifu_name = message.command[1]
+        
+        data = message.text.split(maxsplit=1)[1]
+        waifu_name = data.split(" ")
         sender_id = str(user_id)
         cusr.execute("SELECT user_id, rarity FROM grabbed WHERE user_id=%s AND name=%s", (sender_id, waifu_name))
         sender_waifu = cusr.fetchone()

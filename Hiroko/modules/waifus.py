@@ -165,7 +165,6 @@ async def grab_waifus(client, message):
 # ==================================================================== #
 
 rarity_colour = [
-    "🔘",
     "⚫",
     "⚪",
     "🔴",
@@ -188,7 +187,7 @@ async def my_waifus(client, message):
     response = f"**ʜᴇʟʟᴏ** {message.from_user.mention} **ʜᴇʀᴇ ʏᴏᴜʀ ᴡᴀɪꜰᴜꜱ**\n"
     for waifu in waifus:
         name, anime, rarity = waifu
-        response += f"⊱ {anime}\n⚋⚋⚋⚋⚋⚋⚋⚋⚋⚋⚋⚋⚋⚋⚋\n⊚ **ᴡᴀɪғᴜ** : {name}\n⊚ **ʀᴀʀɪᴛʏ** |{rarity_colour}| {rarity}\n⚋⚋⚋⚋⚋⚋⚋⚋⚋⚋⚋⚋⚋⚋⚋\n"
+        response += f"⊱ {anime}\n⚋⚋⚋⚋⚋⚋⚋⚋⚋⚋⚋⚋⚋⚋⚋\n⊚ **ᴡᴀɪғᴜ** : {name}\n⊚ **ʀᴀʀɪᴛʏ** |{random.choice(rarity_colour)}| {rarity}\n⚋⚋⚋⚋⚋⚋⚋⚋⚋⚋⚋⚋⚋⚋⚋\n"
 
     await message.reply(response)
 

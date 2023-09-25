@@ -1,7 +1,7 @@
 from typing import BinaryIO, Dict, List
 import time, os, httpx
 from uuid import uuid4
- from Hiroko import Hiroko
+from Hiroko import Hiroko
 from pyrogram.enums import MessageMediaType
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
 from pyrogram import Client, filters

@@ -1,10 +1,10 @@
 import psycopg2
 
-DB = psycopg2.connect(host='balarama.db.elephantsql.com',
+DB = psycopg2.connect(host='tai.db.elephantsql.com',
                     port='5432',
-                    user='nizpwdkk',
+                    user='pokleimf',
                     password='0vZaMzYqpIqlbzfZVRenc4WQ50uv63rX',
-                    database='nizpwdkk'
+                    database='pokleimf'
                     )
 
 cusr = DB.cursor()

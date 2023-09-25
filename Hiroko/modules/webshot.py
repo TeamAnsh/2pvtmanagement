@@ -30,8 +30,8 @@ async def take_screenshot(url: str, full: bool = False):
     url = "https://" + url if not url.startswith("http") else url
     payload = {
         "url": url,
-        "width": 1080,
-        "height": 1920,
+        "width": 1100,
+        "height": 1900,
         "scale": 1,
         "format": "jpeg",
     }
@@ -62,7 +62,7 @@ async def eor(msg: Message, **kwargs):
 @Hiroko.on_message(filters.command(["webss", "ss", "webshot"]))
 async def take_ss(_, message: Message):
     if len(message.command) < 2:
-        return await eor(message, text="ɢɪᴠᴇ ᴀ ᴜʀʟ ᴛᴏ ғᴇᴛᴄʜ sᴄʀᴇᴇɴsʜᴏᴛ.")
+        return await eor(message, text="**ɢɪᴠᴇ ᴀ ᴜʀʟ ᴛᴏ ғᴇᴛᴄʜ sᴄʀᴇᴇɴsʜᴏᴛ.**")
 
     if len(message.command) == 2:
         url = message.text.split(None, 1)[1]
@@ -76,16 +76,16 @@ async def take_ss(_, message: Message):
             "true",
         ]
     else:
-        return await eor(message, text="ɪɴᴠᴀʟɪᴅ ᴄᴏᴍᴍᴀɴᴅ.")
+        return await eor(message, text="**ɪɴᴠᴀʟɪᴅ ᴄᴏᴍᴍᴀɴᴅ.**")
 
-    m = await eor(message, text="ᴄᴀᴘᴛᴜʀɪɴɢ sᴄʀᴇᴇɴsʜᴏᴛ...")
+    m = await eor(message, text="**ᴄᴀᴘᴛᴜʀɪɴɢ sᴄʀᴇᴇɴsʜᴏᴛ...**")
 
     try:
         photo = await take_screenshot(url, full)
         if not photo:
-            return await m.edit("ғᴀɪʟᴇᴅ ᴛᴏ ᴛᴀᴋᴇ sᴄʀᴇᴇɴsʜᴏᴛ.")
+            return await m.edit("**ғᴀɪʟᴇᴅ ᴛᴏ ᴛᴀᴋᴇ sᴄʀᴇᴇɴsʜᴏᴛ.**")
 
-        m = await m.edit("ᴜᴘʟᴏᴀᴅɪɴɢ...")
+        m = await m.edit("**ᴜᴘʟᴏᴀᴅɪɴɢ...**")
 
         if not full:
             await message.reply_photo(photo, reply_markup=button)

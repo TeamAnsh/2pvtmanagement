@@ -30,7 +30,7 @@ async def upscale_image(client, message):
         with open("upscaled_image.png", "wb") as output_file:
             output_file.write(response.content)
 
-         await client.send_document(
+        await client.send_document(
             message.chat.id,
             document="upscaled_image.png",
             caption="**ʜᴇʀᴇ ɪs ᴛʜᴇ ᴜᴘsᴄᴀʟᴇᴅ ɪᴍᴀɢᴇ!**",
@@ -39,7 +39,8 @@ async def upscale_image(client, message):
     except Exception as e:
         print(f"**ғᴀɪʟᴇᴅ ᴛᴏ ᴜᴘsᴄᴀʟᴇ ᴛʜᴇ ɪᴍᴀɢᴇ**: {e}")
         await message.reply_text("**ғᴀɪʟᴇᴅ ᴛᴏ ᴜᴘsᴄᴀʟᴇ ᴛʜᴇ ɪᴍᴀɢᴇ. ᴘʟᴇᴀsᴇ ᴛʀʏ ᴀɢᴀɪɴ ʟᴀᴛᴇʀ**.")
-        
+
+
 
 
 

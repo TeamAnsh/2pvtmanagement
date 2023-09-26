@@ -7,7 +7,7 @@ from pyrogram.enums import ChatAction, ParseMode
 
 
 
-openai.api_key = "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"
+openai.api_key = "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"
 
 
 

@@ -287,6 +287,22 @@ async def edit_waifu_photo(message, waifu):
         await message.edit_text(message_text, reply_markup=get_waifu_buttons())
 
 
+
+async def send_waifu_message(chat_id, user_id, waifu):
+    global current_waifu_photo
+    waifu_name, waifu_photo = waifu
+    message_text = f"Current Waifu: {waifu_name}"
+
+    if waifu_photo != current_waifu_photo:
+        media = InputMediaPhoto(waifu_photo, caption=message_text, reply_markup=get_waifu_buttons())
+        await Hiroko.send_media(chat_id, media)
+        current_waifu_photo = waifu_photo
+    else:
+        await Hiroko.send_message(chat_id, message_text, reply_markup=get_waifu_buttons())
+
+
+
+
 def get_waifu_buttons():
     return InlineKeyboardMarkup(
         [

@@ -200,12 +200,16 @@ async def gift_waifu(client, message):
     replied = message.reply_to_message
     user_id = message.from_user.id
 
-    if len(message.command) != 2:
+    if len(message.command) != 3:
         await message.reply("Usage: `/giftwaifu waifu_name` or reply to a user's message with the waifu name.")
         return
 
     if replied:
-        waifu_name = message.command[1]  # Use index 1 to get the waifu name
+        x = message.command[1]
+        z = " "
+        y = message.command[2]
+        
+        waifu_name = x + z + y  
         sender_id = str(user_id)
         cusr.execute("SELECT user_id, rarity FROM grabbed WHERE user_id=%s AND name=%s", (sender_id, waifu_name))
         sender_waifu = cusr.fetchone()

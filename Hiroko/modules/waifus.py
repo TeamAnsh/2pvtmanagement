@@ -256,11 +256,12 @@ async def waifu_command(client, message):
 
     @Hiroko.on_callback_query(filters.regex(r"^(next_waifu|back_waifu)$"))
     async def change_waifu(client, callback_query):
-        nonlocal current_waifu_index, current_waifu_photo
         data = callback_query.data
         if data == "next_waifu":
+            nonlocal current_waifu_index
             current_waifu_index = (current_waifu_index + 1) % len(waifus)
         elif data == "back_waifu":
+            nonlocal current_waifu_index
             current_waifu_index = (current_waifu_index - 1) % len(waifus)
         await send_waifu_message(callback_query.message.chat.id, user_id, waifus[current_waifu_index])
         await callback_query.answer()
@@ -276,7 +277,7 @@ async def waifu_command(client, message):
     )
 
 async def send_waifu_message(chat_id, user_id, waifu):
-    global current_waifu_photo  # Use the global keyword to modify the outer variable
+    global current_waifu_photo  # Use the global keyword to modify the global variable
     waifu_name, waifu_photo = waifu
     message_text = f"Current Waifu: {waifu_name}"
     
@@ -285,11 +286,6 @@ async def send_waifu_message(chat_id, user_id, waifu):
         current_waifu_photo = waifu_photo
     else:
         await Hiroko.send_message(chat_id, message_text)
-
-
-
-
-
 
 
 

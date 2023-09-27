@@ -251,13 +251,14 @@ async def waifu_command(client, message):
         await message.reply("You don't have any waifus in your collection.")
         return
 
-    global current_waifu_index  # Removed the assignment here
+    global current_waifu_index
     await send_waifu_message(message.chat.id, user_id, waifus[current_waifu_index])
 
 @Hiroko.on_callback_query(filters.regex(r"^(next_waifu|back_waifu)$"))
 async def change_waifu(client, callback_query):
-    global current_waifu_index  # Removed the assignment here
+    global current_waifu_index
     data = callback_query.data
+    waifus = get_waifus_for_user(user_id)  # Define a function to get waifus for the user
     if data == "next_waifu":
         current_waifu_index = (current_waifu_index + 1) % len(waifus)
     elif data == "back_waifu":
@@ -271,10 +272,23 @@ async def send_waifu_message(chat_id, user_id, waifu):
     message_text = f"Current Waifu: {waifu_name}"
 
     if waifu_photo != current_waifu_photo:
-        await Hiroko.send_photo(chat_id, waifu_photo, caption=message_text)
+        await Hiroko.send_photo(chat_id, waifu_photo, caption=message_text,
+                                reply_markup=get_waifu_buttons())  # Define a function for buttons
         current_waifu_photo = waifu_photo
     else:
-        await Hiroko.send_message(chat_id, message_text)
+        await Hiroko.send_message(chat_id, message_text, reply_markup=get_waifu_buttons())
 
+def get_waifu_buttons():
+    return InlineKeyboardMarkup(
+        [
+            [InlineKeyboardButton("Next", callback_data="next_waifu"),
+             InlineKeyboardButton("Back", callback_data="back_waifu")],
+        ]
+    )
+
+def get_waifus_for_user(user_id):
+    # Define a function to retrieve waifus for a specific user
+    cusr.execute("SELECT name, photo FROM grabbed WHERE user_id=%s", (str(user_id),))
+    return cusr.fetchall()
 
 

@@ -236,8 +236,8 @@ async def gift_waifu(client, message):
 
 
 
-
 current_waifu_photo = None
+current_waifu_index = 0
 
 @Hiroko.on_message(filters.command("waifu", prefixes="/"))
 async def waifu_command(client, message):
@@ -251,36 +251,25 @@ async def waifu_command(client, message):
         await message.reply("You don't have any waifus in your collection.")
         return
 
-    current_waifu_index = 0  
+    global current_waifu_index  # Removed the assignment here
     await send_waifu_message(message.chat.id, user_id, waifus[current_waifu_index])
 
-    @Hiroko.on_callback_query(filters.regex(r"^(next_waifu|back_waifu)$"))
-    async def change_waifu(client, callback_query):
-        data = callback_query.data
-        if data == "next_waifu":
-            nonlocal current_waifu_index
-            current_waifu_index = (current_waifu_index + 1) % len(waifus)
-        elif data == "back_waifu":
-            nonlocal current_waifu_index
-            current_waifu_index = (current_waifu_index - 1) % len(waifus)
-        await send_waifu_message(callback_query.message.chat.id, user_id, waifus[current_waifu_index])
-        await callback_query.answer()
-
-    await message.reply(
-        "Choose an action:",
-        reply_markup=InlineKeyboardMarkup(
-            [
-                [InlineKeyboardButton("Next", callback_data="next_waifu")],
-                [InlineKeyboardButton("Back", callback_data="back_waifu")],
-            ]
-        ),
-    )
+@Hiroko.on_callback_query(filters.regex(r"^(next_waifu|back_waifu)$"))
+async def change_waifu(client, callback_query):
+    global current_waifu_index  # Removed the assignment here
+    data = callback_query.data
+    if data == "next_waifu":
+        current_waifu_index = (current_waifu_index + 1) % len(waifus)
+    elif data == "back_waifu":
+        current_waifu_index = (current_waifu_index - 1) % len(waifus)
+    await send_waifu_message(callback_query.message.chat.id, user_id, waifus[current_waifu_index])
+    await callback_query.answer("hehehe")
 
 async def send_waifu_message(chat_id, user_id, waifu):
-    global current_waifu_photo  # Use the global keyword to modify the global variable
+    global current_waifu_photo
     waifu_name, waifu_photo = waifu
     message_text = f"Current Waifu: {waifu_name}"
-    
+
     if waifu_photo != current_waifu_photo:
         await Hiroko.send_photo(chat_id, waifu_photo, caption=message_text)
         current_waifu_photo = waifu_photo

@@ -258,7 +258,8 @@ async def waifu_command(client, message):
 async def change_waifu(client, callback_query):
     global current_waifu_index
     data = callback_query.data
-    waifus = get_waifus_for_user(user_id)  # Define a function to get waifus for the user
+    user_id = callback_query.from_user.id  # Get the user_id from the callback_query
+    waifus = get_waifus_for_user(user_id)
     if data == "next_waifu":
         current_waifu_index = (current_waifu_index + 1) % len(waifus)
     elif data == "back_waifu":
@@ -273,7 +274,7 @@ async def send_waifu_message(chat_id, user_id, waifu):
 
     if waifu_photo != current_waifu_photo:
         await Hiroko.send_photo(chat_id, waifu_photo, caption=message_text,
-                                reply_markup=get_waifu_buttons())  # Define a function for buttons
+                                reply_markup=get_waifu_buttons())
         current_waifu_photo = waifu_photo
     else:
         await Hiroko.send_message(chat_id, message_text, reply_markup=get_waifu_buttons())
@@ -287,8 +288,5 @@ def get_waifu_buttons():
     )
 
 def get_waifus_for_user(user_id):
-    # Define a function to retrieve waifus for a specific user
     cusr.execute("SELECT name, photo FROM grabbed WHERE user_id=%s", (str(user_id),))
     return cusr.fetchall()
-
-

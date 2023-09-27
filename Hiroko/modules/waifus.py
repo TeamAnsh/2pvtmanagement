@@ -272,16 +272,13 @@ async def change_waifu(client, callback_query):
 
 
 
-
-from aiogram import types
-
 async def edit_waifu_message(chat_id, user_id, waifu):
     global current_waifu_photo
     waifu_name, waifu_photo = waifu
     message_text = f"Current Waifu: {waifu_name}"
 
     if waifu_photo != current_waifu_photo:
-        media = types.InputMediaPhoto(media=waifu_photo, caption=message_text)
+        media = InputMediaPhoto(waifu_photo, caption=message_text)
         await Hiroko.edit_message_media(chat_id=chat_id, message_id=message_id, media=media, reply_markup=get_waifu_buttons())
     else:
         await Hiroko.send_message(chat_id, message_text, reply_markup=get_waifu_buttons())

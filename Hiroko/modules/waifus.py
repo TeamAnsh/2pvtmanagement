@@ -236,6 +236,9 @@ async def gift_waifu(client, message):
 
 
 
+
+current_waifu_photo = None
+
 @Hiroko.on_message(filters.command("waifu", prefixes="/"))
 async def waifu_command(client, message):
     user_id = message.from_user.id
@@ -248,15 +251,12 @@ async def waifu_command(client, message):
         await message.reply("You don't have any waifus in your collection.")
         return
 
-    current_waifu_index = 0  # Initialize the current waifu index
-
-    # Create and send the initial message with the first waifu
+    current_waifu_index = 0  
     await send_waifu_message(message.chat.id, user_id, waifus[current_waifu_index])
 
-    # Define a callback query handler for the "Next" and "Back" buttons using regex
     @Hiroko.on_callback_query(filters.regex(r"^(next_waifu|back_waifu)$"))
     async def change_waifu(client, callback_query):
-        nonlocal current_waifu_index
+        nonlocal current_waifu_index, current_waifu_photo
         data = callback_query.data
         if data == "next_waifu":
             current_waifu_index = (current_waifu_index + 1) % len(waifus)
@@ -265,7 +265,6 @@ async def waifu_command(client, message):
         await send_waifu_message(callback_query.message.chat.id, user_id, waifus[current_waifu_index])
         await callback_query.answer()
 
-    # Send the "Next" and "Back" buttons as reply markup
     await message.reply(
         "Choose an action:",
         reply_markup=InlineKeyboardMarkup(
@@ -277,15 +276,17 @@ async def waifu_command(client, message):
     )
 
 async def send_waifu_message(chat_id, user_id, waifu):
+    global current_waifu_photo  # Use the global keyword to modify the outer variable
     waifu_name, waifu_photo = waifu
     message_text = f"Current Waifu: {waifu_name}"
     
     if waifu_photo != current_waifu_photo:
         await Hiroko.send_photo(chat_id, waifu_photo, caption=message_text)
+        current_waifu_photo = waifu_photo
     else:
         await Hiroko.send_message(chat_id, message_text)
 
-    current_waifu_photo = waifu_photo
+
 
 
 

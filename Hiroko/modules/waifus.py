@@ -230,3 +230,61 @@ async def gift_waifu(client, message):
     else:
         await message.reply("Please reply to a user's message with the waifu name you want to gift.")
 
+
+
+@Hiroko.on_message(filters.command("waifu", prefixes="/"))
+async def waifu_command(client, message):
+    user_id = message.from_user.id
+    sender_id = str(user_id)
+
+    cusr.execute("SELECT name, photo FROM grabbed WHERE user_id=%s", (sender_id,))
+    waifus = cusr.fetchall()
+
+    if not waifus:
+        await message.reply("You don't have any waifus in your collection.")
+        return
+
+    current_waifu_index = 0  # Initialize the current waifu index
+
+    # Create and send the initial message with the first waifu
+    await send_waifu_message(message.chat.id, user_id, waifus[current_waifu_index])
+
+    # Define a callback query handler for the "Next" and "Back" buttons using regex
+    @Hiroko.on_callback_query(filters.regex(r"^(next_waifu|back_waifu)$"))
+    async def change_waifu(client, callback_query):
+        nonlocal current_waifu_index
+        data = callback_query.data
+        if data == "next_waifu":
+            current_waifu_index = (current_waifu_index + 1) % len(waifus)
+        elif data == "back_waifu":
+            current_waifu_index = (current_waifu_index - 1) % len(waifus)
+        await send_waifu_message(callback_query.message.chat.id, user_id, waifus[current_waifu_index])
+        await callback_query.answer()
+
+    # Send the "Next" and "Back" buttons as reply markup
+    await message.reply(
+        "Choose an action:",
+        reply_markup=InlineKeyboardMarkup(
+            [
+                [InlineKeyboardButton("Next", callback_data="next_waifu")],
+                [InlineKeyboardButton("Back", callback_data="back_waifu")],
+            ]
+        ),
+    )
+
+async def send_waifu_message(chat_id, user_id, waifu):
+    waifu_name, waifu_photo = waifu
+    message_text = f"Current Waifu: {waifu_name}"
+    
+    if waifu_photo != current_waifu_photo:
+        await Hiroko.send_photo(chat_id, waifu_photo, caption=message_text)
+    else:
+        await Hiroko.send_message(chat_id, message_text)
+
+    current_waifu_photo = waifu_photo
+
+
+
+
+
+

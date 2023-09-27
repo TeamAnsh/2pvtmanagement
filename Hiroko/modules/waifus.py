@@ -279,7 +279,7 @@ async def edit_waifu_message(chat_id, user_id, waifu):
 
     if waifu_photo != current_waifu_photo:
         media = InputMediaPhoto(waifu_photo, caption=message_text)
-        await Hiroko.edit_message_media(chat_id=chat_id, media, reply_markup=get_waifu_buttons())
+        await Hiroko.edit_message_media(chat_id=chat_id, media=media, reply_markup=get_waifu_buttons())
     else:
         await Hiroko.send_message(chat_id, message_text, reply_markup=get_waifu_buttons())
 

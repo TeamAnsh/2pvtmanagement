@@ -236,6 +236,76 @@ async def gift_waifu(client, message):
 
 
 
+
+
+current_waifu_photo = None
+current_waifu_index = 0
+
+
+@Hiroko.on_message(filters.command("waifu", prefixes="/"))
+async def waifu_command(client, message):
+    user_id = message.from_user.id
+    sender_id = str(user_id)
+
+    cusr.execute("SELECT name, photo FROM grabbed WHERE user_id=%s", (sender_id,))
+    waifus = cusr.fetchall()
+
+    if not waifus:
+        await message.reply("You don't have any waifus in your collection.")
+        return
+
+    global current_waifu_index
+    await send_waifu_message(message.chat.id, user_id, waifus[current_waifu_index])
+
+@Hiroko.on_callback_query(filters.regex(r"^(next_waifu|back_waifu)$"))
+async def change_waifu(client, callback_query):
+    global current_waifu_index
+    data = callback_query.data
+    user_id = callback_query.from_user.id
+    waifus = get_waifus_for_user(user_id)
+    if data == "next_waifu":
+        current_waifu_index = (current_waifu_index + 1) % len(waifus)
+    elif data == "back_waifu":
+        current_waifu_index = (current_waifu_index - 1) % len(waifus)
+
+    # Edit the current message to change the waifu photo
+    await edit_waifu_photo(callback_query.message, waifus[current_waifu_index])
+
+    await callback_query.answer("hehehe")
+
+# Function to edit the waifu photo in the message
+async def edit_waifu_photo(message, waifu):
+    global current_waifu_photo
+    waifu_name, waifu_photo = waifu
+    message_text = f"Current Waifu: {waifu_name}"
+
+    if waifu_photo != current_waifu_photo:
+        media = InputMediaPhoto(waifu_photo, caption=message_text, reply_markup=get_waifu_buttons())
+        await message.edit_media(media)
+        current_waifu_photo = waifu_photo
+    else:
+        await message.edit_text(message_text, reply_markup=get_waifu_buttons())
+
+
+def get_waifu_buttons():
+    return InlineKeyboardMarkup(
+        [
+            [InlineKeyboardButton("Next", callback_data="next_waifu"),
+             InlineKeyboardButton("Back", callback_data="back_waifu")],
+        ]
+    )
+
+
+def get_waifus_for_user(user_id):
+    cusr.execute("SELECT name, photo FROM grabbed WHERE user_id=%s", (str(user_id),))
+    return cusr.fetchall()
+
+
+
+
+
+
+"""
 current_waifu_photo = None
 current_waifu_index = 0
 
@@ -290,3 +360,4 @@ def get_waifu_buttons():
 def get_waifus_for_user(user_id):
     cusr.execute("SELECT name, photo FROM grabbed WHERE user_id=%s", (str(user_id),))
     return cusr.fetchall()
+"""

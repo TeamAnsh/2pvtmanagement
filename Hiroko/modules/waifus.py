@@ -195,9 +195,6 @@ async def my_waifus(client, message):
 
 
 
-
-
-
 @Hiroko.on_message(filters.command("giftwaifu", prefixes="/"))
 async def gift_waifu(client, message):
     replied = message.reply_to_message
@@ -208,8 +205,7 @@ async def gift_waifu(client, message):
         return
 
     if replied:
-          
-        waifu_name = message.command[0]
+        waifu_name = message.command[1]  # Use index 1 to get the waifu name
         sender_id = str(user_id)
         cusr.execute("SELECT user_id, rarity FROM grabbed WHERE user_id=%s AND name=%s", (sender_id, waifu_name))
         sender_waifu = cusr.fetchone()
@@ -233,6 +229,4 @@ async def gift_waifu(client, message):
             return
     else:
         await message.reply("Please reply to a user's message with the waifu name you want to gift.")
-
-
 

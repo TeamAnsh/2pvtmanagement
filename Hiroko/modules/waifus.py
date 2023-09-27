@@ -274,20 +274,18 @@ async def change_waifu(client, callback_query):
 
     await callback_query.answer("hehehe")
 
-# Function to edit the waifu photo in the message
-async def edit_waifu_photo(chat_id, user_id, waifu):
+
+async def edit_waifu_photo(message, waifu):
     global current_waifu_photo
     waifu_name, waifu_photo = waifu
     message_text = f"Current Waifu: {waifu_name}"
 
     if waifu_photo != current_waifu_photo:
-        media = InputMediaPhoto(waifu_photo, caption=message_text, reply_markup=get_waifu_buttons())
-        await message.edit_media(media)
+        media = InputMediaPhoto(waifu_photo, caption=message_text)
+        await message.reply_media_group(media, reply_markup=get_waifu_buttons())
         current_waifu_photo = waifu_photo
     else:
-        await message.edit_text(message_text, reply_markup=get_waifu_buttons())
-
-
+        await message.reply_text(message_text, reply_markup=get_waifu_buttons())
 
 async def send_waifu_message(chat_id, user_id, waifu):
     global current_waifu_photo
@@ -295,8 +293,8 @@ async def send_waifu_message(chat_id, user_id, waifu):
     message_text = f"Current Waifu: {waifu_name}"
 
     if waifu_photo != current_waifu_photo:
-        media = InputMediaPhoto(waifu_photo, caption=message_text, reply_markup=get_waifu_buttons())
-        await Hiroko.send_media(chat_id, media)
+        media = InputMediaPhoto(waifu_photo, caption=message_text)
+        await Hiroko.send_media_group(chat_id, [media], reply_markup=get_waifu_buttons())
         current_waifu_photo = waifu_photo
     else:
         await Hiroko.send_message(chat_id, message_text, reply_markup=get_waifu_buttons())

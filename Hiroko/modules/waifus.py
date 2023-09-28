@@ -272,7 +272,7 @@ async def change_waifu(client, query):
             query.message.chat.id, 
             query.message.id,
             caption="hello"
-            InputMediaPhoto(waifus[current_waifu_index])
+            InputMediaPhoto(waifus[current_waifu_index]))
     await query.answer("hehehe")
 
 

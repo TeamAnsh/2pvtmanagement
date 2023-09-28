@@ -1,6 +1,6 @@
 import pyrogram
-from config import MONGO_URL
-from pyrogram import filters
+from config import MONGO_URL, BOT_USERNAME
+from pyrogram import filters, enums
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton, CallbackQuery
 from Hiroko import Hiroko
 import pymongo
@@ -55,7 +55,14 @@ characters = {
 def select_character(_, message):
     user_id = message.from_user.id
 
-    
+    if message.chat.type == enums.ChatType.PRIVATE:          
+        btn = InlineKeyboardMarkup([[
+            InlineKeyboardButton("ᴘᴍ ᴍᴇ", url=f"http://t.me/{BOT_USERNAME}?start")]])
+        await message.reply(
+            f"ʜᴇʏ {message.from_user.mention} ᴘᴍ ᴍᴇ ɪғ ʏᴏᴜ ɪɴᴛʀᴇsᴛᴇᴅ.",
+            reply_markup=btn
+        )
+
     if user_id in user_profiles and user_profiles[user_id]["character"] is not None:
         message.reply_text("You've already selected a character. You cannot change it.")
         return
@@ -118,9 +125,7 @@ def handle_character_selection(_, query):
 
         character_data = {
         "user_id": user_id,
-        "character_name": characters[character_id]["name"],
-        "experience": experience,
-        "level": level,
+        "character_name": characters[character_id]["name"],        
         }
         collection.insert_one(character_data)
 

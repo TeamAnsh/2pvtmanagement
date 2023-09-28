@@ -2,18 +2,66 @@ import pyrogram
 from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
-# Initialize the Pyrogram bot
-app = Client("jujutsu_kaisen_bot")
 
-# User profiles to store information about players
+
+
 user_profiles = {}
 
-# Define characters from Jujutsu Kaisen
 characters = {
-    "yuji": {"name": "Yuji Itadori", "health": 100, "attack": 20},
-    "megumi": {"name": "Megumi Fushiguro", "health": 90, "attack": 25},
-    # Add more characters here
+    "user_id": {"name": "Yuji Itadori", "health": 100, "attack": 20},
+    "user_id": {"name": "Megumi Fushiguro", "health": 100, "attack": 20},
+    "user_id": {"name": "Nobara Kugisaki", "health": 100, "attack": 100},
+    "user_id": {"name": "Toge Inumaki", "health": 100, "attack": 20},
+    "user_id": {"name": "Panda", "health": 100, "attack": 20},
+    "user_id": {"name": "Yuta Okkotsu", "health": 100, "attack": 100},
+    "user_id": {"name": "Maki Zenin", "health": 100, "attack": 20},
+    "user_id": {"name": "Kinji Hakari", "health": 100, "attack": 20},
+    "user_id": {"name": "Kirara Hoshi", "health": 100, "attack": 100},
+    "user_id": {"name": "Masamichi Yaga", "health": 100, "attack": 20},
+    "user_id": {"name": "Atsuya Kusakabe", "health": 100, "attack": 20},
+    "user_id": {"name": "Kiyotaka Ijichi", "health": 100, "attack": 100},
+    "user_id": {"name": "Suguru Geto",  "health": 100, "attack": 100},
+    "user_id": {"name": "Shoko Ieiri", "health": 100, "attack": 20},
+    "user_id": {"name": "Akari Nitta", "health": 100, "attack": 20},
+    "user_id": {"name": "Kento Nanami", "health": 100, "attack": 100},
+    "user_id": {"name": "Yu Haibara", "health": 100, "attack": 20},
+    "user_id": {"name": "Yoshinobu Gakuganji", "health": 100, "attack": 20},
+    "user_id": {"name": "Utahime Iori", "health": 100, "attack": 100},
+    "user_id": {"name": "Kokichi Muta", "health": 100, "attack": 20},
+    "user_id": {"name": "Kasumi Miwa", "health": 100, "attack": 20},
+    "user_id": {"name": "Noritoshi Kamo", "health": 100, "attack": 100},
+    "user_id": {"name": "Aoi Todo", "health": 100, "attack": 20},
+    "user_id": {"name": "Momo Nishimiya", "health": 100, "attack": 20},
+    "user_id": {"name": "Kento Nanami", "health": 100, "attack": 100}
+
 }
+
+# ========> coming soon new  characters in new arc <============ #
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 # Handler for /start command to initiate the game
 @app.on_message(filters.command("start"))

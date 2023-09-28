@@ -59,10 +59,19 @@ def get_character_selection_keyboard(user_id):
     end_index = start_index + characters_per_page
     characters_to_show = list(characters.keys())[start_index:end_index]
 
-    for char_id in characters_to_show:
-        char_data = characters[char_id]
-        button = InlineKeyboardButton(char_data["name"], callback_data=f"select_{char_id}")
-        keyboard.append([button])
+    # Create pairs of buttons
+    for i in range(0, len(characters_to_show), 2):
+        char_data1 = characters[characters_to_show[i]]
+        button1 = InlineKeyboardButton(char_data1["name"], callback_data=f"select_{characters_to_show[i]}")
+        
+        if i + 1 < len(characters_to_show):
+            char_data2 = characters[characters_to_show[i + 1]]
+            button2 = InlineKeyboardButton(char_data2["name"], callback_data=f"select_{characters_to_show[i + 1]}")
+        else:
+            button2 = None
+
+        button_row = [button1, button2] if button2 else [button1]
+        keyboard.append(button_row)
 
     # Create navigation buttons
     nav_buttons = []
@@ -74,6 +83,12 @@ def get_character_selection_keyboard(user_id):
 
     return InlineKeyboardMarkup(keyboard)
 
+
+
+
+
+
+    
 # Handler for character selection and pagination
 @Hiroko.on_callback_query(filters.regex(r"select_(.+)") | filters.regex(r"(prev|next)_page"))
 def handle_character_selection(_, query):

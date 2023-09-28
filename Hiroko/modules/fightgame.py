@@ -91,11 +91,12 @@ def get_character_selection_keyboard(user_id):
 def handle_character_selection(_, query):
     user_id = query.from_user.id
     character_id = query.data.split("_")[1]
-
+    
     if character_id in characters:
         user_profiles[user_id]["character"] = character_id
         query.answer(f"You have selected {characters[character_id]['name']} as your character!")
-
+        collection.insert_one("user_id": user_id,"character": characters[character_id]["name"])
+        await message.reply(f"You have selected {characters[character_id]['name']} as your character!")
     if query.data == "prev_page":
         user_profiles[user_id]["character_page"] -= 1
     elif query.data == "next_page":

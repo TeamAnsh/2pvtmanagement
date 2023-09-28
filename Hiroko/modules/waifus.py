@@ -257,7 +257,6 @@ async def waifu_command(client, message):
 
 
 
-
 @Hiroko.on_callback_query(filters.regex(r"^(next_waifu|back_waifu)$"))
 async def change_waifu(client, callback_query):
     global current_waifu_index
@@ -270,8 +269,12 @@ async def change_waifu(client, callback_query):
     elif data == "back_waifu":
         current_waifu_index = (current_waifu_index - 1) % len(waifus)
         
-    await Hiroko.edit_message_media(chat_id=callback_query.message.chat.id, media=waifus[current_waifu_index])
+    await client.edit_message_media(chat_id=callback_query.message.chat.id, message_id=callback_query.message.message_id, caption="hello", media=waifus[current_waifu_index])
     await callback_query.answer("hehehe")
+
+
+
+
 
 
 

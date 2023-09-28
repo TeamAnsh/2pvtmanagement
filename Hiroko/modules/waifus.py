@@ -265,7 +265,7 @@ async def change_waifu(client, callback_query):
         current_waifu_index = (current_waifu_index + 1) % len(waifus)
     elif data == "back_waifu":
         current_waifu_index = (current_waifu_index - 1) % len(waifus)
-    await send_waifu_message(callback_query.message.chat.id, user_id, waifus[current_waifu_index])
+    await edit_message_photo(callback_query.message.chat.id, user_id, waifus[current_waifu_index])
     await callback_query.answer("hehehe")
 
 async def send_waifu_message(chat_id, user_id, waifu):
@@ -279,6 +279,7 @@ async def send_waifu_message(chat_id, user_id, waifu):
         current_waifu_photo = waifu_photo
     else:
         await Hiroko.send_message(chat_id, message_text, reply_markup=get_waifu_buttons())
+
 
 def get_waifu_buttons():
     return InlineKeyboardMarkup(

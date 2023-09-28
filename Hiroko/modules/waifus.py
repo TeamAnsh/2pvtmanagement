@@ -246,7 +246,7 @@ async def waifu_command(client, message):
     user_id = message.from_user.id
     sender_id = str(user_id)
 
-    cusr.execute("SELECT name, photo FROM grabbed WHERE user_id=%s", (sender_id,))
+    cusr.execute("SELECT name, photo FROM grabbed WHERE user_id=?", (sender_id,))
     waifus = cusr.fetchall()
 
     if not waifus:
@@ -260,17 +260,20 @@ async def waifu_command(client, message):
 async def change_waifu(client, callback_query):
     global current_waifu_index
     data = callback_query.data
-    user_id = callback_query.from_user.id  # Get the user_id from the callback_query
+    user_id = callback_query.from_user.id
     waifus = get_waifus_for_user(user_id)
+    
+    if not waifus:
+        await callback_query.answer("You don't have any waifus in your collection.")
+        return
+
     if data == "next_waifu":
         current_waifu_index = (current_waifu_index + 1) % len(waifus)
     elif data == "back_waifu":
         current_waifu_index = (current_waifu_index - 1) % len(waifus)
+    
     await edit_waifu_message(callback_query.message.chat.id, user_id, waifus[current_waifu_index])
-    await callback_query.answer("now change your waifu photo")
-
-
-
+    await callback_query.answer("Now change your waifu photo")
 
 async def edit_waifu_message(chat_id, user_id, waifu):
     global current_waifu_photo
@@ -280,9 +283,9 @@ async def edit_waifu_message(chat_id, user_id, waifu):
     if waifu_photo != current_waifu_photo:
         media = InputMediaPhoto(waifu_photo)
         await Hiroko.edit_message_media(chat_id=chat_id, media=media, message_id=message_text, reply_markup=get_waifu_buttons())
+        current_waifu_photo = waifu_photo
     else:
         await Hiroko.send_message(chat_id, message_text, reply_markup=get_waifu_buttons())
-
 
 async def send_waifu_message(chat_id, user_id, waifu):
     global current_waifu_photo
@@ -290,8 +293,7 @@ async def send_waifu_message(chat_id, user_id, waifu):
     message_text = f"Current Waifu: {waifu_name}"
 
     if waifu_photo != current_waifu_photo:
-        await Hiroko.send_photo(chat_id, waifu_photo, caption=message_text,
-                                reply_markup=get_waifu_buttons())
+        await Hiroko.send_photo(chat_id, waifu_photo, caption=message_text, reply_markup=get_waifu_buttons())
         current_waifu_photo = waifu_photo
     else:
         await Hiroko.send_message(chat_id, message_text, reply_markup=get_waifu_buttons())
@@ -305,10 +307,8 @@ def get_waifu_buttons():
     )
 
 def get_waifus_for_user(user_id):
-    cusr.execute("SELECT name, photo FROM grabbed WHERE user_id=%s", (str(user_id),))
+    cusr.execute("SELECT name, photo FROM grabbed WHERE user_id=?", (str(user_id),))
     return cusr.fetchall()
-
-
 
 
 

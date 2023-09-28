@@ -2,11 +2,18 @@ import pyrogram
 from pyrogram import filters
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton, CallbackQuery
 from Hiroko import Hiroko
-from Hiroko.Helper.database import *
+import pymongo
 
+
+client = pymongo.MongoClient("mongodb://localhost:27017/")
+db = client["your_database_name"]
+collection = db["user_characters"]
 
 
 user_profiles = {}
+
+characters_per_page = 6
+
 
 characters = {
     "Yuji Itadori": {"name": "Yuji Itadori", "health": 100, "attack": 20},
@@ -38,7 +45,8 @@ characters = {
 }
 
 
-characters_per_page = 6
+
+
 
 
 
@@ -46,14 +54,15 @@ characters_per_page = 6
 def select_character(_, message):
     user_id = message.from_user.id
 
+    
     if user_id in user_profiles and user_profiles[user_id]["character"] is not None:
         message.reply_text("You've already selected a character. You cannot change it.")
         return
 
-
     user_profiles[user_id] = {"character": None, "health": 100}
     user_profiles[user_id]["character_page"] = 0  # Initialize character page to 0
     message.reply_photo(photo="https://telegra.ph/file/061d8efe5247272458cb0.jpg", caption="Welcome to the Jujutsu Kaisen fighting game! Choose your character:", reply_markup=get_character_selection_keyboard(user_id))
+
 
 
 
@@ -79,7 +88,7 @@ def get_character_selection_keyboard(user_id):
         button_row = [button1, button2] if button2 else [button1]
         keyboard.append(button_row)
 
-    # Create navigation buttons
+
     nav_buttons = []
     if character_page > 0:
         nav_buttons.append(InlineKeyboardButton("Previous", callback_data="prev_page"))
@@ -91,36 +100,35 @@ def get_character_selection_keyboard(user_id):
 
 
 
-
-
 @Hiroko.on_callback_query(filters.regex(r"select_(.+)") | filters.regex(r"(prev|next)_page"))
 def handle_character_selection(_, query):
     user_id = query.from_user.id
     character_id = query.data.split("_")[1]
+
+    
+    if user_profiles[user_id]["character"] is not None:
+        query.answer("You already have a character. You cannot change it.")
+        return
+
     
     if character_id in characters:
         user_profiles[user_id]["character"] = character_id
         query.answer(f"You have selected {characters[character_id]['name']} as your character!")
-        await create_account("user_id": user_id,"character": characters[character_id]["name"])
-        await message.reply(f"You have selected {characters[character_id]['name']} as your character!")
+
+        character_data = {
+        "user_id": user_id,
+        "character_name": characters[character_id]["name"],
+        "experience": experience
+        "level": level
+        }
+        collection.insert_one(character_data)
+
+
     if query.data == "prev_page":
         user_profiles[user_id]["character_page"] -= 1
     elif query.data == "next_page":
-        user_profiles[user_id]["character_page"] += 1        
-    query.message.edit_caption(caption="Welcome to the Jujutsu Kaisen fighting game! Choose your character:",reply_markup=get_character_selection_keyboard(user_id)
-    )
-
-
-
-
-
-
-    
-
-
-
-
-
+        user_profiles[user_id]["character_page"] += 1
+    query.message.edit_caption(caption="Welcome to the Jujutsu Kaisen fighting game! Choose your character:", reply_markup=get_character_selection_keyboard(user_id))
 
 
 

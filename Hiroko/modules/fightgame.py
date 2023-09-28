@@ -1,11 +1,12 @@
 import pyrogram
+from config import MONGO_URL
 from pyrogram import filters
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton, CallbackQuery
 from Hiroko import Hiroko
 import pymongo
 
 
-client = pymongo.MongoClient("mongodb://localhost:27017/")
+client = pymongo.MongoClient(MONGO_URL)
 db = client["your_database_name"]
 collection = db["user_characters"]
 

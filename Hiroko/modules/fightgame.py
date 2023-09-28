@@ -112,7 +112,7 @@ def character_selection_keyboard():
         button = InlineKeyboardButton(char_data["name"], callback_data=f"select_{char_id}")
         keyboard.append([button])
     return InlineKeyboardMarkup(keyboard)
-"""
+    
 
 
 @Hiroko.on_callback_query(filters.regex(r"select_(.+)"))
@@ -123,3 +123,4 @@ def select_character(_, query):
         user_profiles[user_id]["character"] = character_id
         query.answer(f"You have selected {characters[character_id]['name']} as your character!")
 
+"""

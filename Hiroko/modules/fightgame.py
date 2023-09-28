@@ -56,13 +56,6 @@ def select_character(_, message):
     user_id = message.from_user.id
 
     if message.chat.type == enums.ChatType.PRIVATE:          
-        btn = InlineKeyboardMarkup([[
-            InlineKeyboardButton("ᴘᴍ ᴍᴇ", url=f"http://t.me/{BOT_USERNAME}?start")]])
-        message.reply_text(
-            f"ʜᴇʏ {message.from_user.mention} ᴘᴍ ᴍᴇ ɪғ ʏᴏᴜ ɪɴᴛʀᴇsᴛᴇᴅ.",
-            reply_markup=btn
-        )
-
         if user_id in user_profiles and user_profiles[user_id]["character"] is not None:
             message.reply_text("You've already selected a character. You cannot change it.")
             return
@@ -70,7 +63,13 @@ def select_character(_, message):
         user_profiles[user_id] = {"character": None, "health": 100}
         user_profiles[user_id]["character_page"] = 0  # Initialize character page to 0
         message.reply_photo(photo="https://telegra.ph/file/061d8efe5247272458cb0.jpg", caption="Welcome to the Jujutsu Kaisen fighting game! Choose your character:", reply_markup=get_character_selection_keyboard(user_id))
-
+    else:
+        btn = InlineKeyboardMarkup([[
+            InlineKeyboardButton("ᴘᴍ ᴍᴇ", url=f"http://t.me/{BOT_USERNAME}?start")]])
+        message.reply_text(
+            f"ʜᴇʏ {message.from_user.mention} ᴘᴍ ᴍᴇ ɪғ ʏᴏᴜ ɪɴᴛʀᴇsᴛᴇᴅ.",
+            reply_markup=btn
+        )
 
 
 

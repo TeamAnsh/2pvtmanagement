@@ -47,15 +47,23 @@ def start_game(_, message):
 
 
 
+def character_selection_keyboard():
+    keyboard = []
+    for char_id, char_data in characters.items():
+        button = [InlineKeyboardButton(char_data["name"], callback_data=f"select_{char_id}"),
+                  InlineKeyboardButton(char_data["name"], callback_data=f"select_{char_id}"),]      
+        keyboard.append(button)
+    return InlineKeyboardMarkup(keyboard)
 
 
-
+"""
 def character_selection_keyboard():
     keyboard = []
     for char_id, char_data in characters.items():
         button = InlineKeyboardButton(char_data["name"], callback_data=f"select_{char_id}")
         keyboard.append([button])
     return InlineKeyboardMarkup(keyboard)
+"""
 
 
 @Hiroko.on_callback_query(filters.regex(r"select_(.+)"))

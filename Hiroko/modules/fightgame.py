@@ -38,22 +38,71 @@ characters = {
 }
 
 
+characters_per_page = 6
+
+
+
 @Hiroko.on_message(filters.command("character"))
-def start_game(_, message):
+def select_character(_, message):
     user_id = message.from_user.id
     user_profiles[user_id] = {"character": None, "health": 100}
-    message.reply("Welcome to the Jujutsu Kaisen fighting game! Choose your character:", reply_markup=character_selection_keyboard())
+    user_profiles[user_id]["character_page"] = 0  # Initialize character page to 0
+    message.reply("Welcome to the Jujutsu Kaisen fighting game! Choose your character:", reply_markup=get_character_selection_keyboard(user_id))
 
 
 
-
-def character_selection_keyboard():
+def get_character_selection_keyboard(user_id):
     keyboard = []
-    for char_id, char_data in characters.items():
-        button = [InlineKeyboardButton(char_data["name"], callback_data=f"select_{char_id}"),
-                  InlineKeyboardButton(char_data["name"], callback_data=f"select_{char_id}"),]      
-        keyboard.append(button)
+    user_profile = user_profiles[user_id]
+    character_page = user_profile.get("character_page", 0)
+    start_index = character_page * characters_per_page
+    end_index = start_index + characters_per_page
+    characters_to_show = list(characters.keys())[start_index:end_index]
+
+    for char_id in characters_to_show:
+        char_data = characters[char_id]
+        button = InlineKeyboardButton(char_data["name"], callback_data=f"select_{char_id}")
+        keyboard.append([button])
+
+    # Create navigation buttons
+    nav_buttons = []
+    if character_page > 0:
+        nav_buttons.append(InlineKeyboardButton("Previous", callback_data="prev_page"))
+    if end_index < len(characters):
+        nav_buttons.append(InlineKeyboardButton("Next", callback_data="next_page"))
+    keyboard.append(nav_buttons)
+
     return InlineKeyboardMarkup(keyboard)
+
+# Handler for character selection and pagination
+@app.on_callback_query(filters.regex(r"select_(.+)") | filters.regex(r"(prev|next)_page"))
+def handle_character_selection(_, query):
+    user_id = query.from_user.id
+    character_id = query.data.split("_")[1]
+
+    if character_id in characters:
+        user_profiles[user_id]["character"] = character_id
+        query.answer(f"You have selected {characters[character_id]['name']} as your character!")
+
+    if query.data == "prev_page":
+        user_profiles[user_id]["character_page"] -= 1
+    elif query.data == "next_page":
+        user_profiles[user_id]["character_page"] += 1
+
+    
+    Hiroko.edit_message_reply_markup(
+        chat_id=user_id,
+        message_id=query.message.message_id,
+        reply_markup=get_character_selection_keyboard(user_id)
+    )
+
+
+
+
+
+
+
+
 
 
 """

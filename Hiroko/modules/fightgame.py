@@ -87,9 +87,6 @@ def get_character_selection_keyboard(user_id):
 
 
 
-
-    
-# Handler for character selection and pagination
 @Hiroko.on_callback_query(filters.regex(r"select_(.+)") | filters.regex(r"(prev|next)_page"))
 def handle_character_selection(_, query):
     user_id = query.from_user.id
@@ -104,10 +101,11 @@ def handle_character_selection(_, query):
     elif query.data == "next_page":
         user_profiles[user_id]["character_page"] += 1
 
+    message_id = query.message.message_id  # Updated line
     
     Hiroko.edit_message_reply_markup(
         chat_id=user_id,
-        message_id=query.message.message_id,
+        message_id=message_id,  
         reply_markup=get_character_selection_keyboard(user_id)
     )
 
@@ -116,26 +114,13 @@ def handle_character_selection(_, query):
 
 
 
-
-
-
-
-"""
-def character_selection_keyboard():
-    keyboard = []
-    for char_id, char_data in characters.items():
-        button = InlineKeyboardButton(char_data["name"], callback_data=f"select_{char_id}")
-        keyboard.append([button])
-    return InlineKeyboardMarkup(keyboard)
     
 
 
-@Hiroko.on_callback_query(filters.regex(r"select_(.+)"))
-def select_character(_, query):
-    user_id = query.from_user.id
-    character_id = query.data.split("_")[1]
-    if user_id in user_profiles and character_id in characters:
-        user_profiles[user_id]["character"] = character_id
-        query.answer(f"You have selected {characters[character_id]['name']} as your character!")
 
-"""
+
+
+
+
+
+

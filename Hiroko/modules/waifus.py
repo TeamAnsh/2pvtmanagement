@@ -237,6 +237,11 @@ async def gift_waifu(client, message):
 
 
 
+
+
+
+
+
 current_waifu_photo = None
 current_waifu_index = 0
 
@@ -244,7 +249,6 @@ current_waifu_index = 0
 async def waifu_command(client, message):
     user_id = message.from_user.id
     sender_id = str(user_id)
-
     cusr.execute("SELECT name, photo FROM grabbed WHERE user_id=%s", (sender_id,))
     waifus = cusr.fetchall()
 
@@ -255,28 +259,20 @@ async def waifu_command(client, message):
     global current_waifu_index
     await send_waifu_message(message.chat.id, user_id, waifus[current_waifu_index])
 
-
-
-
-
-
 @Hiroko.on_callback_query(filters.regex(r"^(next_waifu|back_waifu)$"))
 async def change_waifu(client, callback_query):
     global current_waifu_index
     data = callback_query.data
-    
+
     user_id = callback_query.from_user.id  # Get the user_id from the callback_query
     waifus = get_waifus_for_user(user_id)
     if data == "next_waifu":
         current_waifu_index = (current_waifu_index + 1) % len(waifus)
     elif data == "back_waifu":
         current_waifu_index = (current_waifu_index - 1) % len(waifus)
-        
+
     await edit_waifu_message(callback_query.message.chat.id, user_id, waifus[current_waifu_index])
     await callback_query.answer("hehehe")
-
-
-
 
 async def edit_waifu_message(chat_id, user_id, waifu):
     global current_waifu_photo
@@ -286,7 +282,7 @@ async def edit_waifu_message(chat_id, user_id, waifu):
     if waifu_photo != current_waifu_photo:
         await Hiroko.edit_message_media(
             chat_id=chat_id,
-            message_id=message.id,
+            message_id=callback_query.message.message_id, # change message.id to callback_query.message.message_id
             media=InputMediaPhoto(waifu_photo),
             caption=message_text,
             reply_markup=get_waifu_buttons()
@@ -294,10 +290,6 @@ async def edit_waifu_message(chat_id, user_id, waifu):
         current_waifu_photo = waifu_photo
     else:
         await Hiroko.send_message(chat_id, message_text, reply_markup=get_waifu_buttons())
-
-
-
-
 
 async def send_waifu_message(chat_id, user_id, waifu):
     global current_waifu_photo
@@ -311,12 +303,11 @@ async def send_waifu_message(chat_id, user_id, waifu):
     else:
         await Hiroko.send_message(chat_id, message_text, reply_markup=get_waifu_buttons())
 
-
 def get_waifu_buttons():
     return InlineKeyboardMarkup(
         [
             [InlineKeyboardButton("Back", callback_data="back_waifu"),
-             InlineKeyboardButton("Next", callback_data="next_waifu")],
+            InlineKeyboardButton("Next", callback_data="next_waifu")],
         ]
     )
 

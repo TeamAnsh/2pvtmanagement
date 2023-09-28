@@ -2,7 +2,6 @@ import datetime
 from config import MONGO_URL
 from motor.motor_asyncio import AsyncIOMotorClient as MongoCli
 
-# --------------------------------------------------------------------------------- #
 
 
 # --------------------------------------------------------------------------------- #
@@ -19,9 +18,14 @@ gamesdb = db.games
 
 async def create_account(user_id,user_name):
   dic = {
-  'user_id' : user_id,
+    "user_id" : user_id,
     "username" : user_name,
-    'coins' : 50000,
+    "character" : char_name,
+    "experience" : experience,
+    "level" : level,
+    "bank" : bank,
+    "coins" : 500,
+    
   }
   return gamesdb.insert_one(dic)
 

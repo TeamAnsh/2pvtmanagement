@@ -258,26 +258,42 @@ async def waifu_command(client, message):
 
 
 
+
+
 @Hiroko.on_callback_query(filters.regex(r"^(next_waifu|back_waifu)$"))
-async def change_waifu(client, query):
+async def change_waifu(client, callback_query):
     global current_waifu_index
-    data = query.data
+    data = callback_query.data
     
-    user_id = query.from_user.id  
+    user_id = callback_query.from_user.id  # Get the user_id from the callback_query
     waifus = get_waifus_for_user(user_id)
     if data == "next_waifu":
         current_waifu_index = (current_waifu_index + 1) % len(waifus)
     elif data == "back_waifu":
         current_waifu_index = (current_waifu_index - 1) % len(waifus)
-    await client.edit_message_media(
-        chat_id=query.message.chat.id, 
-        message_id=query.message.id,
-        caption="hello",
-        media=InputMediaPhoto(waifus[current_waifu_index]))
-    await query.answer("hehehe")
+        
+    await edit_waifu_message(callback_query.message.chat.id, user_id, waifus[current_waifu_index])
+    await callback_query.answer("hehehe")
 
 
 
+
+async def edit_waifu_message(chat_id, user_id, waifu):
+    global current_waifu_photo
+    waifu_name, waifu_photo = waifu
+    message_text = f"Current Waifu: {waifu_name}"
+
+    if waifu_photo != current_waifu_photo:
+        await client.edit_message_media(
+            chat_id=chat_id,
+            message_id=message.id,
+            media=InputMediaPhoto(waifu_photo),
+            caption=message_text,
+            reply_markup=get_waifu_buttons()
+        )
+        current_waifu_photo = waifu_photo
+    else:
+        await Hiroko.send_message(chat_id, message_text, reply_markup=get_waifu_buttons())
 
 
 

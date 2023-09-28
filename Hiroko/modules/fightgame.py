@@ -2,7 +2,7 @@ import pyrogram
 from pyrogram import filters
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton, CallbackQuery
 from Hiroko import Hiroko
-
+from Hiroko.Helper.database import *
 
 
 

@@ -47,7 +47,7 @@ def select_character(_, message):
     user_id = message.from_user.id
     user_profiles[user_id] = {"character": None, "health": 100}
     user_profiles[user_id]["character_page"] = 0  # Initialize character page to 0
-    message.reply_photo(photo="https://telegra.ph/file/061d8efe5247272458cb0.jpg","Welcome to the Jujutsu Kaisen fighting game! Choose your character:", reply_markup=get_character_selection_keyboard(user_id))
+    message.reply_photo(photo="https://telegra.ph/file/061d8efe5247272458cb0.jpg", caption="Welcome to the Jujutsu Kaisen fighting game! Choose your character:", reply_markup=get_character_selection_keyboard(user_id))
 
 
 

@@ -1,141 +1,15 @@
 import json
 import asyncio
-import datetime, pymongo
+import datetime
 import config, random
 from Hiroko import Hiroko
 from Hiroko.modules.ping import get_readable_time
 from Hiroko import BOT_ID
 from config import SUDO_USERS as SUPREME_USERS
 from pyrogram import filters
-from Hiroko.modules.games import *
+from Hiroko.Helper.database import *
 from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton
-from config import MONGO_URL
-from motor.motor_asyncio import AsyncIOMotorClient as MongoCli
 
-# --------------------------------------------------------------------------------- #
-
-photo = [
-"https://graph.org/file/2fc37c68163780e31599f.jpg",
-"https://graph.org/file/3cc07627bdec5f5afab1c.jpg",
-"https://graph.org/file/809fe233d8f7c29c6fd69.jpg",
-"https://graph.org/file/677619500837cd3190c6d.jpg",
-"https://graph.org/file/2a4d6cfdf60a38130aad2.jpg",
-"https://graph.org/file/066ed5867fe94c333c0b6.jpg",
-"https://graph.org/file/bd06b509e025bc656766d.jpg",
-"https://graph.org/file/cd33fd3d193ac98486eff.jpg",
-"https://graph.org/file/9ffb36ba7d53b7894eaba.jpg",
-"https://graph.org/file/fe6dc66f7968ea69dcec0.jpg",
-"https://graph.org/file/917d3b7324a056d66a8cb.jpg",
-"https://graph.org/file/4f46ebdf26f703f1d5e93.jpg",
-"https://graph.org/file/b3d7c31922a85e94e9627.jpg",
-"https://graph.org/file/82560acb529e63c9ddb94.jpg",
-
-]
-
-
-
-
-
-
-# --------------------------------------------------------------------------------- #
-
-
-mongo = MongoCli(MONGO_URL)
-db = mongo.Anonymous
-
-gamesdb = db.games
-
-
-# --------------------------------------------------------------------------------- #
-
-
-async def create_account(user_id,user_name):
-  dic = {
-  'user_id' : user_id,
-    "username" : user_name,
-    'coins' : 50000,
-  }
-  return gamesdb.insert_one(dic)
-
-# --------------------------------------------------------------------------------- #
-
-async def is_player(user_id):
-  return bool(await gamesdb.find_one({"user_id" : user_id}))
-
-# --------------------------------------------------------------------------------- #
-
-async def user_wallet(user_id):
-    player = await gamesdb.find_one({"user_id" : user_id})
-    if not player:
-        return 0
-    return player['coins']
-
-# --------------------------------------------------------------------------------- #
- 
-async def write_last_collection_time_today(user_id, time):
-    await gamesdb.update_one({'user_id' : user_id},{'$set' : {'last_date' : time}},upsert=True)
-
-# --------------------------------------------------------------------------------- #
-
-async def read_last_collection_time_today(user_id):
-    user = await gamesdb.find_one({'user_id' : user_id})
-    try:
-        collection_time = user['last_date']  
-    except : 
-        collection_time = None
-    if collection_time:  
-        return datetime.datetime.fromtimestamp(collection_time)
-    else:
-        return None
-
-# --------------------------------------------------------------------------------- #
-
-async def can_collect_coins(user_id):
-    last_collection_time = await read_last_collection_time_today(user_id)
-    if last_collection_time is None:
-        return (True,True)
-    current_time = datetime.datetime.now()
-    time_since_last_collection = current_time - last_collection_time
-    return (time_since_last_collection.total_seconds() >= 24 * 60 * 60,24 * 60 * 60 - time_since_last_collection.total_seconds())
-  
-# --------------------------------------------------------------------------------- #
-  
-async def write_last_collection_time_weekly(user_id, time):
-    await gamesdb.update_one({'user_id' : user_id},{'$set' : {'last_collection_weekly' : time}},upsert=True)
-
-# --------------------------------------------------------------------------------- #
-
-async def read_last_collection_time_weekly(user_id):
-    user = await gamesdb.find_one({'user_id' : user_id})
-    try:
-        collection_time = user['last_collection_weekly']  
-    except : 
-        collection_time = None
-    if collection_time:  
-        return datetime.datetime.fromtimestamp(collection_time)
-    else:
-        return None
-        
-# --------------------------------------------------------------------------------- #
-           
-async def find_and_update(user_id,username):
-    user= await gamesdb.find_one({"user_id" : user_id})
-    if not user:
-        return
-    old_username = user["username"].lower()
-    if old_username != username.lower():
-        return await gamesdb.update_one({'user_id' : user_id},{'$set' : {'username' : username}})
-
-
-# --------------------------------------------------------------------------------- #
-
-async def can_collect(user_id):
-    last_collection_time = await read_last_collection_time_weekly(user_id)
-    if last_collection_time is None:
-        return (True,True)
-    current_time = datetime.datetime.now()
-    time_since_last_collection = current_time - last_collection_time
-    return (time_since_last_collection.total_seconds() >= 7 * 24 * 60 * 60,7 * 24 * 60 * 60 - time_since_last_collection.total_seconds())
 
 
 # --------------------------------------------------------------------------------- #

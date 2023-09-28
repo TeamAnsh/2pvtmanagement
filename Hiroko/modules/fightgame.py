@@ -75,7 +75,7 @@ def get_character_selection_keyboard(user_id):
     return InlineKeyboardMarkup(keyboard)
 
 # Handler for character selection and pagination
-@app.on_callback_query(filters.regex(r"select_(.+)") | filters.regex(r"(prev|next)_page"))
+@Hiroko.on_callback_query(filters.regex(r"select_(.+)") | filters.regex(r"(prev|next)_page"))
 def handle_character_selection(_, query):
     user_id = query.from_user.id
     character_id = query.data.split("_")[1]

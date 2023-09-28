@@ -119,8 +119,8 @@ def handle_character_selection(_, query):
         character_data = {
         "user_id": user_id,
         "character_name": characters[character_id]["name"],
-        "experience": experience
-        "level": level
+        "experience": experience,
+        "level": level,
         }
         collection.insert_one(character_data)
 

@@ -1,6 +1,6 @@
 import pyrogram
 from pyrogram import filters
-from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
+from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton, CallbackQuery
 from Hiroko import Hiroko
 
 

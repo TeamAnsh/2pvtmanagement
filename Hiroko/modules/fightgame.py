@@ -1,6 +1,7 @@
 import pyrogram
 from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
+from Hiroko import Hiroko
 
 
 
@@ -36,41 +37,19 @@ characters = {
 
 }
 
-# ========> coming soon new  characters in new arc <============ #
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# Handler for /start command to initiate the game
-@app.on_message(filters.command("start"))
+@Hiroko.on_message(filters.command("character"))
 def start_game(_, message):
     user_id = message.from_user.id
     user_profiles[user_id] = {"character": None, "health": 100}
     message.reply("Welcome to the Jujutsu Kaisen fighting game! Choose your character:", reply_markup=character_selection_keyboard())
 
-# Inline keyboard for character selection
+
+
+
+
+
+
 def character_selection_keyboard():
     keyboard = []
     for char_id, char_data in characters.items():
@@ -78,8 +57,8 @@ def character_selection_keyboard():
         keyboard.append([button])
     return InlineKeyboardMarkup(keyboard)
 
-# Handler for character selection
-@app.on_callback_query(filters.regex(r"select_(.+)"))
+
+@Hiroko.on_callback_query(filters.regex(r"select_(.+)"))
 def select_character(_, query):
     user_id = query.from_user.id
     character_id = query.data.split("_")[1]
@@ -87,8 +66,8 @@ def select_character(_, query):
         user_profiles[user_id]["character"] = character_id
         query.answer(f"You have selected {characters[character_id]['name']} as your character!")
 
-# Handler for battles
-@app.on_message(filters.command("fight"))
+"""
+@Hiroko.on_message(filters.command("fight"))
 def fight(_, message):
     user_id = message.from_user.id
     if user_id in user_profiles and user_profiles[user_id]["character"]:
@@ -101,11 +80,8 @@ def fight(_, message):
     else:
         message.reply("You need to select a character first. Use /start to begin.")
 
-# Run the bot
-if __name__ == "__main__":
-    app.run()
 
-
+"""
 
 
 

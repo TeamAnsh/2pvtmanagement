@@ -100,7 +100,7 @@ def handle_character_selection(_, query):
         user_profiles[user_id]["character_page"] -= 1
     elif query.data == "next_page":
         user_profiles[user_id]["character_page"] += 1        
-    query.message.edit_caption(caption="hello",reply_markup=get_character_selection_keyboard(user_id)
+    query.message.edit_caption(caption="Welcome to the Jujutsu Kaisen fighting game! Choose your character:",reply_markup=get_character_selection_keyboard(user_id)
     )
 
 

@@ -102,7 +102,7 @@ def handle_character_selection(_, query):
         user_profiles[user_id]["character_page"] += 1        
     Hiroko.edit_message_reply_markup(
         chat_id=user_id,
-        message_id=query.message.id,  
+        message_id=query.message.message_id,  
         reply_markup=get_character_selection_keyboard(user_id)
     )
 

@@ -270,7 +270,7 @@ async def change_waifu(client, callback_query):
     elif data == "back_waifu":
         current_waifu_index = (current_waifu_index - 1) % len(waifus)
         
-    await Hiroko.edit_message_media(chat_id=callback_query.message.chat.id, caption="hello", media=waifus[current_waifu_index])
+    await Hiroko.edit_message_media(chat_id=callback_query.message.chat.id, media=waifus[current_waifu_index])
     await callback_query.answer("hehehe")
 
 

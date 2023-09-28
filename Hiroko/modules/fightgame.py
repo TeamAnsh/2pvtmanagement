@@ -101,7 +101,7 @@ def handle_character_selection(_, query):
     elif query.data == "next_page":
         user_profiles[user_id]["character_page"] += 1
 
-    message_id = 12847 #  query.message.message_id  # Updated line
+    message_id = message.id
     
     Hiroko.edit_message_reply_markup(
         chat_id=user_id,

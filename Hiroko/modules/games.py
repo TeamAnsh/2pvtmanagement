@@ -12,6 +12,12 @@ from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton
 
 
 
+
+photo = [
+"https://graph.org/file/2fc37c68163780e31599f.jpg",
+"https://graph.org/file/3cc07627bdec5f5afab1c.jpg",
+]
+
 # --------------------------------------------------------------------------------- #
 
 
@@ -345,27 +351,3 @@ async def _bal(client,message):
 
  # --------------------------------------------------------------------------------- #
    
-@Hiroko.on_message(filters.command("set dalcs"))
-async def _bal(client,message):
-    user = message.from_user
-    if user.id not in SUPREME_USERS:
-        return 
-    if not message.reply_to_message:
-        return await message.reply_photo(photo=random.choice(photo), caption="ʀᴇᴘʟʏ ᴛᴏ ᴀ ᴜsᴇʀ")
-    if not message.reply_to_message.from_user:
-        return await message.reply_photo(photo=random.choice(photo), caption="ʀᴇᴘʟʏ ᴛᴏ ᴀ ᴜsᴇʀ")
-    from_user = message.reply_to_message.from_user
-    if not await is_player(from_user.id):
-        await create_account(from_user.id,from_user.username) 
-    if len(message.command) < 2:
-        return await message.reply_photo(photo=random.choice(photo), caption="ɢɪᴠᴇ ᴍᴇ ᴀ ᴠᴀʟᴜᴇ ᴛᴏ sᴇᴛ ᴜsᴇʀs ᴅᴀʟᴄs")
-    dalcs = message.command[1]
-    if not dalcs.isdigit():
-        return await message.reply_photo(photo=random.choice(photo), caption="ᴛʜᴇ ᴘʀᴏᴠɪᴅᴇᴅ ᴠᴀʟᴜᴇ ɪs ɴᴏᴛ ᴀ ɪɴᴛᴇɢᴇʀ.")
-    dalcs = abs(int(dalcs))
-    await gamesdb.update_one({'user_id' : from_user.id},{'$set' : {'coins' : dalcs }})
-    return await message.reply_photo(photo=random.choice(photo), caption=f"sᴜᴄᴄᴇss ! sᴇᴛ ᴛʜᴇ ᴅᴀʟᴄs ᴏғ ᴜsᴇʀ {from_user.mention} ᴛᴏ {dalcs}")
-    
-
-
-      

@@ -138,30 +138,3 @@ def handle_character_selection(_, query):
     query.message.edit_caption(caption="Welcome to the Jujutsu Kaisen fighting game! Choose your character:", reply_markup=get_character_selection_keyboard(user_id))
 
 
-
-
-
-def get_top_10_users(sort_key):
-    # Retrieve the top 10 users based on the specified sorting key
-    top_10_users = collection.find().sort(sort_key, pymongo.DESCENDING).limit(10)
-    return list(top_10_users)
-
-
-
-@Hiroko.on_message(filters.command("top10users"))
-def top_10_users(_, message):
-    # Retrieve the top 10 users based on level or experience from the database
-    top_10_users = get_top_10_users("level")  # Specify "level" or "experience"
-
-    if not top_10_users:
-        message.reply_text("No top users found.")
-        return
-
-    # Create a formatted message to display the top 10 users
-    response_message = "Top 10 Users based on Level/Experience:\n\n"
-    for rank, user in enumerate(top_10_users, start=1):
-        response_message += f"{rank}. {user['character_name']} - {user['level']} {'Level' if user['level'] == 1 else 'Levels'} / {user['experience']} Experience\n"
-
-    message.reply_text(response_message)
-
-

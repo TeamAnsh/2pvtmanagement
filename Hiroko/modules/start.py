@@ -67,7 +67,7 @@ hiroko_buttons = [
                 ],
                 [
                     InlineKeyboardButton("ᴄʜᴀᴛɢᴘᴛ", callback_data="maintainer_"),   
-                    InlineKeyboardButton("ᴀɪ", callback_data="maintainer_"),
+                    InlineKeyboardButton("ᴡᴀɪғᴜ", callback_data="maintainer_"),
                     InlineKeyboardButton("ᴍᴜsɪᴄ", callback_data="maintainer_")
                 ],
                 [

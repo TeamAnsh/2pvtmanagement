@@ -34,7 +34,6 @@ START_TEXT = """
 ๏ ɪ ᴀᴍ ˹ʜɪꝛᴏᴋᴏ ꝛᴏʙᴏᴛ˼ ᴀɴᴅ ɪ ʜᴀᴠᴇ sᴘᴇᴄɪᴀʟ ғᴇᴀᴛᴜʀᴇs
 ๏ ɪ ᴀᴍ ᴅɪғғᴇʀᴇɴᴛ ғʀᴏᴍ ᴀɴᴏᴛʜᴇʀ ᴍᴀɴᴀɢᴇᴍᴇɴᴛ ʙᴏᴛs
 
-๏ ᴄʟɪᴄᴋ ᴏɴ ᴛʜᴇ ʜᴇʟᴩ ʙᴜᴛᴛᴏɴ ᴛᴏ ɢᴇᴛ ɪɴғᴏʀᴍᴀᴛɪᴏɴ ᴀʙᴏᴜᴛ ᴍʏ ᴍᴏᴅᴜʟᴇs ᴀɴᴅ ᴄᴏᴍᴍᴀɴᴅs**
 """
 
 
@@ -52,9 +51,9 @@ DEVS_SECTION = """
 
 hiroko_buttons = [              
                 [
-                    InlineKeyboardButton("ᴀғᴋ", callback_data="maintainer_"),   
-                    InlineKeyboardButton("ᴀᴄᴛɪᴏɴ", callback_data="maintainer_"),
-                    InlineKeyboardButton("ғᴜɴ", callback_data="maintainer_")
+                    InlineKeyboardButton("ᴀᴄᴛɪᴏɴ", callback_data="maintainer_"),   
+                    InlineKeyboardButton("ᴀғᴋ", callback_data="maintainer_"),
+                    InlineKeyboardButton("ᴡᴇʟᴄᴏᴍᴇ", callback_data="maintainer_")
                 ],
                 [
                     InlineKeyboardButton("ɢᴀᴍᴇs", callback_data="maintainer_"),   
@@ -70,11 +69,6 @@ hiroko_buttons = [
                     InlineKeyboardButton("ᴄʜᴀᴛɢᴘᴛ", callback_data="maintainer_"),   
                     InlineKeyboardButton("ᴀɪ", callback_data="maintainer_"),
                     InlineKeyboardButton("ᴍᴜsɪᴄ", callback_data="maintainer_")
-                ],
-                [
-                    InlineKeyboardButton("ᴡᴇʟᴄᴏᴍᴇ", callback_data="maintainer_"),   
-                    InlineKeyboardButton("ɴᴏᴛᴇs", callback_data="maintainer_"),
-                    InlineKeyboardButton("ғɪʟᴛᴇʀs", callback_data="maintainer_")
                 ],
                 [
                     InlineKeyboardButton("⟲ ʙᴀᴄᴋ ⟳", callback_data="home_"),
@@ -112,11 +106,11 @@ async def start(client: Client, message: Message):
                 InlineKeyboardButton("➕ ᴀᴅᴅ ᴍᴇ ᴛᴏ ʏᴏᴜʀ ɢʀᴏᴜᴘ ➕", url=f"https://t.me/{BOT_USERNAME}?startgroup=true")
             ],
             [
-                InlineKeyboardButton("✨ sᴜᴘᴘᴏʀᴛ ✨", url="https://t.me/DevsOops"),
-                InlineKeyboardButton("🎓 ᴍᴀɪɴᴛᴀɪɴᴇʀ", callback_data="hiroko_devs"),
+                InlineKeyboardButton("sᴜᴘᴘᴏʀᴛ", url="https://t.me/DevsOops"),
+                InlineKeyboardButton("ᴍᴀɪɴᴛᴀɪɴᴇʀ", callback_data="hiroko_devs"),
             ],
             [
-                InlineKeyboardButton("📚 ʜᴇʟᴘ ᴀɴᴅ ᴄᴏᴍᴍᴀɴᴅs 📚", callback_data="help_")
+                InlineKeyboardButton("ʜᴇʟᴘ", callback_data="help_")
             ]    
         ]
                                     
@@ -147,11 +141,11 @@ async def cb_handler(client: Client, query: CallbackQuery):
                 InlineKeyboardButton("➕ ᴀᴅᴅ ᴍᴇ ᴛᴏ ʏᴏᴜʀ ɢʀᴏᴜᴘ ➕", url=f"https://t.me/{BOT_USERNAME}?startgroup=true")
             ],
             [
-                InlineKeyboardButton("✨ sᴜᴘᴘᴏʀᴛ ✨", url="https://t.me/TheNixaSupport"),
-                InlineKeyboardButton("🎓 ᴍᴀɪɴᴛᴀɪɴᴇʀ", callback_data="hiroko_devs"),
+                InlineKeyboardButton("sᴜᴘᴘᴏʀᴛ", url="https://t.me/TheNixaSupport"),
+                InlineKeyboardButton("ᴍᴀɪɴᴛᴀɪɴᴇʀ", callback_data="hiroko_devs"),
             ],
             [
-                InlineKeyboardButton("📚 ʜᴇʟᴘ ᴀɴᴅ ᴄᴏᴍᴍᴀɴᴅs 📚", callback_data="help_")
+                InlineKeyboardButton("ʜᴇʟᴘ", callback_data="help_")
             ]    
         ]
         reply_markup = InlineKeyboardMarkup(buttons)

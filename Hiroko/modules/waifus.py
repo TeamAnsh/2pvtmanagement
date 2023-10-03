@@ -244,7 +244,7 @@ async def gift_waifu(client, message):
 current_waifu_photo = None
 current_waifu_index = 0
 
-# Define command handler
+
 @Hiroko.on_message(filters.command("waifu", prefixes="/"))
 async def waifu_command(client, message):
     user_id = message.from_user.id
@@ -259,7 +259,7 @@ async def waifu_command(client, message):
     global current_waifu_index
     await send_waifu_message(message.chat.id, user_id, waifus[current_waifu_index])
 
-# Define callback query handler
+
 @Hiroko.on_callback_query(filters.regex(r"^(next_waifu|back_waifu)$"))
 async def change_waifu(client, query):
     global current_waifu_index
@@ -275,7 +275,7 @@ async def change_waifu(client, query):
     await edit_waifu_message(query.message.chat.id, user_id, query.message.message_id, waifus[current_waifu_index])
     await query.answer("hehehe")
 
-# Define function to edit waifu message
+
 async def edit_waifu_message(chat_id, user_id, message_id, waifu):
     global current_waifu_photo
     waifu_name, waifu_photo = waifu
@@ -291,6 +291,7 @@ async def edit_waifu_message(chat_id, user_id, message_id, waifu):
         )
         current_waifu_photo = waifu_photo
     else:
+        print(waifu_photo)
         await Hiroko.edit_message_text(
             chat_id=chat_id,
             message_id=message_id,
@@ -298,7 +299,8 @@ async def edit_waifu_message(chat_id, user_id, message_id, waifu):
             reply_markup=get_waifu_buttons()
         )
 
-# Define function to send waifu message
+
+
 async def send_waifu_message(chat_id, user_id, waifu):
     global current_waifu_photo
     waifu_name, waifu_photo = waifu
@@ -319,12 +321,12 @@ async def send_waifu_message(chat_id, user_id, waifu):
             reply_markup=get_waifu_buttons()
         )
 
-# Define function to get waifus for a user
+
 def get_waifus_for_user(user_id):
     cusr.execute("SELECT name, photo FROM grabbed WHERE user_id=%s", (str(user_id),))
     return cusr.fetchall()
 
-# Define function to get waifu buttons
+
 def get_waifu_buttons():
     return InlineKeyboardMarkup(
         [

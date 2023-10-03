@@ -259,11 +259,12 @@ async def waifu_command(client, message):
     await send_waifu_message(message.chat.id, user_id, waifus[current_waifu_index])
 
 
+
+
 @Hiroko.on_callback_query(filters.regex(r"^(next_waifu|back_waifu)$"))
 async def change_waifu(client, query):
-    global current_waifu_index
+    global current_waifu_index, current_waifu_photo
     data = query.data
-
     user_id = query.from_user.id
     waifus = get_waifus_for_user(user_id)
     if data == "next_waifu":
@@ -271,30 +272,30 @@ async def change_waifu(client, query):
     elif data == "back_waifu":
         current_waifu_index = (current_waifu_index - 1) % len(waifus)
 
-    await edit_waifu_message(query.message.chat.id, user_id, query.message.message_id, waifus[current_waifu_index])
-    await query.answer("hehehe")
-
-
-async def edit_waifu_message(chat_id, user_id, message_id, waifu):
-    global current_waifu_photo
-    waifu_name, waifu_photo = waifu
+    waifu_name, waifu_photo = waifus[current_waifu_index]
     message_text = f"Current Waifu: {waifu_name}"
-
     if waifu_photo != current_waifu_photo:
-        await Hiroko.edit_message_media(
-            chat_id=chat_id,
-            message_id=message_id,
-            media=InputMediaPhoto(waifu_photo, caption=message_text),
-            reply_markup=get_waifu_buttons()
-        )
+        await edit_waifu_message(query.message.chat.id, user_id, query.message.message_id, waifu_name, waifu_photo)
         current_waifu_photo = waifu_photo
     else:
         await Hiroko.edit_message_text(
-            chat_id=chat_id,
-            message_id=message_id,
+            chat_id=query.message.chat.id,
+            message_id=query.message.message_id,
             text=message_text,
             reply_markup=get_waifu_buttons()
         )
+    await query.answer("hehehe")
+
+
+async def edit_waifu_message(chat_id, user_id, message_id, waifu_name, waifu_photo):
+    await Hiroko.edit_message_media(
+        chat_id=chat_id,
+        message_id=message_id,
+        media=InputMediaPhoto(waifu_photo, caption=f"Current Waifu: {waifu_name}"),
+        reply_markup=get_waifu_buttons()
+    )
+
+
 
 
 async def send_waifu_message(chat_id, user_id, waifu):

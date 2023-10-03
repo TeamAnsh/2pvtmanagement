@@ -156,16 +156,16 @@ async def shell(client, message):
     stderr = stderr.decode()
     stdout = stdout.decode()
     if stdout:
-        reply += f"sᴛᴅᴏᴜᴛ\n{stdout}\n"
+        reply += f"**sᴛᴅᴏᴜᴛ**\n`{stdout}`\n"
     if stderr:
-        reply += f"sᴛᴅᴇʀʀ\n{stderr}\n"
+        reply += f"**sᴛᴅᴇʀʀ**\n`{stderr}`\n"
     if len(reply) > 3000:
         with open("shell_output.txt", "w") as file:
             file.write(reply)
         with open("shell_output.txt", "rb") as doc:
             await messsage.reply_document(
                 document=doc,
-                caption="sʜᴇʟʟ ᴏᴜᴛᴘᴜᴛ"
+                caption="**sʜᴇʟʟ ᴏᴜᴛᴘᴜᴛ**"
             )
         if os.path.isfile("shell_ouput.txt"):
             os.remove("shell_output.txt")

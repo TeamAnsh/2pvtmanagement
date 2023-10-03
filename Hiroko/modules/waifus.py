@@ -240,7 +240,6 @@ async def gift_waifu(client, message):
 
 
 
-
 current_waifu_photo = None
 current_waifu_index = 0
 
@@ -285,20 +284,17 @@ async def edit_waifu_message(chat_id, user_id, message_id, waifu):
         await Hiroko.edit_message_media(
             chat_id=chat_id,
             message_id=message_id,
-            media=InputMediaPhoto(waifu_photo,
-            caption=message_text),
+            media=InputMediaPhoto(waifu_photo, caption=message_text),
             reply_markup=get_waifu_buttons()
         )
         current_waifu_photo = waifu_photo
     else:
-        print(waifu_photo)
         await Hiroko.edit_message_text(
             chat_id=chat_id,
             message_id=message_id,
             text=message_text,
             reply_markup=get_waifu_buttons()
         )
-
 
 
 async def send_waifu_message(chat_id, user_id, waifu):
@@ -337,5 +333,4 @@ def get_waifu_buttons():
 
 
 
-                
 

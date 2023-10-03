@@ -271,7 +271,7 @@ async def change_waifu(client, query):
     waifu_name, waifu_photo = waifus[current_waifu_index]
     message_text = f"Current Waifu: {waifu_name}"
     if waifu_photo != current_waifu_photo:
-        await edit_waifu_message(query.message.chat.id, user_id, query.message.message_id, waifu_name, waifu_photo)
+        await edit_waifu_message(query.message.chat.id, query.message.message_id, waifu_photo, waifu_name)
         current_waifu_photo = waifu_photo
     else:
         await query.message.edit_text(
@@ -285,7 +285,7 @@ async def change_waifu(client, query):
 
 
 
-async def edit_waifu_message(chat_id, user_id, message_id, waifu_name, waifu_photo):
+async def edit_waifu_message(chat_id, message_id, waifu_photo, waifu_name):
     await Hiroko.edit_message_media(
         chat_id=chat_id,
         message_id=message_id,

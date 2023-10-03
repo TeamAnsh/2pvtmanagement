@@ -290,6 +290,7 @@ async def edit_waifu_message(chat_id, user_id, message_id, waifu):
         )
         current_waifu_photo = waifu_photo
     else:
+        print(waifu_photo)
         await Hiroko.send_message(chat_id, message_text, reply_markup=get_waifu_buttons())
 
 async def send_waifu_message(chat_id, user_id, waifu):

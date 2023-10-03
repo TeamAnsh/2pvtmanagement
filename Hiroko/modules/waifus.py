@@ -237,11 +237,8 @@ async def gift_waifu(client, message):
 
 
 
-
-
-
-current_waifu_photo = None
 current_waifu_index = 0
+current_waifu_photo = None  # Initialize it as None
 
 
 @Hiroko.on_message(filters.command("waifu", prefixes="/"))
@@ -257,7 +254,6 @@ async def waifu_command(client, message):
 
     global current_waifu_index
     await send_waifu_message(message.chat.id, user_id, waifus[current_waifu_index])
-
 
 
 
@@ -278,13 +274,15 @@ async def change_waifu(client, query):
         await edit_waifu_message(query.message.chat.id, user_id, query.message.message_id, waifu_name, waifu_photo)
         current_waifu_photo = waifu_photo
     else:
-        await Hiroko.edit_message_text(
-            chat_id=query.message.chat.id,
-            message_id=query.message.message_id,
+        await query.message.edit_text(
             text=message_text,
             reply_markup=get_waifu_buttons()
         )
     await query.answer("hehehe")
+
+
+
+
 
 
 async def edit_waifu_message(chat_id, user_id, message_id, waifu_name, waifu_photo):

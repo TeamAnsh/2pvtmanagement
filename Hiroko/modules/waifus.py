@@ -249,7 +249,7 @@ current_waifu_index = 0
 async def waifu_command(client, message):
     user_id = message.from_user.id
     sender_id = str(user_id)
-    cusr.execute("SELECT name, photo FROM grabbed WHERE user_id=?", (sender_id,))
+    cusr.execute("SELECT name, photo FROM grabbed WHERE user_id=%s", (sender_id,))
     waifus = cusr.fetchall()
 
     if not waifus:
@@ -321,7 +321,7 @@ async def send_waifu_message(chat_id, user_id, waifu):
 
 # Define function to get waifus for a user
 def get_waifus_for_user(user_id):
-    cusr.execute("SELECT name, photo FROM grabbed WHERE user_id=?", (str(user_id),))
+    cusr.execute("SELECT name, photo FROM grabbed WHERE user_id=%s", (str(user_id),))
     return cusr.fetchall()
 
 # Define function to get waifu buttons

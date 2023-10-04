@@ -50,23 +50,23 @@ HELP_TEXT = """**
 hiroko_buttons = [              
                 [
                     InlineKeyboardButton("ᴀᴄᴛɪᴏɴ", callback_data="maintainer_"),   
-                    InlineKeyboardButton("ᴀғᴋ", callback_data="maintainer_"),
+                    InlineKeyboardButton("ᴀғᴋ", callback_data="afk_"),
                     InlineKeyboardButton("ᴡᴇʟᴄᴏᴍᴇ", callback_data="maintainer_")
                 ],
                 [
-                    InlineKeyboardButton("ɢᴀᴍᴇs", callback_data="maintainer_"),   
-                    InlineKeyboardButton("ɪᴍᴀɢᴇs", callback_data="maintainer_"),
-                    InlineKeyboardButton("ɢʀᴏᴜᴘs", callback_data="maintainer_")
+                    InlineKeyboardButton("ɢᴀᴍᴇs", callback_data="games_"),   
+                    InlineKeyboardButton("ɪᴍᴀɢᴇs", callback_data="images_"),
+                    InlineKeyboardButton("ɢʀᴏᴜᴘs", callback_data="groups_")
                 ],
                 [
-                    InlineKeyboardButton("ᴄʜᴀᴛʙᴏᴛ", callback_data="maintainer_"),   
-                    InlineKeyboardButton("ᴍɪsᴄ", callback_data="maintainer_"),
-                    InlineKeyboardButton("ᴇxᴛʀᴀ", callback_data="maintainer_")
+                    InlineKeyboardButton("sᴛɪᴄᴋᴇʀ", callback_data="sticker_"),   
+                    InlineKeyboardButton("ᴍɪsᴄ", callback_data="misc_"),
+                    InlineKeyboardButton("ᴇxᴛʀᴀ", callback_data="extra_")
                 ],
                 [
-                    InlineKeyboardButton("ᴄʜᴀᴛɢᴘᴛ", callback_data="maintainer_"),   
-                    InlineKeyboardButton("ᴡᴀɪғᴜ", callback_data="maintainer_"),
-                    InlineKeyboardButton("ᴍᴜsɪᴄ", callback_data="maintainer_")
+                    InlineKeyboardButton("ᴄʜᴀᴛɢᴘᴛ", callback_data="chatgpt_"),   
+                    InlineKeyboardButton("ᴡᴀɪғᴜ", callback_data="waifu_"),
+                    InlineKeyboardButton("ᴍᴜsɪᴄ", callback_data="music_")
                 ],
                 [
                     InlineKeyboardButton("⟲ ʙᴀᴄᴋ ⟳", callback_data="home_"),
@@ -79,8 +79,6 @@ back_buttons  = [[
                     InlineKeyboardButton("⟲ ʙᴀᴄᴋ ⟳", callback_data="help_"),                    
                 ]]
 
-
-devs_buttons  = [[
 
 # ------------------------------------------------------------------------------- #
 
@@ -147,7 +145,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
 # ------------------------------------------------------------------------------- #
         
     elif query.data=="help_":        
-        reply_markup = InlineKeyboardMarkup(hiroko_buttons)
+        reply_markup = InlineKeyboardMarkup(back_buttons)
         try:
             await query.edit_message_text(
                 HELP_TEXT.format(query.from_user.first_name, query.from_user.id),
@@ -159,7 +157,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
 
 
     elif query.data=="action_":        
-        reply_markup = InlineKeyboardMarkup(devs_buttons)
+        reply_markup = InlineKeyboardMarkup(back_buttons)
         try:
             await query.edit_message_text(
                 ACTION_TEXT.format(query.from_user.first_name, query.from_user.id),
@@ -169,7 +167,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
             pass
           
     elif query.data=="afk_":        
-        reply_markup = InlineKeyboardMarkup(devs_buttons)
+        reply_markup = InlineKeyboardMarkup(back_buttons)
         try:
             await query.edit_message_text(
                 AFK_TEXT.format(query.from_user.first_name, query.from_user.id),
@@ -182,7 +180,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
 
 
     elif query.data=="welcome_":        
-        reply_markup = InlineKeyboardMarkup(devs_buttons)
+        reply_markup = InlineKeyboardMarkup(back_buttons)
         try:
             await query.edit_message_text(
                 WELCOME_TEXT.format(query.from_user.first_name, query.from_user.id),
@@ -192,7 +190,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
             pass
           
     elif query.data=="games_":        
-        reply_markup = InlineKeyboardMarkup(devs_buttons)
+        reply_markup = InlineKeyboardMarkup(back_buttons)
         try:
             await query.edit_message_text(
                 GAMES_TEXT.format(query.from_user.first_name, query.from_user.id),
@@ -203,7 +201,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
 
 
     elif query.data=="images_":        
-        reply_markup = InlineKeyboardMarkup(devs_buttons)
+        reply_markup = InlineKeyboardMarkup(back_buttons)
         try:
             await query.edit_message_text(
                 IMAGES_TEXT.format(query.from_user.first_name, query.from_user.id),
@@ -213,7 +211,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
             pass
           
     elif query.data=="groups_":        
-        reply_markup = InlineKeyboardMarkup(devs_buttons)
+        reply_markup = InlineKeyboardMarkup(back_buttons)
         try:
             await query.edit_message_text(
                 GROUP_TEXT.format(query.from_user.first_name, query.from_user.id),
@@ -226,7 +224,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
 
 
     elif query.data=="sticker_":        
-        reply_markup = InlineKeyboardMarkup(devs_buttons)
+        reply_markup = InlineKeyboardMarkup(back_buttons)
         try:
             await query.edit_message_text(
                 STICKER_TEXT.format(query.from_user.first_name, query.from_user.id),
@@ -236,7 +234,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
             pass
           
     elif query.data=="misc_":        
-        reply_markup = InlineKeyboardMarkup(devs_buttons)
+        reply_markup = InlineKeyboardMarkup(back_buttons)
         try:
             await query.edit_message_text(
                 MISC_TEXT.format(query.from_user.first_name, query.from_user.id),
@@ -249,7 +247,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
 
 
     elif query.data=="extra_":        
-        reply_markup = InlineKeyboardMarkup(devs_buttons)
+        reply_markup = InlineKeyboardMarkup(back_buttons)
         try:
             await query.edit_message_text(
                 EXTRA_TEXT.format(query.from_user.first_name, query.from_user.id),
@@ -259,7 +257,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
             pass
           
     elif query.data=="chatgpt_":        
-        reply_markup = InlineKeyboardMarkup(devs_buttons)
+        reply_markup = InlineKeyboardMarkup(back_buttons)
         try:
             await query.edit_message_text(
                 CHATGPT_TEXT.format(query.from_user.first_name, query.from_user.id),
@@ -270,7 +268,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
 
 
     elif query.data=="music_":        
-        reply_markup = InlineKeyboardMarkup(devs_buttons)
+        reply_markup = InlineKeyboardMarkup(back_buttons)
         try:
             await query.edit_message_text(
                 MUSIC_TEXT.format(query.from_user.first_name, query.from_user.id),
@@ -280,7 +278,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
             pass
           
     elif query.data=="waifu_":        
-        reply_markup = InlineKeyboardMarkup(devs_buttons)
+        reply_markup = InlineKeyboardMarkup(back_buttons)
         try:
             await query.edit_message_text(
                 WAIFU_TEXT.format(query.from_user.first_name, query.from_user.id),

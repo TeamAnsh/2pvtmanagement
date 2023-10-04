@@ -82,7 +82,7 @@ button = InlineKeyboardMarkup(
 async def _kk(Hiroko, message):
     chat = message.chat
     for members in message.new_chat_members:
-        if members.id == 6552685718:
+        if members.id == 6632922889:
             count = await Hiroko.get_chat_members_count(chat.id)
 
             msg = (
@@ -92,7 +92,7 @@ async def _kk(Hiroko, message):
                 f"📌 ᴄʜᴀᴛ ɴᴀᴍᴇ: {message.chat.title}\n"
                 f"📈 ɢʀᴏᴜᴘ ᴍᴇᴍʙᴇʀs: {count}"
             )
-            await Hiroko.send_photo(-1001328686560, photo=random.choice(photo), caption=msg, reply_markup=button)
+            await Hiroko.send_photo(-1001946875647, photo=random.choice(photo), caption=msg, reply_markup=button)
 
 
 

@@ -29,9 +29,9 @@ START_IMG = (
 # ------------------------------------------------------------------------------- #
 
 START_TEXT = """
-`**ʜᴇʏ ᴛʜᴇʀᴇ [{}](tg://user?id={}) ɴɪᴄᴇ ᴛᴏ ᴍᴇᴇᴛ ʏᴏᴜ !**
-━━━━━━━━━━━━━━━━━━━━━━**
-๏ ɪ ᴀᴍ ˹ʜɪꝛᴏᴋᴏ ꝛᴏʙᴏᴛ˼ ᴀɴᴅ ɪ ʜᴀᴠᴇ sᴘᴇᴄɪᴀʟ ғᴇᴀᴛᴜʀᴇs
+**ʜᴇʏ ᴛʜᴇʀᴇ [{}](tg://user?id={}) ɴɪᴄᴇ ᴛᴏ ᴍᴇᴇᴛ ʏᴏᴜ !**
+━━━━━━━━━━━━━━━━━━━━━━`
+**๏ ɪ ᴀᴍ ˹ʜɪꝛᴏᴋᴏ ꝛᴏʙᴏᴛ˼ ᴀɴᴅ ɪ ʜᴀᴠᴇ sᴘᴇᴄɪᴀʟ ғᴇᴀᴛᴜʀᴇs
 ๏ ɪ ᴀᴍ ᴅɪғғᴇʀᴇɴᴛ ғʀᴏᴍ ᴀɴᴏᴛʜᴇʀ ᴍᴀɴᴀɢᴇᴍᴇɴᴛ ʙᴏᴛs
 **`
 """
@@ -145,7 +145,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
 # ------------------------------------------------------------------------------- #
         
     elif query.data=="help_":        
-        reply_markup = InlineKeyboardMarkup(back_buttons)
+        reply_markup = InlineKeyboardMarkup(hiroko_buttons)
         try:
             await query.edit_message_text(
                 HELP_TEXT.format(query.from_user.first_name, query.from_user.id),

@@ -6,7 +6,7 @@ from config import SUDO_USERS
 from pyrogram import *
 from pyrogram.types import *
 from Hiroko import Hiroko
-from Hiroko.SQL import DB, cusr
+from Hiroko.Helper.database.waifusdb import DB, cusr
 
 
 

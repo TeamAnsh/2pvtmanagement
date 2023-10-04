@@ -5,7 +5,7 @@ from pyrogram import Client, filters, enums
 from Hiroko import Hiroko
 from pyrogram.errors import MessageNotModified
 from pyrogram.types import Message, CallbackQuery, InlineKeyboardMarkup, InlineKeyboardButton
-
+from Hiroko.Helper.hiroko_text import ACTION_TEXT,AFK_TEXT,WELCOME_TEXT,GAMES_TEXT,IMAGES_TEXT,GROUP_TEXT,STICKER_TEXT,MISC_TEXT,EXTRA_TEXT,CHATGPT_TEXT,MUSIC_TEXT,WAIFU_TEXT       
 
 
 

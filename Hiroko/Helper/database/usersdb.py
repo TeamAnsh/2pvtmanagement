@@ -1,40 +1,37 @@
 from config import MONGO_URL
-from motor.motor_asyncio import AsyncIOMotorClient as MongoCli
+from motor.motor_asyncio import AsyncIOMotorClient
 
-mongo = MongoCli(MONGO_URL)
+
+mongo = AsyncIOMotorClient(MONGO_URL)
 db = mongo.users
 
-usersdb = db.users
 
 
-async def is_served_user(user_id: int) -> bool:
-    user = await usersdb.find_one({"user_id": user_id})
-    if not user:
+async def get_served_users():
+    user_list = []
+    async for user in db.users.find({"user": {"$gt": 0}}):
+        user_list.append(user['user'])
+    return user_list
+
+async def is_served_user(user):
+    users = await get_served_users()
+    if user in users:
+        return True
+    else:
         return False
-    return True
 
-
-async def get_served_users() -> list:
-    users_list = []
-    async for user in usersdb.find({"user_id": {"$gt": 0}}):
-        users_list.append(user)
-    return users_list
-
-
-async def add_served_user(user_id: int):
-    is_served = await is_served_user(user_id)
-    if is_served:
+async def add_served_user(user):
+    users = await get_served_users()
+    if user in users:
         return
-    return await usersdb.insert_one({"user_id": user_id})
+    else:
+        await db.users.insert_one({"user": user})
 
-
-
-async def remove_served_user(user_id: int):
-    is_served = await is_served_user(user_id)
-    if not is_served:
+async def remove_served_user(user):
+    users = await get_served_users()
+    if not user in users:
         return
-    return await usersdb.delete_one({"user_id": user_id})
-
-
+    else:
+        await db.users.delete_one({"user": user})
 
 

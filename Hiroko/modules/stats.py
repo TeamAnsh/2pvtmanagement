@@ -39,7 +39,7 @@ async def chat_watcher_func(_, message):
     if message.from_user:
         us_in_db = await is_served_user(message.from_user.id)
         if not us_in_db:
-            await add_served_users(message.from_user.id)
+            await add_served_user(message.from_user.id)
 
     chat_id = (message.chat.id if message.chat.id != message.from_user.id else None)
 
@@ -48,7 +48,7 @@ async def chat_watcher_func(_, message):
 
     in_db = await is_served_chat(chat_id)
     if not in_db:
-        await add_served_chats(chat_id)
+        await add_served_chat(chat_id)
 
 
 # --------------------------------------------------------------------------------- #
@@ -60,8 +60,8 @@ async def stats(cli: Client, message: Message):
     await message.reply_text(
         f"""ᴛᴏᴛᴀʟ sᴛᴀᴛs ᴏғ {(await cli.get_me()).mention} :
 
-➻ ᴄʜᴀᴛs : {chats}
-➻ ᴜsᴇʀs : {users}"""
+➻ **ᴄʜᴀᴛs** : `{chats}`
+➻ **ᴜsᴇʀs** : `{users}`"""
     )
     
 # --------------------------------------------------------------------------------- #

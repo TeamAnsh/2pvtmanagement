@@ -162,7 +162,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
         reply_markup = InlineKeyboardMarkup(devs_buttons)
         try:
             await query.edit_message_text(
-                DEVS_SECTION.format(query.from_user.first_name, query.from_user.id),
+                ACTION_TEXT.format(query.from_user.first_name, query.from_user.id),
                 reply_markup=reply_markup
             )
         except MessageNotModified:
@@ -172,7 +172,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
         reply_markup = InlineKeyboardMarkup(devs_buttons)
         try:
             await query.edit_message_text(
-                DEVS_SECTION.format(query.from_user.first_name, query.from_user.id),
+                AFK_TEXT.format(query.from_user.first_name, query.from_user.id),
                 reply_markup=reply_markup
             )
         except MessageNotModified:
@@ -185,7 +185,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
         reply_markup = InlineKeyboardMarkup(devs_buttons)
         try:
             await query.edit_message_text(
-                DEVS_SECTION.format(query.from_user.first_name, query.from_user.id),
+                WELCOME_TEXT.format(query.from_user.first_name, query.from_user.id),
                 reply_markup=reply_markup
             )
         except MessageNotModified:
@@ -195,7 +195,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
         reply_markup = InlineKeyboardMarkup(devs_buttons)
         try:
             await query.edit_message_text(
-                DEVS_SECTION.format(query.from_user.first_name, query.from_user.id),
+                GAMES_TEXT.format(query.from_user.first_name, query.from_user.id),
                 reply_markup=reply_markup
             )
         except MessageNotModified:
@@ -206,7 +206,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
         reply_markup = InlineKeyboardMarkup(devs_buttons)
         try:
             await query.edit_message_text(
-                DEVS_SECTION.format(query.from_user.first_name, query.from_user.id),
+                IMAGES_TEXT.format(query.from_user.first_name, query.from_user.id),
                 reply_markup=reply_markup
             )
         except MessageNotModified:
@@ -216,7 +216,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
         reply_markup = InlineKeyboardMarkup(devs_buttons)
         try:
             await query.edit_message_text(
-                DEVS_SECTION.format(query.from_user.first_name, query.from_user.id),
+                GROUP_TEXT.format(query.from_user.first_name, query.from_user.id),
                 reply_markup=reply_markup
             )
         except MessageNotModified:
@@ -229,7 +229,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
         reply_markup = InlineKeyboardMarkup(devs_buttons)
         try:
             await query.edit_message_text(
-                DEVS_SECTION.format(query.from_user.first_name, query.from_user.id),
+                STICKER_TEXT.format(query.from_user.first_name, query.from_user.id),
                 reply_markup=reply_markup
             )
         except MessageNotModified:
@@ -239,7 +239,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
         reply_markup = InlineKeyboardMarkup(devs_buttons)
         try:
             await query.edit_message_text(
-                DEVS_SECTION.format(query.from_user.first_name, query.from_user.id),
+                MISC_TEXT.format(query.from_user.first_name, query.from_user.id),
                 reply_markup=reply_markup
             )
         except MessageNotModified:
@@ -252,7 +252,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
         reply_markup = InlineKeyboardMarkup(devs_buttons)
         try:
             await query.edit_message_text(
-                DEVS_SECTION.format(query.from_user.first_name, query.from_user.id),
+                EXTRA_TEXT.format(query.from_user.first_name, query.from_user.id),
                 reply_markup=reply_markup
             )
         except MessageNotModified:
@@ -262,7 +262,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
         reply_markup = InlineKeyboardMarkup(devs_buttons)
         try:
             await query.edit_message_text(
-                DEVS_SECTION.format(query.from_user.first_name, query.from_user.id),
+                CHATGPT_TEXT.format(query.from_user.first_name, query.from_user.id),
                 reply_markup=reply_markup
             )
         except MessageNotModified:
@@ -273,7 +273,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
         reply_markup = InlineKeyboardMarkup(devs_buttons)
         try:
             await query.edit_message_text(
-                DEVS_SECTION.format(query.from_user.first_name, query.from_user.id),
+                MUSIC_TEXT.format(query.from_user.first_name, query.from_user.id),
                 reply_markup=reply_markup
             )
         except MessageNotModified:
@@ -283,7 +283,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
         reply_markup = InlineKeyboardMarkup(devs_buttons)
         try:
             await query.edit_message_text(
-                DEVS_SECTION.format(query.from_user.first_name, query.from_user.id),
+                WAIFU_TEXT.format(query.from_user.first_name, query.from_user.id),
                 reply_markup=reply_markup
             )
         except MessageNotModified:

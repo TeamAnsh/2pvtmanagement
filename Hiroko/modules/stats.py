@@ -2,8 +2,7 @@ from pyrogram import filters, Client
 from config import OWNER_ID
 from Hiroko import Hiroko
 import random
-from Hiroko.Helper.database.chatsdb import get_served_chats
-from Hiroko.Helper.database.usersdb import get_served_users
+from Hiroko.Helper.database import *
 from pyrogram.types import (
     Message,
     CallbackQuery,
@@ -38,18 +37,18 @@ photo = [
 @Hiroko.on_message(group=10)
 async def chat_watcher_func(_, message):
     if message.from_user:
-        us_in_db = await get_user(message.from_user.id)
+        us_in_db = await is_served_users(message.from_user.id)
         if not us_in_db:
-            await add_user(message.from_user.id)
+            await add_served_users(message.from_user.id)
 
     chat_id = (message.chat.id if message.chat.id != message.from_user.id else None)
 
     if not chat_id:
         return
 
-    in_db = await get_chat(chat_id)
+    in_db = await is_served_chats(chat_id)
     if not in_db:
-        await add_chat(chat_id)
+        await add_served_chats(chat_id)
 
 
 # --------------------------------------------------------------------------------- #

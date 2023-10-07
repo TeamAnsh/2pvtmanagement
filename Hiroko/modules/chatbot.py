@@ -143,7 +143,7 @@ ban = ["ban","boom"]
 unban = ["unban",]
 mute = ["mute","silent","shut"]
 unmute = ["unmute","speak","free"]
-kick = ["kick", "out","nikaal"]
+kick = ["kick", "out","nikaal","nikal"]
 promote = ["promote","update"]
 demote = ["demote"]
 

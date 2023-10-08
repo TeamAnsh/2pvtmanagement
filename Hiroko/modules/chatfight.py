@@ -4,20 +4,11 @@ from config import MONGO_URL
 from Hiroko import Hiroko
 import datetime
 import re
-
-
 from motor.motor_asyncio import AsyncIOMotorClient as MongoCli
 
-
-
-# --------------------------------------------------------------------------------- #
-
-
+# Create a MongoDB connection
 mongo = MongoCli(MONGO_URL)
 db = mongo.chatfight
-
-db = db.chatfight
-
 
 @Hiroko.on_message(filters.group)
 async def track_messages(_, message):
@@ -30,7 +21,7 @@ async def track_messages(_, message):
 
     if user_document:
         # User exists in the database for today, increment their message count
-        group_collection.update_one(
+        await group_collection.update_one(
             {"_id": user_document["_id"]},
             {"$inc": {"message_count": 1}}
         )
@@ -41,8 +32,7 @@ async def track_messages(_, message):
             "date": current_date,
             "message_count": 1
         }
-        group_collection.insert_one(new_user_document)
-
+        await group_collection.insert_one(new_user_document)
 
 @Hiroko.on_message(filters.command("chatfight"))
 async def leaderboard(_, message):
@@ -56,8 +46,6 @@ async def leaderboard(_, message):
     reply_markup = InlineKeyboardMarkup(keyboard)
 
     await message.reply_text("Choose a leaderboard:", reply_markup=reply_markup)
-
-
 
 @Hiroko.on_callback_query(filters.regex(r'^(today|overall)$'))
 async def button_click(_, callback_query):
@@ -89,7 +77,6 @@ async def button_click(_, callback_query):
 
     await callback_query.edit_message_text(text=leaderboard_text)
 
-
-
-
-
+# Initialize the Hiroko client
+app = Client("my_account")
+app.run()

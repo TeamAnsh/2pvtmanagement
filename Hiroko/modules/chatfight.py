@@ -1,4 +1,4 @@
-from pyrogram import Client, filters
+from pyrogram import filters
 from pyrogram.types import CallbackQuery, InlineKeyboardButton, InlineKeyboardMarkup
 from config import MONGO_URL
 from Hiroko import Hiroko
@@ -6,10 +6,11 @@ import datetime
 import re
 from motor.motor_asyncio import AsyncIOMotorClient as MongoCli
 
-# Create a MongoDB connection
+
 mongo = MongoCli(MONGO_URL)
 db = mongo.chatfight
 
+"""
 @Hiroko.on_message(filters.group)
 async def track_messages(_, message):
     chat_id = message.chat.id
@@ -33,9 +34,10 @@ async def track_messages(_, message):
             "message_count": 1
         }
         await group_collection.insert_one(new_user_document)
+"""
 
 @Hiroko.on_message(filters.command("chatfight"))
-async def leaderboard(_, message):
+async def msg_rank(_, message):
     chat_id = message.chat.id
 
     # Create an inline keyboard with "Today" and "Overall" buttons
@@ -45,7 +47,11 @@ async def leaderboard(_, message):
     ]
     reply_markup = InlineKeyboardMarkup(keyboard)
 
-    await message.reply_text("Choose a leaderboard:", reply_markup=reply_markup)
+    await message.reply("Choose a leaderboard:", reply_markup=reply_markup)
+
+
+
+"""
 
 @Hiroko.on_callback_query(filters.regex(r'^(today|overall)$'))
 async def button_click(_, callback_query):
@@ -77,6 +83,4 @@ async def button_click(_, callback_query):
 
     await callback_query.edit_message_text(text=leaderboard_text)
 
-# Initialize the Hiroko client
-app = Client("my_account")
-app.run()
+"""

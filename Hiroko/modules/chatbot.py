@@ -228,7 +228,7 @@ async def restriction_hiroko(hiroko :Hiroko, message):
 
         for demoted in data:
             print(f"present {demoted}")            
-            if demoted in promote:
+            if demoted in demote:
                 await hiroko.promote_chat_member(chat_id, user_id, privileges=ChatPrivileges(
                     can_change_info=False,
                     can_invite_users=False,

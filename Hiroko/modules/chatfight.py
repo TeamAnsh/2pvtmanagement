@@ -1,15 +1,22 @@
 from pyrogram import Client, filters
 from pyrogram.types import CallbackQuery, InlineKeyboardButton, InlineKeyboardMarkup
-from pymongo import MongoClient
 from config import MONGO_URL
 from Hiroko import Hiroko
 import datetime
 import re
 
 
-mongo = MongoClient(MONGO_URL)  
-db = mongo["chatfight_bot"]
+from motor.motor_asyncio import AsyncIOMotorClient as MongoCli
 
+
+
+# --------------------------------------------------------------------------------- #
+
+
+mongo = MongoCli(MONGO_URL)
+db = mongo.chatfight
+
+db = db.chatfight
 
 
 @Hiroko.on_message(filters.group)

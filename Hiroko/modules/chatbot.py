@@ -38,6 +38,13 @@ strict_txt = [
 "i love him please don't restict this user try to usertand "
 ]
 
+bot_txt= [
+"..",
+"...",
+"....",
+"....."=
+    
+]
 
 # ========================================= #
 
@@ -238,7 +245,7 @@ async def restriction_hiroko(hiroko :Hiroko, message):
 
 
 
-        
+        """
         for promoted in data:
             print(f"present {promoted}")
             if data[0] in promote:
@@ -290,6 +297,6 @@ async def restriction_hiroko(hiroko :Hiroko, message):
                     await message.reply(f"OK, sir demoted!")
 
 
-
+"""
 
 

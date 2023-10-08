@@ -48,7 +48,7 @@ async def leaderboard(_, message):
     ]
     reply_markup = InlineKeyboardMarkup(keyboard)
 
-    await message.reply_text("Choose a leaderboard:", reply_markup=reply_markup, parse_mode="Markdown")
+    await message.reply_text("Choose a leaderboard:", reply_markup=reply_markup)
 
 
 
@@ -80,7 +80,7 @@ async def button_click(_, callback_query):
         message_count = user["total_messages"]
         leaderboard_text += f"{rank}. User ID: `{user_id}`, Messages: `{message_count}`\n"
 
-    await callback_query.edit_message_text(text=leaderboard_text, parse_mode="Markdown")
+    await callback_query.edit_message_text(text=leaderboard_text)
 
 
 

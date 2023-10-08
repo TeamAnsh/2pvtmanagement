@@ -1,119 +1,41 @@
 import asyncio
-from Hiroko import Hiroko
 from config import MONGO_URL
+from Hiroko import Hiroko as app
 from datetime import datetime, timedelta
 from pyrogram import Client, filters
 from motor.motor_asyncio import AsyncIOMotorClient as MongoCli
+from dateutil.parser import parse
 
 
 mongo = MongoCli(MONGO_URL)
 db = mongo.chatfight
-
-
 message_collection = None
 
+def parse_datetime(message_text):
+    try:
+        parsed_date = parse(message_text, fuzzy=True)
+        return parsed_date
+    except ValueError:
+        return None
 
-
-@Hiroko.on_message(filters.command("remember"))
-async def remember_message(_, message):
+async def remember_message(user_id, chat_id, message_text):
     global message_collection
     if not message_collection:
         message_collection = db["messages"]
 
-    # Store the message text and timestamp in the database
-    message_text = message.text[10:]  # Remove the "/remember " part
     timestamp = datetime.now()
-    message_data = {
-        "user_id": message.from_user.id,
-        "chat_id": message.chat.id,
-        "message_text": message_text,
-        "timestamp": timestamp
-    }
-    await message_collection.insert_one(message_data)
-    await message.reply_text("Message remembered!")
-
-
-
-@Hiroko.on_message(filters.command("recall"))
-async def recall_messages(_, message):
-    if not message_collection:
-        await message.reply_text("No messages have been remembered yet.")
-        return
-
-    # Calculate the time frame (in hours) for recalling messages
-    try:
-        hours = int(message.text.split()[1])
-    except (IndexError, ValueError):
-        await message.reply_text("Invalid command usage. Use /recall [hours] to recall messages.")
-        return
-
-    # Calculate the timestamp threshold (messages newer than this timestamp will be recalled)
-    timestamp_threshold = datetime.now() - timedelta(hours=hours)
-
-    # Query the database for remembered messages within the time frame
-    recalled_messages = []
-    async for msg_data in message_collection.find({"timestamp": {"$gt": timestamp_threshold}}):
-        recalled_messages.append(msg_data["message_text"])
-
-    if recalled_messages:
-        # Send the recalled messages as a reply
-        await message.reply_text("\n".join(recalled_messages))
-    else:
-        await message.reply_text("No messages found within the specified time frame.")
-
-
-# Function to remind users of messages after a specified time
-async def remind_users():
-    while True:
-        if message_collection:
-            current_time = datetime.now()
-            # Calculate the timestamp threshold (messages to remind)
-            timestamp_threshold = current_time - timedelta(hours=9)
-            async for msg_data in message_collection.find({"timestamp": {"$lte": timestamp_threshold}}):
-                user_id = msg_data["user_id"]
-                chat_id = msg_data["chat_id"]
-                message_text = msg_data["message_text"]
-                await app.send_message(chat_id, f"Reminder for User {user_id}:\n{message_text}")
-                await message_collection.delete_one({"_id": msg_data["_id"]})
-        await asyncio.sleep(60)  # Check for reminders every 60 seconds
-
-import asyncio
-from datetime import datetime, timedelta
-from pyrogram import Client, filters
-from motor.motor_asyncio import AsyncIOMotorClient as MongoCli
-
-# Initialize the Pyrogram Client
-app = Client("my_account")
-
-# MongoDB Configuration
-MONGO_URL = "mongodb://localhost:27017/"
-mongo = MongoCli(MONGO_URL)
-db = mongo.chatfight
-
-# Define global variables
-message_collection = None
-
-# Function to remember messages
-async def remember_message(user_id, chat_id, message_text):
-    if not message_collection:
-        message_collection = db["messages"]
-
-    # Store the message text and timestamp in the database
-    timestamp = datetime.now()
-    message_data = {
+    await message_collection.insert_one({
         "user_id": user_id,
         "chat_id": chat_id,
         "message_text": message_text,
         "timestamp": timestamp
-    }
-    await message_collection.insert_one(message_data)
+    })
 
-# Function to remind users of messages
 async def remind_users():
+    global message_collection
     while True:
         if message_collection:
             current_time = datetime.now()
-            # Calculate the timestamp threshold (messages to remind)
             timestamp_threshold = current_time - timedelta(hours=9)
             async for msg_data in message_collection.find({"timestamp": {"$lte": timestamp_threshold}}):
                 user_id = msg_data["user_id"]
@@ -121,20 +43,27 @@ async def remind_users():
                 message_text = msg_data["message_text"]
                 await app.send_message(chat_id, f"Reminder for User {user_id}:\n{message_text}")
                 await message_collection.delete_one({"_id": msg_data["_id"]})
-        await asyncio.sleep(60)  # Check for reminders every 60 seconds
+        await asyncio.sleep(60)
 
-# Run the Pyrogram Client
+@app.on_message(filters.command("setremember"))
+async def set_reminder(_, message):
+    message_text = message.text[12:].strip()
+    user_id = message.from_user.id
+    chat_id = message.chat.id
+
+    parsed_datetime = parse_datetime(message_text)
+
+    if parsed_datetime:
+        await remember_message(user_id, chat_id, f"Reminder at {parsed_datetime}")
+        await message.reply_text("Reminder set successfully!")
+    else:
+        await message.reply_text("Invalid date/time format. Please use a valid format like '13|06|2024' or 'tomorrow 9 AM'.")
+
 @app.on_message(filters.text)
 async def auto_remember_message(_, message):
-    # Automatically remember messages from users
     user_id = message.from_user.id
     chat_id = message.chat.id
     message_text = message.text
     await remember_message(user_id, chat_id, message_text)
-
-if __name__ == "__main__":
-    asyncio.get_event_loop().create_task(remind_users())
-    app.run()
-
 
 

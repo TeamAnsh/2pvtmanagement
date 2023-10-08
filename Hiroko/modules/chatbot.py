@@ -193,13 +193,13 @@ async def restriction_hiroko(hiroko :Hiroko, message):
                     await message.reply(random.choice(strict_txt))
                 else:
                     permissions = ChatPermissions(can_send_messages=False)
-                    await hiroko.set_chat_permissions(chat_id, user_id, permissions)
+                    await message.chat.restrict_member(chat_id, user_id, permissions)
                     await message.reply(f"muted successfully! Disgusting people.") 
         for unmuted in data:
             print(f"present {unmuted}")            
             if unmuted in unmute:
                 permissions = ChatPermissions(can_send_messages=True)
-                await hiroko.set_chat_permissions(chat_id, user_id, permissions)
+                await message.chat.restrict_member(chat_id, user_id, permissions)
                 await message.reply(f"Huh, OK, sir!")                
         for promoted in data:
             print(f"present {promoted}")

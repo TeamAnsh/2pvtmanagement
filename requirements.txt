@@ -37,3 +37,4 @@ yt_dlp
 carbon
 lexica-api
 pykeyboard
+unidecode

@@ -3,12 +3,6 @@ import numpy as np
 import requests
 from os import path
 from unidecode import unidecode
-from Hiroko.Helper.database import (
-    get_active_chats,
-    get_active_video_chats,
-    remove_active_chat,
-    remove_active_video_chat,
-)
 from config import SUDO_USERS
 from Hiroko import Hiroko, pytgcalls, userbot
 from typing import Callable
@@ -608,8 +602,54 @@ async def volume_200(_, query : CallbackQuery):
 
 # --------------------------------------------------------------------------------------------------------- #
 
+active = []
+activevideo = []
+
+# --------------------------------------------------------------------------------------------------------- #
+
+async def get_active_chats() -> list:
+    return active
 
 
+async def is_active_chat(chat_id: int) -> bool:
+    if chat_id not in active:
+        return False
+    else:
+        return True
+
+
+async def add_active_chat(chat_id: int):
+    if chat_id not in active:
+        active.append(chat_id)
+
+
+async def remove_active_chat(chat_id: int):
+    if chat_id in active:
+        active.remove(chat_id)
+
+
+async def get_active_video_chats() -> list:
+    return activevideo
+
+
+async def is_active_video_chat(chat_id: int) -> bool:
+    if chat_id not in activevideo:
+        return False
+    else:
+        return True
+
+
+async def add_active_video_chat(chat_id: int):
+    if chat_id not in activevideo:
+        activevideo.append(chat_id)
+
+
+async def remove_active_video_chat(chat_id: int):
+    if chat_id in activevideo:
+        activevideo.remove(chat_id)
+
+
+# --------------------------------------------------------------------------------------------------------- #
 
 @Hiroko.on_message(filters.command(["activevc", "activevoice"]) & SUDO_USERS)
 async def activevc(_, message: Message):
@@ -642,6 +682,7 @@ async def activevc(_, message: Message):
             disable_web_page_preview=True,
         )
 
+# --------------------------------------------------------------------------------------------------------- #
 
 @Hiroko.on_message(filters.command(["activev", "activevideo"]) & SUDO_USERS)
 async def activevi_(_, message: Message):
@@ -677,4 +718,5 @@ async def activevi_(_, message: Message):
 
 
 
+# --------------------------------------------------------------------------------------------------------- #
             

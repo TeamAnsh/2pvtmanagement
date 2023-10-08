@@ -161,7 +161,7 @@ async def restriction_hiroko(hiroko :Hiroko, message):
         return await message.reply(random.choice(hiroko_text))
     bruh = message.text.split(maxsplit=1)[1]
     data = bruh.split(" ")
-    data = data.lower()
+    
     if reply:
         user_id = reply.from_user.id
         for banned in data:

@@ -1,11 +1,11 @@
 import asyncio
 from config import MONGO_URL
-from Hiroko import Hiroko as app
 from datetime import datetime, timedelta
 from pyrogram import Client, filters
 from motor.motor_asyncio import AsyncIOMotorClient as MongoCli
 from dateutil.parser import parse
 
+app = Client("remember_bot")
 
 mongo = MongoCli(MONGO_URL)
 db = mongo.chatfight
@@ -20,7 +20,7 @@ def parse_datetime(message_text):
 
 async def remember_message(user_id, chat_id, message_text):
     global message_collection
-    if not message_collection:
+    if message_collection is None:
         message_collection = db["messages"]
 
     timestamp = datetime.now()
@@ -45,7 +45,7 @@ async def remind_users():
                 await message_collection.delete_one({"_id": msg_data["_id"]})
         await asyncio.sleep(60)
 
-@app.on_message(filters.command("setremember"))
+@app.on_message(filters.command("setreminder"))
 async def set_reminder(_, message):
     message_text = message.text[12:].strip()
     user_id = message.from_user.id
@@ -66,4 +66,10 @@ async def auto_remember_message(_, message):
     message_text = message.text
     await remember_message(user_id, chat_id, message_text)
 
+async def main():
+    await app.start()
+    await asyncio.gather(remind_users())
+    await app.stop()
 
+if __name__ == '__main__':
+    asyncio.run(main())

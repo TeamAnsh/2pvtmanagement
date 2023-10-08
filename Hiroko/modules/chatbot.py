@@ -204,13 +204,11 @@ async def restriction_hiroko(hiroko :Hiroko, message):
         for promoted in data:
             print(f"present {promoted}")
             if data[0] in promote:
-                admin_check = await hiroko.get_chat_member(chat_id, user_id)
-
-                if not admin_check.privileges.can_promote_members:
+                
+                if not hiroko.privileges.can_promote_members:
                     return await message.reply("I don't have enough permissions")
-                else:
-                    if admin_check.can_promote_members:
-                        await message.chat.promote_member(
+                else: 
+                    await message.chat.promote_member(chat_id,
                             user_id,
                             privileges=ChatPrivileges(
                                 can_change_info=True,
@@ -228,13 +226,11 @@ async def restriction_hiroko(hiroko :Hiroko, message):
         for demoted in data:
             print(f"present {demoted}")
             if data[0] in demote:
-                admin_check = await hiroko.get_chat_member(chat_id, user_id)
-
-                if not admin_check.privileges.can_promote_members:
+                
+                if not hiroko.privileges.can_promote_members:
                     return await message.reply("I don't have enough permissions")
                 else:
-                    if admin_check.can_promote_members:
-                        await message.chat.promote_member(
+                    await message.chat.promote_member(chat_id,
                             user_id,
                             privileges=ChatPrivileges(
                                 can_change_info=False,

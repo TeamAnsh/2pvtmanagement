@@ -161,7 +161,7 @@ async def restriction_hiroko(hiroko :Hiroko, message):
         return await message.reply(random.choice(hiroko_text))
     bruh = message.text.split(maxsplit=1)[1]
     data = bruh.split(" ")
-    
+    data = data.lower()
     if reply:
         user_id = reply.from_user.id
         for banned in data:
@@ -200,18 +200,8 @@ async def restriction_hiroko(hiroko :Hiroko, message):
             if unmuted in unmute:
                 permissions = ChatPermissions(can_send_messages=True)
                 await hiroko.set_chat_permissions(chat_id, user_id, permissions)
-                await message.reply(f"Huh, OK, sir!")
-
-
-
-
-
-
-
-        
-        """
-        for promoted in data:
-        
+                await message.reply(f"Huh, OK, sir!")                
+        for promoted in data:        
         print(f"present {promoted}")
         elif data[0] in promote:
             admin_check = await Hiroko.get_chat_member(chat_id, user_id)
@@ -252,7 +242,6 @@ async def restriction_hiroko(hiroko :Hiroko, message):
                       can_manage_video_chats=False,
                    ))
                 await message.reply(f"OK, sir demoted!")
-"""
 
 
 

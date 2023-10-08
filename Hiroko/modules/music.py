@@ -664,7 +664,7 @@ async def activevc(_, message: Message):
             await remove_active_chat(x)
             continue
         try:
-            if (await app.get_chat(x)).username:
+            if (await Hiroko.get_chat(x)).username:
                 user = (await Hiroko.get_chat(x)).username
                 text += f"<b>{j + 1}.</b> <a href=https://t.me/{user}>{unidecode(title).upper()}</a> [<code>{x}</code>]\n"
             else:
@@ -698,7 +698,7 @@ async def activevi_(_, message: Message):
             continue
         try:
             if (await Hiroko.get_chat(x)).username:
-                user = (await app.get_chat(x)).username
+                user = (await Hiroko.get_chat(x)).username
                 text += f"<b>{j + 1}.</b> <a href=https://t.me/{user}>{unidecode(title).upper()}</a> [<code>{x}</code>]\n"
             else:
                 text += (

@@ -6,7 +6,7 @@ from Hiroko import Hiroko
 
 
 
-@Hiroko.on_message(filters.group & ~filters.bot & ~filters.via_bot, group=1)
+@Hiroko.on_message(filters.group & ~filters.bot & ~filters.via_bot, group=69)
 async def chk_usr(_, message: Message):
     if message.sender_chat or not await check_imposter(message.chat.id):
         return

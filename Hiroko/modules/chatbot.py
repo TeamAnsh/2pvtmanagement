@@ -38,11 +38,11 @@ strict_txt = [
 "i love him please don't restict this user try to usertand "
 ]
 
-bot_txt= [
+bot_txt = [
 "..",
 "...",
 "....",
-"....."=
+".....",
     
 ]
 

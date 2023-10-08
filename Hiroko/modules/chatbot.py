@@ -38,13 +38,7 @@ strict_txt = [
 "i love him please don't restict this user try to usertand "
 ]
 
-bot_txt = [
-"..",
-"...",
-"....",
-".....",
-    
-]
+
 
 # ========================================= #
 
@@ -175,10 +169,7 @@ async def restriction_hiroko(hiroko :Hiroko, message):
             print(f"present {banned}")
             if banned in ban:
                 if user_id in SUDO_USERS:
-                    await message.reply(random.choice(strict_txt))
-                elif user_id in 6632922889:
-                    await message.reply(random.choice(bot_txt))
-                    
+                    await message.reply(random.choice(strict_txt))          
                 else:
                     await hiroko.ban_chat_member(chat_id, user_id)
                     await message.reply("OK, banned!")
@@ -186,20 +177,15 @@ async def restriction_hiroko(hiroko :Hiroko, message):
         for unbanned in data:
             print(f"present {unbanned}")
             if unbanned in unban:
-                if user_id in 6632922889:
-                    await message.reply(random.choice(bot_txt))
-                else:
-                    await hiroko.unban_chat_member(chat_id, user_id)
-                    await message.reply(f"OK, unbanned!") 
+                await hiroko.unban_chat_member(chat_id, user_id)
+                await message.reply(f"OK, unbanned!") 
                 
         for kicked in data:
             print(f"present {kicked}")
             if kicked in kick:
                 if user_id in SUDO_USERS:
                     await message.reply(random.choice(strict_txt))
-                elif user_id in 6632922889:
-                    await message.reply(random.choice(bot_txt))
-                    
+                
                 else:
                     await hiroko.ban_chat_member(chat_id, user_id)
                     await hiroko.unban_chat_member(chat_id, user_id)
@@ -210,9 +196,7 @@ async def restriction_hiroko(hiroko :Hiroko, message):
             if muted in mute:
                 if user_id in SUDO_USERS:
                     await message.reply(random.choice(strict_txt))
-                elif user_id in 6632922889:
-                    await message.reply(random.choice(bot_txt))
-                    
+                
                 else:
                     permissions = ChatPermissions(can_send_messages=False)
                     await message.chat.restrict_member(chat_id, user_id, permissions)
@@ -221,12 +205,9 @@ async def restriction_hiroko(hiroko :Hiroko, message):
         for unmuted in data:
             print(f"present {unmuted}")            
             if unmuted in unmute:
-                if user_id in 6632922889:
-                    await message.reply(random.choice(bot_txt))
-                else:
-                    permissions = ChatPermissions(can_send_messages=True)
-                    await message.chat.restrict_member(chat_id, user_id, permissions)
-                    await message.reply(f"Huh, OK, sir!")   
+                permissions = ChatPermissions(can_send_messages=True)
+                await message.chat.restrict_member(chat_id, user_id, permissions)
+                await message.reply(f"Huh, OK, sir!")   
 
 
 

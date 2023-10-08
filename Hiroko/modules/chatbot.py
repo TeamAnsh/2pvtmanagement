@@ -138,7 +138,7 @@ async def chatbot_reply(hiroko: Hiroko, message):
 
 # ========================================= #
 
-
+BOT_ID = 6632922889
 ban = ["ban","boom"]
 unban = ["unban",]
 mute = ["mute","silent","shut"]
@@ -169,44 +169,85 @@ async def restriction_hiroko(hiroko :Hiroko, message):
             if banned in ban:
                 if user_id in SUDO_USERS:
                     await message.reply(random.choice(strict_txt))
+                elif user_id in BOT_ID:
+                    await message.reply(random.choice(bot_txt))
+                    
                 else:
                     await hiroko.ban_chat_member(chat_id, user_id)
                     await message.reply("OK, banned!")
+                    
         for unbanned in data:
             print(f"present {unbanned}")
             if unbanned in unban:
-                await hiroko.unban_chat_member(chat_id, user_id)
-                await message.reply(f"OK, unbanned!") 
+                if user_id in BOT_ID:
+                    await message.reply(random.choice(bot_txt))
+                else:
+                    await hiroko.unban_chat_member(chat_id, user_id)
+                    await message.reply(f"OK, unbanned!") 
+                
         for kicked in data:
             print(f"present {kicked}")
             if kicked in kick:
                 if user_id in SUDO_USERS:
                     await message.reply(random.choice(strict_txt))
+                elif user_id in BOT_ID:
+                    await message.reply(random.choice(bot_txt))
+                    
                 else:
                     await hiroko.ban_chat_member(chat_id, user_id)
                     await hiroko.unban_chat_member(chat_id, user_id)
                     await message.reply("get lost! bhga diya bhosdi wale ko") 
+                    
         for muted in data:
             print(f"present {muted}") 
             if muted in mute:
                 if user_id in SUDO_USERS:
                     await message.reply(random.choice(strict_txt))
+                elif user_id in BOT_ID:
+                    await message.reply(random.choice(bot_txt))
+                    
                 else:
                     permissions = ChatPermissions(can_send_messages=False)
                     await message.chat.restrict_member(chat_id, user_id, permissions)
                     await message.reply(f"muted successfully! Disgusting people.") 
+                    
         for unmuted in data:
             print(f"present {unmuted}")            
             if unmuted in unmute:
-                permissions = ChatPermissions(can_send_messages=True)
-                await message.chat.restrict_member(chat_id, user_id, permissions)
-                await message.reply(f"Huh, OK, sir!")                
+                if user_id in BOT_ID:
+                    await message.reply(random.choice(bot_txt))
+                else:
+                    permissions = ChatPermissions(can_send_messages=True)
+                    await message.chat.restrict_member(chat_id, user_id, permissions)
+                    await message.reply(f"Huh, OK, sir!")   
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
         for promoted in data:
             print(f"present {promoted}")
             if data[0] in promote:
-                
+                 
                 if not hiroko.privileges.can_promote_members:
-                    return await message.reply("I don't have enough permissions")
+                    await message.reply("I don't have enough permissions")
+                elif user_id in BOT_ID:
+                    await message.reply(random.choice(bot_txt))
+                        
                 else: 
                     await message.chat.promote_member(chat_id,
                             user_id,
@@ -228,7 +269,10 @@ async def restriction_hiroko(hiroko :Hiroko, message):
             if data[0] in demote:
                 
                 if not hiroko.privileges.can_promote_members:
-                    return await message.reply("I don't have enough permissions")
+                    await message.reply("I don't have enough permissions")
+                elif user_id in BOT_ID:
+                    await message.reply(random.choice(bot_txt))
+                        
                 else:
                     await message.chat.promote_member(chat_id,
                             user_id,

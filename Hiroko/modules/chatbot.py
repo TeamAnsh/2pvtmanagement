@@ -1,7 +1,7 @@
 import requests
 import openai
 import random
-from config import SUDO_USERS
+from config import SUDO_USERS, OWNER_ID
 from Hiroko import *
 from pyrogram import * 
 from pyrogram.types import *
@@ -147,7 +147,8 @@ unmute = ["unmute","speak","free"]
 kick = ["kick", "out","nikaal","nikal"]
 promote = ["promote","adminship"]
 demote = ["demote","lelo"]
-
+group = ["group"]
+channel = ["channel"]
 
 
 
@@ -247,7 +248,26 @@ async def restriction_hiroko(hiroko :Hiroko, message):
 
 
 
-
+@Hiroko.on_message(filters.command("iroko", prefixes=["h", "H"]) & OWNER_ID)
+async def assistant(_,msg):
+    if len(message.text) < 2:
+        return await message.reply("sir are you sure.")
+    bruh = message.text.split(maxsplit=1)[1]
+    data = bruh.split(" ")
+    for groups in data:
+            print(f"present {groups}")            
+            if groups in group:
+                created_chat = await userbot.create_group("group", 6632922889)
+                chat_id = created_chat.id
+                link = await userbot.export_chat_invite_link(chat_id=chat_id)
+                await Hiroko.send_message(message.chat.id, text=f"sir group is ready\nLink: {link}")
+     for channels in data:
+            print(f"present {channels}")            
+            if channels in channel:
+                created_channel = await userbot.create_channel("Channel", "No Discription")
+                chat_id = created_channel.id
+                link = await userbot.export_chat_invite_link(chat_id=chat_id)
+                await Hiroko.send_message(message.chat.id, text=f"sir channel is ready\nLink: {link}")
 
 
 

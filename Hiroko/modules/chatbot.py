@@ -247,9 +247,7 @@ async def restriction_hiroko(hiroko :Hiroko, message):
 
 
 @Hiroko.on_message(filters.command("iroko", prefixes=["h", "H"]) & OWNER_ID)
-async def assistant(_, message):
-    if len(message.text) < 2:
-        return await message.reply("Sir, are you sure?")
+async def assistant(_, message): 
     bruh = message.text.split(maxsplit=1)[1]
     data = bruh.split(" ")
     for groups in data:

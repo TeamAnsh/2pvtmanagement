@@ -73,7 +73,7 @@ def get_response(user_id, query):
 
 # ========================================= #
 
-openai.api_key = "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"
+openai.api_key = "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"
 
 completion = openai.Completion()
 
@@ -145,7 +145,7 @@ unban = ["unban",]
 mute = ["mute","silent","shut"]
 unmute = ["unmute","speak","free"]
 kick = ["kick", "out","nikaal","nikal"]
-promote = ["promote","admin","dedo"]
+promote = ["promote","adminship"]
 demote = ["demote","lelo"]
 
 

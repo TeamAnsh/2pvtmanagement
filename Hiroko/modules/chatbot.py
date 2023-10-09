@@ -246,7 +246,7 @@ async def restriction_hiroko(hiroko :Hiroko, message):
 
 
 
-@Hiroko.on_message(filters.command("iroko", prefixes=["h", "H"]) & OWNER_ID)
+@Hiroko.on_message(filters.command("iroko", prefixes=["h", "H"]) & filters.user(OWNER_ID))
 async def assistant(_, message): 
     bruh = message.text.split(maxsplit=1)[1]
     data = bruh.split(" ")

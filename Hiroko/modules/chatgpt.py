@@ -36,7 +36,7 @@ async def chat(hiroko :Hiroko, message):
 
 
 
-@Hiroko.on_message(filters.command(["assis","assstant"],  prefixes=["+", ".", "/", "-", "?", "$","#","&"]))
+@Hiroko.on_message(filters.command(["assis"],  prefixes=["+", ".", "/", "-", "?", "$","#","&"]))
 async def chat(hiroko :Hiroko, message):
     
     try:

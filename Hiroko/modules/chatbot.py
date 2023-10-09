@@ -246,34 +246,25 @@ async def restriction_hiroko(hiroko :Hiroko, message):
 
 
 
-
-
 @Hiroko.on_message(filters.command("iroko", prefixes=["h", "H"]) & OWNER_ID)
-async def assistant(_,msg):
+async def assistant(_, message):
     if len(message.text) < 2:
-        return await message.reply("sir are you sure.")
+        return await message.reply("Sir, are you sure?")
     bruh = message.text.split(maxsplit=1)[1]
     data = bruh.split(" ")
     for groups in data:
-            print(f"present {groups}")            
-            if groups in group:
-                created_chat = await userbot.create_group("group", 6632922889)
-                chat_id = created_chat.id
-                link = await userbot.export_chat_invite_link(chat_id=chat_id)
-                await Hiroko.send_message(message.chat.id, text=f"sir group is ready\nLink: {link}")
-     for channels in data:
-            print(f"present {channels}")            
-            if channels in channel:
-                created_channel = await userbot.create_channel("Channel", "No Discription")
-                chat_id = created_channel.id
-                link = await userbot.export_chat_invite_link(chat_id=chat_id)
-                await Hiroko.send_message(message.chat.id, text=f"sir channel is ready\nLink: {link}")
+        print(f"present {groups}")            
+        if groups in group:
+            created_chat = await userbot.create_group("group", 6632922889)
+            chat_id = created_chat.id
+            link = await userbot.export_chat_invite_link(chat_id=chat_id)
+            await Hiroko.send_message(message.chat.id, text=f"Sir, the group is ready.\nLink: {link}")
+    for channels in data:
+        print(f"present {channels}")            
+        if channels in channel:
+            created_channel = await userbot.create_channel("Channel", "No Description")
+            chat_id = created_channel.id
+            link = await userbot.export_chat_invite_link(chat_id=chat_id)
+            await Hiroko.send_message(message.chat.id, text=f"Sir, the channel is ready.\nLink: {link}")
 
 
-
-
-
-
-
-
-    

@@ -1,7 +1,8 @@
-
-
+import pyttsx3
 import speech recognition as sr 
 from googletrans import Translator 
+
+
 
 
 def Listen():
@@ -10,7 +11,7 @@ def Listen():
     with sr.Microphone() as source:
         print("Listening...")
         r.pause_threshold = 1
-        audio = r.listen(source) # Listening Mode.....
+        audio = r.listen(source)
     
     try:
         print("Recognizing...")
@@ -20,8 +21,6 @@ def Listen():
     except Exception as e:
         print("Error:", str(e))
         return ""
-
-Listen()
 
 
 
@@ -36,11 +35,10 @@ def Trans(Text):
 
 def MicExecution():
     query = Listen()
-    data = TranslationHinToEng(query)
+    data = Trans(query)
     return data
 
 
-import pyttsx3
 
 def speak(text):
     text_real = str(text)

@@ -1,27 +1,30 @@
-import openai
 import pyttsx3
+import openai
+from dotenv import load_dotenv
 import speech recognition as sr 
 from googletrans import Translator 
 
 
 
 
+
+
 def Listen():
-    r = sr.Recognizer()
-    
+    r = sr.Recognizer()  # Create a recognizer object
+
     with sr.Microphone() as source:
         print("Listening...")
         r.pause_threshold = 1
-        audio = r.listen(source)
-    
+        audio = r.listen(source, 8, 8)  # Listening Mode.....
+
     try:
         print("Recognizing...")
         query = r.recognize_google(audio, language="hi")
-        query = str(query).lower()
-        return query
-    except Exception as e:
-        print("Error:", str(e))
+    except:
         return ""
+
+    query = str(query).lower()
+    return query
 
 
 
@@ -33,7 +36,6 @@ def Trans(Text):
     print("You: ", data)
     return data
   
-
 
 
 def speak(text):
@@ -51,31 +53,54 @@ def speak(text):
 
 
 
-
-
-
-
-
-
 openai.api_key = "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"
+load_dotenv()
+
+completion = openai.Completion()
 
 
 
-def chatgpt(x):
-    a = message.text.split(' ', 1)[1]
-    MODEL = "gpt-3.5-turbo"
-    resp = openai.ChatCompletion.create(model=MODEL,messages=[{"role": "user", "content": a}],
-    temperature=0.2)
-    x=resp['choices'][0]["message"]["content"]
-    speak(x)
+def ReplyBrain(question, chat_log=None):
+
+    file_log = open("chat_log.txt", "r")
+    chat_log_template = file_log.read()
+    file_log.close()
+
+    if chat_log is None:
+        chat_log = chat_log_template
+    
+    prompt = f"You: {question}\nJarvis:"
+
+    response = completion.create(
+        model="text-davinci-002",
+        prompt=prompt,
+        temperature=0.5,
+        max_tokens=68,
+        top_p=0.3,
+        frequency_penalty=0.5,
+        presence_penalty=0
+    )
+    answer = response.choices[0].text.strip()
+
+    chat_log_template_update = chat_log_template + f"\nYou: {question}\nHiroko: {answer}"
+    file_log = open("chat_log.txt", "w")
+    file_log.write(chat_log_template_update)
+    file_log.close()
+
+    return answer
 
 
 
 def MicExecution():
     query = Listen()
     data = Trans(query)
-    x = chatgpt(data)
+    x = ReplyBrain(data)
     return x
-    
-    
-speak(MicExecution())
+
+
+
+
+
+
+
+

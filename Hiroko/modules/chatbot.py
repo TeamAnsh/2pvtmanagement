@@ -2,7 +2,7 @@ import requests
 import openai
 import random
 from config import SUDO_USERS, OWNER_ID
-from Hiroko import *
+from Hiroko import Hiroko, userbot
 from pyrogram import * 
 from pyrogram.types import *
 from Hiroko.Helper.database import *

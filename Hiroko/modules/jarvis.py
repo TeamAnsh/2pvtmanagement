@@ -1,3 +1,4 @@
+import openai
 import pyttsx3
 import speech recognition as sr 
 from googletrans import Translator 
@@ -33,11 +34,6 @@ def Trans(Text):
     return data
   
 
-def MicExecution():
-    query = Listen()
-    data = Trans(query)
-    return data
-
 
 
 def speak(text):
@@ -51,5 +47,35 @@ def speak(text):
     print("")
     engine.say(text_real)
     engine.runAndWait()
+     
 
-print(speak("Hello sir, I am your new assistant"))
+
+
+
+
+
+
+
+
+openai.api_key = "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"
+
+
+
+def chatgpt(x):
+    a = message.text.split(' ', 1)[1]
+    MODEL = "gpt-3.5-turbo"
+    resp = openai.ChatCompletion.create(model=MODEL,messages=[{"role": "user", "content": a}],
+    temperature=0.2)
+    x=resp['choices'][0]["message"]["content"]
+    speak(x)
+
+
+
+def MicExecution():
+    query = Listen()
+    data = Trans(query)
+    x = chatgpt(data)
+    return x
+    
+    
+speak(MicExecution())

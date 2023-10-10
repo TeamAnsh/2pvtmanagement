@@ -246,19 +246,19 @@ async def restriction_hiroko(hiroko :Hiroko, message):
 
 
 
-@Hiroko.on_message(filters.command(["ssistant"], prefixes=["a", "A"]) & filters.user(OWNER_ID))
+
+@Hiroko.on_message(filters.command(["iroko"], prefixes=["h", "H"]) & filters.user(OWNER_ID))
 async def assistant(_, message): 
     bruh = message.text.split(maxsplit=1)[1]
     data = bruh.split(" ")
     for groups in data:
-        print(f"present {groups}")            
         if groups in group:
             created_chat = await userbot.create_group("group", 6632922889)
             chat_id = created_chat.id
             link = await userbot.export_chat_invite_link(chat_id=chat_id)
             await Hiroko.send_message(message.chat.id, text=f"Sir, the group is ready.\nLink: {link}")
+            
     for channels in data:
-        print(f"present {channels}")            
         if channels in channel:
             created_channel = await userbot.create_channel("Channel", "No Description")
             chat_id = created_channel.id

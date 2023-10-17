@@ -10,4 +10,4 @@ BOT_TOKEN = getenv("BOT_TOKEN", "6359973272:AAHvzBERjQ80oVfCSt6kdWZC3jWStBJcHy4"
 OWNER_ID = int(getenv("OWNER_ID", "1674370115"))
 SUDO_USERS = list(map(int, getenv("SUDO_USERS", "6280048819").split()))
 MONGO_URL = getenv("MONGO_URL", "mongodb+srv://Ansh:Ansh@ansh.yptyojy.mongodb.net/Ansh?retryWrites=true&w=majority")
-SESSION_STRING = getenv("SESSION_STRING", "1AZWarzcBuxA6iXxLjilCucCx1diwaL1aXYdwn_CfFYap9vAo0PxFx2AquZkkkhHm6-LCqQ-I4m7rKpmDTgozFlB75M7IfZR1YhoOa_krmrzz0RFy5YUoSWRyLAZZTntOe9xrDb1VBYuve4S4GnRkCxZdYEVftvEZOUWnutI24dixZ2s_9G1NnFZyUEy3ETLrfFeeWtgGhptkDurfGrECKWkH1SjLOQpn8L4kOAgc0nUcBjOKFzyfzT7Q6VUnNZPb7Vi2q3blaZfDiA3vEWbiVgYetaXZiGAImE-MyNnRyOPQqShIc2laMUGDXxriEQBiJUz9gxDBJ7IyKKyOuuDC6u1j8wSNX4Y=")
+SESSION_STRING = getenv("SESSION_STRING", "AQCjwmEALYm9fGAVnxx7u_LLfuNq9bvhTv26tOjgB_mXe7XL-5SaKo6qH87uvSXg5HnwyUVUpAAvepYSfr5zZvUEbthiiPpka3SkzI6LNG_8wwfadUegoWCQDSlj9ykbDVQUclLuONp9gYQbjEk6is6WVq5q1NYUDMPX5jQeFp6LrqMeLRw7pxwSl0o9P6jW2ilbQcuN5A76uwSLcjurevqvZvt3Fc_87xtMrXbi0dDseWJvJlmrXwNtMxr8m9NFNAbJ1BlnGnWx6cUyAmcpT5PG8N6BYRLyA0W4bvp8Lx1xNV-tRcN7XERWPw72-O5TBuXzuuNV-zPN5GNtilUh_4Hm1pdRZwAAAAGBS9ZQAA")
